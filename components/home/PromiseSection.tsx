@@ -15,7 +15,7 @@ const PromiseSection: React.FC = () => {
             <span className="text-accent">+</span> Gestión del Tiempo
           </h2>
           <p className="text-gray-600 mb-6 leading-relaxed text-lg font-light">
-            Descubre la metodología que ha transformado a miles de estudiantes y profesionales en Perú. No se trata solo de leer rápido, se trata de una evolución cognitiva.
+            Descubre la metodología que ha transformado a miles de estudiantes y profesionales en Perú. Se trata de una evolución cognitiva.
           </p>
           <p className="text-gray-600 mb-10 leading-relaxed text-lg font-light">
             Al finalizar el programa, serás capaz de procesar información académica, técnica y literaria con una fluidez que te otorgará una ventaja competitiva de por vida.

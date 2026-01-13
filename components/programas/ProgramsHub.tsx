@@ -227,11 +227,31 @@ const ProgramsHub: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <div className="grid grid-cols-4 h-24 md:h-32 opacity-90">
-                <img alt="Sede 1" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu_CGx07pI8JqBSB8Ab3966J404gt6tTTno8Ox1VP_Sy_6FXRsdvtAuvPejGdDz4VE6fk2E8JCdqdFqoztzLwQZPu9muSybdbK9kEDfC7RqcKeefxFxiPGHy_PVZ8jJ3-pL_U_0Fv_RvUxsR7OzaFxvXZePqEp1qWozL0YXo-QFIivOBi4WIzXQXYdUa8-Tx27tSc2-Ghx4yfeafOcJrxdd0UVw2BUhU0ltnhZbbIHnsvbaRM6gDbpMb2NifEXLgyZrblE0pqfz6c"/>
-                <img alt="Sede 2" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDt1c9J7Gm6AGScAqEw6l5fx9TaSQJpsI7m5CXgUe6oJH7SoHSbvKH_5EPjggrpQxbiJq3wQ1CMnoRb_Z2nRnfIO8uo6cyRrimWZMMnZyHkNetxhpkICiGrphy4OwR4j6zR3YJLDHxtVoZ9PZ6hmrPOHhR19yOjyifRUuGqxzAvJRX7mVkzn7n3pDOZwpdw8SQtq-k1bE-cBLm54vjLctzBkiH1RWjZGOHkeU1ebzIHhSdqaH_kRcSrsy4G48jsI3GHMwro8YR1ge4"/>
-                <img alt="Sede 3" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7i1mR5ae2uY3rPlS8JGj5twBLs3yRnbK17LpoyeslY-3v6qRWft2BlCsDWINKNhp_IVze8R7mzwpCE5LaB1jyjDpGNc1euiRUmKwVEug0QtBOxlV5-h4FfG4fRw-3MhUHRxLUKziVwIb0lrPfv3wdWvf1Kh9Rcb8K5mz5pr9yT4fWmRKPO6QUGNgYx-7hvxS89YKjlpXr2xLi0JN3Vuc5wZ8Jc2mGk7alILDFw8ioMmYyEr4ztJ4ih7LJKjYp2KL-WvykeT4T-F0"/>
-                <img alt="Sede 4" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAETk7IrQEF9jpkdcTlIBzB7S1xTB_dWd8hDtv7big96K-G2bm1jwO2c_8zvS5_umVJfdmDz-dGEmr2GdSc7SzJJXZRvRGNPGDmuXm9al1wHBjI6_Fc0sqpO45OJsrK48JWH97XAugtehX42oUBWKWLtus0HTRlVFULS18EMQTH2DmdD6TgmyidcqZrbY18Dd5buc979rdyn48j-C1zAM-_GNN7ZZMGi8EwgxNXkm_JFDUdJS8wNy-XXFXIDiaQzgDIGdL0vrv4Q8E"/>
+            
+            {/* New Large Image Section for 3 Levels */}
+            <div className="relative h-[400px] w-full group overflow-hidden bg-slate-100">
+                <img 
+                    alt="Comunidad ENSIL: Representación de Pre-Kids, Kids y Profesionales en un entorno de aprendizaje moderno" 
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-95 hover:opacity-100" 
+                    src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2670&auto=format&fit=crop" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end">
+                    <div className="w-full p-8 md:p-12 flex flex-col md:flex-row justify-between items-end gap-6">
+                        <div className="max-w-xl">
+                             <div className="flex gap-2 mb-3">
+                                <span className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-white text-[10px] font-bold uppercase tracking-wider">Pre Kids</span>
+                                <span className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-white text-[10px] font-bold uppercase tracking-wider">Kids</span>
+                                <span className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-white text-[10px] font-bold uppercase tracking-wider">Profesional</span>
+                             </div>
+                            <h3 className="font-fraunces text-3xl md:text-4xl text-white font-bold mb-2">
+                                Un Programa para Cada Etapa de la Vida
+                            </h3>
+                            <p className="text-white/80 font-jakarta text-sm md:text-base leading-relaxed">
+                                Desde los primeros pasos en la lectura hasta la maestría profesional. Nuestras sedes están equipadas para potenciar el talento de todas las edades en un mismo ecosistema de excelencia.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </div>

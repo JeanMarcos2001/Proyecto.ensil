@@ -1,18 +1,28 @@
 import React from 'react';
-import { BookOpen, Gauge, MapPin, ChevronDown } from 'lucide-react';
+import { Brain, BookOpen, MapPin, ChevronDown } from 'lucide-react';
 
 const Hero: React.FC = () => {
+  const scrollToPrograms = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const element = document.getElementById('programa');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="inicio" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 z-0">
         <img 
-          alt="Joven latina concentrada leyendo" 
+          alt="Clase moderna de lectura integral con maestra y estudiantes" 
           className="w-full h-full object-cover" 
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8OAPJCS_L_JWaegltAjImHpf7QCzTIDhux2Sqjp-f-hvmylZ7sjRX35TXHG_8ugBljN1IV0ToARD1SPfkr1yT4lc2VKhi_uLiyF0mv5EuulsZ21AheX-TcSXkpGtcYTXDj4Kz-gy8hFt5560nSeoQCP2ok_M1vQdqOfTXpHFbYNydSBduNDnp5c2XpHAqcXWWaitd2vnYmnBgoQF_XwkjsgX2tFMUJ3uF-pgzqCinZN6WUu40U9cV1MPwH1DUbYaPBfvjEABUYT0"
+          src="https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=2574&auto=format&fit=crop"
         />
-        <div className="absolute inset-0 bg-[#1A4D2E]/85 mix-blend-multiply"></div>
-        <div className="absolute inset-0 bg-black/30"></div>
+        {/* Overlay para contraste y tono verde institucional */}
+        <div className="absolute inset-0 bg-[#1A4D2E]/90 mix-blend-multiply"></div>
+        {/* Vignette para centrar la atención y mejorar lectura */}
+        <div className="absolute inset-0 bg-radial-gradient from-transparent to-black/60"></div>
       </div>
 
       <div className="relative z-10 container mx-auto px-4 text-center mt-20">
@@ -36,9 +46,9 @@ const Hero: React.FC = () => {
             <div className="text-xs font-bold tracking-widest uppercase text-gray-300 mt-1">Páginas en 5 min</div>
           </div>
           <div className="glass-panel rounded-2xl p-6 text-white transform hover:-translate-y-1 transition-transform duration-300 group">
-            <Gauge className="w-10 h-10 text-accent mb-4 mx-auto" />
-            <div className="font-display text-4xl font-bold">2000</div>
-            <div className="text-xs font-bold tracking-widest uppercase text-gray-300 mt-1">Palabras por Minuto</div>
+            <Brain className="w-10 h-10 text-accent mb-4 mx-auto" />
+            <div className="font-display text-4xl font-bold">100%</div>
+            <div className="text-xs font-bold tracking-widest uppercase text-gray-300 mt-1">de Comprensión</div>
           </div>
           <div className="glass-panel rounded-2xl p-6 text-white transform hover:-translate-y-1 transition-transform duration-300 group">
             <MapPin className="w-10 h-10 text-accent mb-4 mx-auto" />
@@ -47,7 +57,11 @@ const Hero: React.FC = () => {
           </div>
         </div>
 
-        <a href="#programa" className="inline-flex flex-col items-center text-white hover:text-accent transition-colors group">
+        <a 
+          href="#programa" 
+          onClick={scrollToPrograms}
+          className="inline-flex flex-col items-center text-white hover:text-accent transition-colors group cursor-pointer"
+        >
           <span className="text-xs font-bold tracking-[0.2em] uppercase mb-2">Descubre cómo funciona</span>
           <ChevronDown className="w-8 h-8 animate-bounce group-hover:text-accent" />
         </a>
