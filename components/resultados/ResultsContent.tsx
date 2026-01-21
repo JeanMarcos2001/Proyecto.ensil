@@ -2,16 +2,16 @@ import React from 'react';
 
 const ResultsContent: React.FC = () => {
   return (
-    <div className="w-full bg-slate-50 text-slate-800 font-jakarta">
-      <main className="max-w-7xl mx-auto px-4 md:px-8 py-12 space-y-20">
-        
+    <div className="w-full bg-paper-texture text-slate-800 font-jakarta">
+      <main className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
+
         {/* Hero Section */}
         <div className="text-center max-w-3xl mx-auto space-y-6">
           <span className="inline-block px-4 py-1.5 rounded-full bg-blue-100 text-blue-700 font-semibold text-xs uppercase tracking-wider">
             Nuestros Resultados
           </span>
           <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 leading-tight">
-            La prueba está en <br/>
+            La prueba está en <br />
             <span className="relative inline-block">
               los resultados
               <span className="absolute -top-4 -right-6 text-yellow-400 text-4xl font-light">+</span>
@@ -69,10 +69,10 @@ const ResultsContent: React.FC = () => {
               Ver galería completa <span className="material-icons-round text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
             </button>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:h-[500px]">
             <div className="md:col-span-2 md:row-span-2 relative rounded-3xl overflow-hidden group shadow-md cursor-pointer">
-              <img alt="Estudiantes estudiando" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMoHZgAFX7hGcNnRzZEYIgghFR9G4wTH-FPHH3vRl4KHVor37HCfjvZzkPUt1LibFpjNFMoBRZiAJq0RdLMiIv316xyRWsjEDHIzTgL9RrenDAkXHi2E0ObTyZUO0jvW9Im_LogQQK6cuUTMnkTGorRiW6-_o1RxjVd730yMECIxvPKt_2SztrslzIpR-9ZFgvmvki6QfpOS9aDKQ7-9VeL8x9UcGQ_peYd1UjL_OYbfcWiuR8RzaUJepnESrNbUikJNjMxYYQ2sM"/>
+              <img alt="Estudiantes estudiando" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMoHZgAFX7hGcNnRzZEYIgghFR9G4wTH-FPHH3vRl4KHVor37HCfjvZzkPUt1LibFpjNFMoBRZiAJq0RdLMiIv316xyRWsjEDHIzTgL9RrenDAkXHi2E0ObTyZUO0jvW9Im_LogQQK6cuUTMnkTGorRiW6-_o1RxjVd730yMECIxvPKt_2SztrslzIpR-9ZFgvmvki6QfpOS9aDKQ7-9VeL8x9UcGQ_peYd1UjL_OYbfcWiuR8RzaUJepnESrNbUikJNjMxYYQ2sM" />
               <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent">
                 <span className="bg-white/20 backdrop-blur-md text-white text-xs px-3 py-1 rounded-full mb-2 inline-block">Entrenamiento</span>
                 <p className="text-white font-semibold">Sesiones de práctica intensiva</p>
@@ -80,7 +80,7 @@ const ResultsContent: React.FC = () => {
             </div>
 
             <div className="md:col-span-1 md:row-span-2 relative rounded-3xl overflow-hidden group shadow-md cursor-pointer">
-              <img alt="Graduación ENSIL" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9ebh22bTPg3mUlxBSlNUnx1VRadG99Tn4pOlyoHqUbwixz4pwLsYIzv_-Ifd0XGxaSwcCTPWdTdoTv5HLC02P0_0EoTWwT0TySF5TQ6HHP5uExL6WyEsiuHMa7OeWy1A4LcKxrq5UCAll7zmALJuCXEdJ0hUUgpX515uW6inOJfNaATdiMb9ujGNVDvjY2_YhKlLwNEcEN9BfPQ3yePWfUZl-wD3L25ABPn0fAhDCT8XoDmH3TpfSKHN3-7a__cgFLEw7z2ANkPA"/>
+              <img alt="Graduación ENSIL" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9ebh22bTPg3mUlxBSlNUnx1VRadG99Tn4pOlyoHqUbwixz4pwLsYIzv_-Ifd0XGxaSwcCTPWdTdoTv5HLC02P0_0EoTWwT0TySF5TQ6HHP5uExL6WyEsiuHMa7OeWy1A4LcKxrq5UCAll7zmALJuCXEdJ0hUUgpX515uW6inOJfNaATdiMb9ujGNVDvjY2_YhKlLwNEcEN9BfPQ3yePWfUZl-wD3L25ABPn0fAhDCT8XoDmH3TpfSKHN3-7a__cgFLEw7z2ANkPA" />
               <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent">
                 <span className="bg-white/20 backdrop-blur-md text-white text-xs px-3 py-1 rounded-full mb-2 inline-block">Ceremonia</span>
                 <p className="text-white font-semibold">Graduación Promoción 2024</p>
@@ -88,7 +88,7 @@ const ResultsContent: React.FC = () => {
             </div>
 
             <div className="relative rounded-3xl overflow-hidden group shadow-md bg-slate-100 flex items-center justify-center">
-              <img alt="Cronómetro" className="w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYFRrrWrF8rGykIvzPTsJgR11UQ2DjhN1s12m73bRH2JPTscpO--rW-tuCukGR2rU8q6ONX3YkKftl_AEfEbi7l0HHsaCEAebCEdfdhzrTSVbWXFZderSgHwN2CEStuos-9PEHSHDtiMOzswBZSFzB2kzlbdv4bySc6sSGpst7xSvoMKoee2LhcuG_KFhy_s2oP7wWX6uNuM3x8PVCeFKg2ZxeQyYy4rjhQhowf9_3vmPtbC8_gKz_Xt4JVNuVDD7VhEaKpbPBE4k"/>
+              <img alt="Cronómetro" className="w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYFRrrWrF8rGykIvzPTsJgR11UQ2DjhN1s12m73bRH2JPTscpO--rW-tuCukGR2rU8q6ONX3YkKftl_AEfEbi7l0HHsaCEAebCEdfdhzrTSVbWXFZderSgHwN2CEStuos-9PEHSHDtiMOzswBZSFzB2kzlbdv4bySc6sSGpst7xSvoMKoee2LhcuG_KFhy_s2oP7wWX6uNuM3x8PVCeFKg2ZxeQyYy4rjhQhowf9_3vmPtbC8_gKz_Xt4JVNuVDD7VhEaKpbPBE4k" />
               <div className="absolute inset-0 flex flex-col items-center justify-center bg-blue-700/20 backdrop-blur-[2px]">
                 <span className="material-icons-round text-white text-4xl drop-shadow-lg">timer</span>
                 <p className="text-white font-bold drop-shadow-md mt-2">Velocidad</p>
@@ -117,7 +117,7 @@ const ResultsContent: React.FC = () => {
             <div className="min-w-[300px] md:min-w-[350px] flex-1 bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 snap-center relative">
               <span className="absolute top-8 right-8 text-6xl text-blue-100 font-serif leading-none opacity-50">”</span>
               <div className="flex items-center gap-4 mb-6">
-                <img alt="María Lopez" className="w-14 h-14 rounded-full object-cover ring-2 ring-blue-700 ring-offset-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlJh0XUqP0W69pDTc94PkWGfySOiVFvw0EYF5npgO3gAxYVWAS-VGbIz-GzpQ5WIimk86i6ZbHdB16ptKfxOaGkYstk8-gOt2YdkOdXJGWck5lax9RsBOOAisEYupvedapkT7OaLQI9RHbkxhpSlAR3cWgtlelVyZvhOjoFOGUA7eoUemzJ0NUveHg9EEBFyIy19zgNz-FxKJPyp9vZ8WzH5CkN0xMWWbWnL-s0Np1AaNW0aavmba-VzRKLxGjIN__0KhZ7O4M4mQ"/>
+                <img alt="María Lopez" className="w-14 h-14 rounded-full object-cover ring-2 ring-blue-700 ring-offset-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlJh0XUqP0W69pDTc94PkWGfySOiVFvw0EYF5npgO3gAxYVWAS-VGbIz-GzpQ5WIimk86i6ZbHdB16ptKfxOaGkYstk8-gOt2YdkOdXJGWck5lax9RsBOOAisEYupvedapkT7OaLQI9RHbkxhpSlAR3cWgtlelVyZvhOjoFOGUA7eoUemzJ0NUveHg9EEBFyIy19zgNz-FxKJPyp9vZ8WzH5CkN0xMWWbWnL-s0Np1AaNW0aavmba-VzRKLxGjIN__0KhZ7O4M4mQ" />
                 <div>
                   <h4 className="font-bold text-slate-900">María Lopez</h4>
                   <p className="text-xs text-blue-700 font-semibold uppercase tracking-wide">Nivel Avanzado</p>
@@ -143,7 +143,7 @@ const ResultsContent: React.FC = () => {
             <div className="min-w-[300px] md:min-w-[350px] flex-1 bg-blue-700 text-white p-8 rounded-[2rem] shadow-lg snap-center relative transform md:-translate-y-2">
               <span className="absolute top-8 right-8 text-6xl text-blue-400 font-serif leading-none opacity-50">”</span>
               <div className="flex items-center gap-4 mb-6">
-                <img alt="Carlos Ruiz" className="w-14 h-14 rounded-full object-cover ring-2 ring-white/50 ring-offset-2 ring-offset-blue-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDycFLhDTVXG4J_ypj_TYcy0HBGQTQlC1LYBFdxbkZBVFOB0iNj5hTPJsKObnqAfdhOSJlM8OAVZeZ_h7xh59eJNnONADNXtTH4kz5vh4SkRBuqJhoEpW8xaTrXsFeS9zLPbPa6JENq0vEgvMWDjyYLB3zZJWHCzCNqMuLvPmv-rcMkRzypUtz_4m5sJUVX_rr-odRRqujtyXfEITw6fPEVpHWCRWpJVpKImTu3wq4MC5QH4AkVIDawuwtWqXYgoWRSMGIX4TlfRGI"/>
+                <img alt="Carlos Ruiz" className="w-14 h-14 rounded-full object-cover ring-2 ring-white/50 ring-offset-2 ring-offset-blue-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDycFLhDTVXG4J_ypj_TYcy0HBGQTQlC1LYBFdxbkZBVFOB0iNj5hTPJsKObnqAfdhOSJlM8OAVZeZ_h7xh59eJNnONADNXtTH4kz5vh4SkRBuqJhoEpW8xaTrXsFeS9zLPbPa6JENq0vEgvMWDjyYLB3zZJWHCzCNqMuLvPmv-rcMkRzypUtz_4m5sJUVX_rr-odRRqujtyXfEITw6fPEVpHWCRWpJVpKImTu3wq4MC5QH4AkVIDawuwtWqXYgoWRSMGIX4TlfRGI" />
                 <div>
                   <h4 className="font-bold text-white">Carlos Ruiz</h4>
                   <p className="text-xs text-blue-200 font-semibold uppercase tracking-wide">Estudiante Derecho</p>
@@ -169,7 +169,7 @@ const ResultsContent: React.FC = () => {
             <div className="min-w-[300px] md:min-w-[350px] flex-1 bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 snap-center relative">
               <span className="absolute top-8 right-8 text-6xl text-blue-100 font-serif leading-none opacity-50">”</span>
               <div className="flex items-center gap-4 mb-6">
-                <img alt="Ana Torres" className="w-14 h-14 rounded-full object-cover ring-2 ring-blue-700 ring-offset-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqwBCeE1hZspmnimeKcqfC8kK260mvIqAN2aVGSDSWFi_dq1bzq7dtvodBqkhEtLg20shaSpzg63zqLrP2bWVR1TbTnFYjk13R86rw0Lz9JLzbACsWKoSmuiE56bfpcsQzGZfoX5QuRZlWCa9rOXmQDb6TSyy-a6-AiiDtVvV4eOnTa_Qw0_QcM45IP1l3QbzqUMeB_-VtlKzNNHqxcXW1OsBRQlSeQ07KeG5BEY4p0xb1c30vxStFdLc8ZE-XHntWwKPrXep4Cco"/>
+                <img alt="Ana Torres" className="w-14 h-14 rounded-full object-cover ring-2 ring-blue-700 ring-offset-2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqwBCeE1hZspmnimeKcqfC8kK260mvIqAN2aVGSDSWFi_dq1bzq7dtvodBqkhEtLg20shaSpzg63zqLrP2bWVR1TbTnFYjk13R86rw0Lz9JLzbACsWKoSmuiE56bfpcsQzGZfoX5QuRZlWCa9rOXmQDb6TSyy-a6-AiiDtVvV4eOnTa_Qw0_QcM45IP1l3QbzqUMeB_-VtlKzNNHqxcXW1OsBRQlSeQ07KeG5BEY4p0xb1c30vxStFdLc8ZE-XHntWwKPrXep4Cco" />
                 <div>
                   <h4 className="font-bold text-slate-900">Ana Torres</h4>
                   <p className="text-xs text-blue-700 font-semibold uppercase tracking-wide">Ejecutiva</p>
@@ -203,7 +203,7 @@ const ResultsContent: React.FC = () => {
           <div className="relative">
             {/* Timeline connector line */}
             <div className="hidden md:block absolute top-12 left-0 w-full h-1 bg-slate-100 -z-10"></div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-7 gap-8">
               <div className="flex flex-col items-center text-center group">
                 <div className="w-24 h-24 rounded-full bg-blue-50 flex items-center justify-center mb-4 group-hover:bg-blue-700 group-hover:text-white transition-colors duration-300 text-blue-700">
@@ -258,7 +258,7 @@ const ResultsContent: React.FC = () => {
                 <p className="text-xs text-slate-500">Ceremonia oficial</p>
               </div>
             </div>
-            
+
             <div className="mt-8 p-4 bg-yellow-50 rounded-xl flex items-start gap-3 max-w-2xl mx-auto">
               <span className="material-icons-round text-yellow-600">info</span>
               <p className="text-sm text-yellow-800">

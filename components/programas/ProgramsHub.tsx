@@ -13,7 +13,7 @@ const ProgramsHub: React.FC = () => {
       title: 'Pre-Kids',
       component: <PreKidsContent />,
       // Light Green Theme
-      themeColor: 'bg-green-300' 
+      themeColor: 'bg-green-300'
     },
     {
       id: 'kids',
@@ -56,74 +56,74 @@ const ProgramsHub: React.FC = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-slate-100 overflow-hidden flex flex-col items-center py-8 relative">
-      
+    <div className="w-full min-h-screen bg-paper-texture overflow-hidden flex flex-col items-center py-8 relative">
+
       {/* Background Decorative Blobs */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-green-200/30 rounded-full blur-[100px]"></div>
-          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-emerald-200/30 rounded-full blur-[100px]"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-green-100/30 rounded-full blur-[100px]"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-emerald-100/30 rounded-full blur-[100px]"></div>
       </div>
 
       {/* Header Text */}
       <div className="text-center max-w-3xl px-6 mb-6 z-40 relative">
         <span className="inline-block py-1 px-3 rounded-full bg-white border border-slate-200 text-green-800 font-bold tracking-widest text-[10px] uppercase mb-3 shadow-sm">
-            Nuestros Niveles
+          Nuestros Niveles
         </span>
         <h1 className="font-fraunces text-3xl md:text-5xl text-slate-900 leading-tight">
-           Formación para <span className="text-green-700 italic">Cada Etapa</span>
+          Formación para <span className="text-green-700 italic">Cada Etapa</span>
         </h1>
       </div>
 
       {/* 3D Carousel Container */}
-      <div className="relative w-full max-w-7xl mx-auto h-[80vh] md:h-[85vh] flex items-center justify-center perspective-1000">
-        
+      <div className="relative w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 h-[80vh] md:h-[85vh] flex items-center justify-center perspective-1000">
+
         {/* Navigation Buttons */}
-        <button 
-            onClick={prevSlide}
-            className="absolute left-4 md:left-12 z-50 bg-white/80 backdrop-blur-md text-slate-800 p-4 rounded-full shadow-xl border border-white hover:bg-green-700 hover:text-white transition-all duration-300 hover:scale-110 group"
+        <button
+          onClick={prevSlide}
+          className="absolute left-4 md:left-12 z-50 bg-white/80 backdrop-blur-md text-slate-800 p-4 rounded-full shadow-xl border border-white hover:bg-green-700 hover:text-white transition-all duration-300 hover:scale-110 group"
         >
-            <ChevronLeft size={28} className="group-hover:-translate-x-1 transition-transform" />
+          <ChevronLeft size={28} className="group-hover:-translate-x-1 transition-transform" />
         </button>
 
-        <button 
-            onClick={nextSlide}
-            className="absolute right-4 md:right-12 z-50 bg-white/80 backdrop-blur-md text-slate-800 p-4 rounded-full shadow-xl border border-white hover:bg-green-700 hover:text-white transition-all duration-300 hover:scale-110 group"
+        <button
+          onClick={nextSlide}
+          className="absolute right-4 md:right-12 z-50 bg-white/80 backdrop-blur-md text-slate-800 p-4 rounded-full shadow-xl border border-white hover:bg-green-700 hover:text-white transition-all duration-300 hover:scale-110 group"
         >
-            <ChevronRight size={28} className="group-hover:translate-x-1 transition-transform" />
+          <ChevronRight size={28} className="group-hover:translate-x-1 transition-transform" />
         </button>
 
         {/* Cards Area */}
         <div className="relative w-full h-full flex items-center justify-center">
-            {programs.map((program, index) => (
-                <div
-                    key={program.id}
-                    className={`
+          {programs.map((program, index) => (
+            <div
+              key={program.id}
+              className={`
                         absolute 
                         w-[85%] md:w-[60%] lg:w-[55%] h-full 
                         transition-all duration-700 ease-in-out
                         bg-white rounded-[3rem] overflow-hidden
                         ${getPositionClass(index)}
                     `}
-                    onClick={() => {
-                        const position = (index - activeIndex + programs.length) % programs.length;
-                        if(position === 1) nextSlide();
-                        if(position === 2 || position === -1) prevSlide();
-                    }}
-                >
-                    {/* Inner Scroll Container */}
-                    <div className="w-full h-full overflow-y-auto custom-scrollbar relative bg-white">
-                        <div className="origin-top transform scale-100 h-full">
-                           {/* Content Wrapper */}
-                           <div className="h-full">
-                               {program.component}
-                           </div>
-                        </div>
-                    </div>
-                    
-                    {/* Gradient Overlay at bottom */}
-                    <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none z-20"></div>
+              onClick={() => {
+                const position = (index - activeIndex + programs.length) % programs.length;
+                if (position === 1) nextSlide();
+                if (position === 2 || position === -1) prevSlide();
+              }}
+            >
+              {/* Inner Scroll Container */}
+              <div className="w-full h-full overflow-y-auto custom-scrollbar relative bg-white">
+                <div className="origin-top transform scale-100 h-full">
+                  {/* Content Wrapper */}
+                  <div className="h-full">
+                    {program.component}
+                  </div>
                 </div>
-            ))}
+              </div>
+
+              {/* Gradient Overlay at bottom */}
+              <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none z-20"></div>
+            </div>
+          ))}
         </div>
 
       </div>
@@ -131,21 +131,20 @@ const ProgramsHub: React.FC = () => {
       {/* Pagination Dots */}
       <div className="flex gap-4 mt-6 z-40">
         {programs.map((prog, idx) => (
-            <button
-                key={idx}
-                onClick={() => setActiveIndex(idx)}
-                className={`transition-all duration-500 rounded-full flex items-center gap-2 px-1 ${
-                    activeIndex === idx 
-                    ? 'w-auto h-3 bg-green-700' 
-                    : 'w-3 h-3 bg-slate-300 hover:bg-slate-400'
-                }`}
-            >
-                {activeIndex === idx && (
-                    <span className="text-[9px] text-white font-bold uppercase px-2 whitespace-nowrap animate-fade-in">
-                        {prog.title}
-                    </span>
-                )}
-            </button>
+          <button
+            key={idx}
+            onClick={() => setActiveIndex(idx)}
+            className={`transition-all duration-500 rounded-full flex items-center gap-2 px-1 ${activeIndex === idx
+              ? 'w-auto h-3 bg-green-700'
+              : 'w-3 h-3 bg-slate-300 hover:bg-slate-400'
+              }`}
+          >
+            {activeIndex === idx && (
+              <span className="text-[9px] text-white font-bold uppercase px-2 whitespace-nowrap animate-fade-in">
+                {prog.title}
+              </span>
+            )}
+          </button>
         ))}
       </div>
 

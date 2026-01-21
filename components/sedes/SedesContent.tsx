@@ -25,7 +25,7 @@ const sedesData: Sede[] = [
     referencia: 'Frente al Museo Vicus',
     fijo: '073-617445',
     movil: '933732053',
-    image: '/img/filiales/piura.png'
+    image: '/img/filiales/piura-sede.png'
   },
   {
     id: '2',
@@ -49,7 +49,7 @@ const sedesData: Sede[] = [
     referencia: 'Huánuco y Silva Santiesteban',
     fijo: '076-772573',
     movil: '933722476',
-    image: '/img/filiales/cajamarca.png'
+    image: '/img/filiales/cajamarca-sede.jpeg'
   },
   {
     id: '4',
@@ -61,7 +61,7 @@ const sedesData: Sede[] = [
     referencia: 'Frente al Club Libertad',
     fijo: '—',
     movil: '928140527',
-    image: '/img/filiales/trujillo.png'
+    image: '/img/filiales/trujillo-sede.png'
   },
   {
     id: '5',
@@ -133,7 +133,7 @@ const sedesData: Sede[] = [
     referencia: 'A 2 casas de Caprichos',
     fijo: '084-782957',
     movil: '953802527',
-    image: '/img/filiales/cusco.png'
+    image: '/img/filiales/cusco-magisterio.jpeg'
   },
   {
     id: '11',
@@ -157,7 +157,7 @@ const sedesData: Sede[] = [
     referencia: 'Frente a Mueblería Rony',
     fijo: '052-638377',
     movil: '933746179',
-    image: '/img/filiales/tacna.png'
+    image: '/img/filiales/tacna-sede.jpeg'
   },
   {
     id: '13',
@@ -169,7 +169,7 @@ const sedesData: Sede[] = [
     referencia: 'Frente al Parque El Encuentro',
     fijo: '—',
     movil: '933741997',
-    image: '/img/filiales/huaraz.png'
+    image: '/img/filiales/huaraz-sede.png'
   },
   {
     id: '14',
@@ -181,7 +181,7 @@ const sedesData: Sede[] = [
     referencia: 'Al costado de Serpost',
     fijo: '—',
     movil: '936770444',
-    image: '/img/filiales/ica.png'
+    image: '/img/filiales/ica-sede.png'
   },
   {
     id: '15',
@@ -205,7 +205,7 @@ const sedesData: Sede[] = [
     referencia: '1/2 cdra. del Touring',
     fijo: '—',
     movil: '960508686',
-    image: '/img/filiales/san-isidro.png'
+    image: '/img/filiales/lima-san-isidro-sede.png'
   },
 ];
 
@@ -242,8 +242,8 @@ const SedesContent: React.FC = () => {
   };
 
   return (
-    <div className="w-full bg-slate-50 text-slate-800 font-jakarta">
-      <main className="max-w-7xl mx-auto px-4 md:px-8 py-10">
+    <div className="w-full bg-paper-texture text-slate-800 font-jakarta">
+      <main className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
         {/* Header Section */}
         <div className="text-center mb-10 md:mb-12">

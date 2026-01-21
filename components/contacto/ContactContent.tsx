@@ -32,17 +32,17 @@ interface FormData {
 // --- UTILIDADES CALENDARIO ---
 const DAYS_ES = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
 const MONTHS_ES = [
-  'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+  'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
   'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
 ];
 
 const ContactContent: React.FC = () => {
   const [openFaq, setOpenFaq] = useState<string | null>(null);
-  
+
   // --- VIDEO STATE ---
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoEnded, setVideoEnded] = useState(false);
-  
+
   // --- FORM STATE ---
   const [step, setStep] = useState<Step>(1);
   const [target, setTarget] = useState<Target>(null);
@@ -81,7 +81,7 @@ const ContactContent: React.FC = () => {
           .select('id, provincia, nombre, direccion')
           .eq('activo', true)
           .order('provincia', { ascending: true });
-        
+
         if (error) throw error;
         setSedesDb(data || []);
       } catch (err) {
@@ -102,9 +102,9 @@ const ContactContent: React.FC = () => {
 
   const handleReplay = () => {
     if (videoRef.current) {
-        setVideoEnded(false);
-        videoRef.current.currentTime = 0;
-        videoRef.current.play();
+      setVideoEnded(false);
+      videoRef.current.currentTime = 0;
+      videoRef.current.play();
     }
   };
 
@@ -115,9 +115,9 @@ const ContactContent: React.FC = () => {
     const isSunday = dayOfWeek === 0;
 
     if (isSunday) {
-        return ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'];
+      return ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'];
     } else {
-        return ['09:00', '10:00', '11:00', '12:00', '13:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00'];
+      return ['09:00', '10:00', '11:00', '12:00', '13:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00'];
     }
   }, [selectedDateObj]);
 
@@ -139,7 +139,7 @@ const ContactContent: React.FC = () => {
   };
 
   const updateExtraStudent = (id: string, field: 'name' | 'age', value: string) => {
-    setExtraStudents(extraStudents.map(s => 
+    setExtraStudents(extraStudents.map(s =>
       s.id === id ? { ...s, [field]: value } : s
     ));
   };
@@ -160,26 +160,26 @@ const ContactContent: React.FC = () => {
   const handleDayClick = (day: number) => {
     const newDate = new Date(viewDate.getFullYear(), viewDate.getMonth(), day);
     const today = new Date();
-    today.setHours(0,0,0,0);
+    today.setHours(0, 0, 0, 0);
 
-    if (newDate < today) return; 
+    if (newDate < today) return;
     setSelectedDateObj(newDate);
-    
+
     const year = newDate.getFullYear();
     const month = String(newDate.getMonth() + 1).padStart(2, '0');
     const dayStr = String(newDate.getDate()).padStart(2, '0');
-    setFormData(prev => ({ ...prev, fecha: `${year}-${month}-${dayStr}`, hora: '' })); 
+    setFormData(prev => ({ ...prev, fecha: `${year}-${month}-${dayStr}`, hora: '' }));
   };
 
   const handleTimeClick = (time: string) => {
-      setFormData(prev => ({...prev, hora: time}));
+    setFormData(prev => ({ ...prev, hora: time }));
   };
 
   // --- GENERACIÓN DE DÍAS DEL CALENDARIO ---
   const calendarDays = useMemo(() => {
     const year = viewDate.getFullYear();
     const month = viewDate.getMonth();
-    const firstDayOfMonth = new Date(year, month, 1).getDay(); 
+    const firstDayOfMonth = new Date(year, month, 1).getDay();
     const adjustedFirstDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const daysArray = [];
@@ -195,7 +195,7 @@ const ContactContent: React.FC = () => {
     if (step === 1) {
       if (!target) { setError("Por favor selecciona una opción."); return; }
       if (target === 'child') {
-        setDependency('dependent'); 
+        setDependency('dependent');
         setStep(3);
       } else {
         setStep(2);
@@ -222,7 +222,7 @@ const ContactContent: React.FC = () => {
       });
       setExtraStudents([]);
       setSelectedDateObj(null);
-      setViewDate(new Date()); 
+      setViewDate(new Date());
 
       if (target === 'child') setStep(1);
       else setStep(2);
@@ -235,53 +235,53 @@ const ContactContent: React.FC = () => {
   const checkPhoneExists = async (phone: string): Promise<boolean> => {
     // 1. Verificar en Apoderados
     const { data: apoderado } = await supabase
-        .from('apoderados')
-        .select('id')
-        .eq('telefono', phone)
-        .maybeSingle();
+      .from('apoderados')
+      .select('id')
+      .eq('telefono', phone)
+      .maybeSingle();
 
     if (apoderado) return true;
 
     // 2. Verificar en Alumnos (para independientes o datos antiguos)
     const { data: alumno } = await supabase
-        .from('alumnos')
-        .select('id')
-        .eq('telefono', phone)
-        .maybeSingle();
-    
+      .from('alumnos')
+      .select('id')
+      .eq('telefono', phone)
+      .maybeSingle();
+
     return !!alumno;
   };
 
   // --- LÓGICA DE ENVÍO ---
   const handleSubmit = async () => {
     setError(null);
-    
+
     // --- A. Validaciones de campos ---
     if (dependency === 'independent') {
-       if (!formData.studentName || !formData.studentAge) { 
-           setError("Completa tus datos personales (Nombre y Edad)."); return; 
-       }
-       if (!formData.studentPhone || formData.studentPhone.length < 9) {
-           setError("Ingresa un número de celular válido (mínimo 9 dígitos)."); return;
-       }
+      if (!formData.studentName || !formData.studentAge) {
+        setError("Completa tus datos personales (Nombre y Edad)."); return;
+      }
+      if (!formData.studentPhone || formData.studentPhone.length < 9) {
+        setError("Ingresa un número de celular válido (mínimo 9 dígitos)."); return;
+      }
     } else {
-       if (!formData.guardianName || !formData.studentName || !formData.studentAge) { 
-           setError("Completa todos los nombres y la edad del primer alumno."); return; 
-       }
-       if (!formData.guardianPhone || formData.guardianPhone.length < 9) {
-           setError("Ingresa un número de celular del apoderado válido."); return;
-       }
-       // Validar alumnos extra
-       for (const ext of extraStudents) {
-           if (!ext.name || !ext.age) {
-               setError("Completa los datos de todos los alumnos adicionales."); return;
-           }
-       }
+      if (!formData.guardianName || !formData.studentName || !formData.studentAge) {
+        setError("Completa todos los nombres y la edad del primer alumno."); return;
+      }
+      if (!formData.guardianPhone || formData.guardianPhone.length < 9) {
+        setError("Ingresa un número de celular del apoderado válido."); return;
+      }
+      // Validar alumnos extra
+      for (const ext of extraStudents) {
+        if (!ext.name || !ext.age) {
+          setError("Completa los datos de todos los alumnos adicionales."); return;
+        }
+      }
     }
 
     if (!formData.filial) { setError("Por favor selecciona una sede de preferencia."); return; }
     if (!formData.fecha || !formData.hora) { setError("Por favor selecciona fecha y hora en el calendario."); return; }
-    
+
     setLoading(true);
 
     try {
@@ -291,43 +291,43 @@ const ContactContent: React.FC = () => {
       // --- B. Validación de Duplicados ---
       const phoneToCheck = dependency === 'independent' ? formData.studentPhone : formData.guardianPhone;
       const isRegistered = await checkPhoneExists(phoneToCheck);
-      
+
       if (isRegistered) {
-          throw new Error("Este número de celular ya se encuentra registrado en nuestra base de datos.");
+        throw new Error("Este número de celular ya se encuentra registrado en nuestra base de datos.");
       }
 
       // --- C. Inserción de Datos (Vía RPC Seguro) ---
       if (dependency === 'independent') {
-          // Caso INDEPENDIENTE (Solo 1 alumno, sin apoderado)
-          const { error: rpcError } = await supabase.rpc('registrar_reserva', {
-            p_nombre_alumno: formData.studentName,
-            p_edad_alumno: parseInt(formData.studentAge),
-            p_telefono_alumno: formData.studentPhone,
-            p_nombre_apoderado: null,
-            p_telefono_apoderado: null,
-            p_id_filial: filialId,
-            p_fecha: formData.fecha,
-            p_hora: formData.hora,
-            p_es_dependiente: false
-          });
-          if (rpcError) throw rpcError;
+        // Caso INDEPENDIENTE (Solo 1 alumno, sin apoderado)
+        const { error: rpcError } = await supabase.rpc('registrar_reserva', {
+          p_nombre_alumno: formData.studentName,
+          p_edad_alumno: parseInt(formData.studentAge),
+          p_telefono_alumno: formData.studentPhone,
+          p_nombre_apoderado: null,
+          p_telefono_apoderado: null,
+          p_id_filial: filialId,
+          p_fecha: formData.fecha,
+          p_hora: formData.hora,
+          p_es_dependiente: false
+        });
+        if (rpcError) throw rpcError;
 
       } else {
-          // Caso DEPENDIENTE (Familia: 1 Apoderado + N Alumnos)
-          const nombresAlumnos = [formData.studentName, ...extraStudents.map(s => s.name)];
-          const edadesAlumnos = [parseInt(formData.studentAge), ...extraStudents.map(s => parseInt(s.age))];
-          
-          const { error: rpcError } = await supabase.rpc('registrar_familia', {
-             p_nombre_apoderado: formData.guardianName,
-             p_telefono_apoderado: formData.guardianPhone,
-             p_nombres_alumnos: nombresAlumnos,
-             p_edades_alumnos: edadesAlumnos,
-             p_id_filial: filialId,
-             p_fecha: formData.fecha,
-             p_hora: formData.hora
-          });
-          
-          if (rpcError) throw rpcError;
+        // Caso DEPENDIENTE (Familia: 1 Apoderado + N Alumnos)
+        const nombresAlumnos = [formData.studentName, ...extraStudents.map(s => s.name)];
+        const edadesAlumnos = [parseInt(formData.studentAge), ...extraStudents.map(s => parseInt(s.age))];
+
+        const { error: rpcError } = await supabase.rpc('registrar_familia', {
+          p_nombre_apoderado: formData.guardianName,
+          p_telefono_apoderado: formData.guardianPhone,
+          p_nombres_alumnos: nombresAlumnos,
+          p_edades_alumnos: edadesAlumnos,
+          p_id_filial: filialId,
+          p_fecha: formData.fecha,
+          p_hora: formData.hora
+        });
+
+        if (rpcError) throw rpcError;
       }
 
       // Éxito: Avanzar
@@ -350,411 +350,411 @@ const ContactContent: React.FC = () => {
 
   return (
     <div className="w-full font-jakarta">
-      
+
       {/* 
         COMBINED HERO & FORM SECTION 
         Replaces the previous separate sections.
       */}
       <section className="relative pt-10 pb-28 overflow-hidden" id="agenda-form">
-        
+
         {/* Ambient Background Effects */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-64 bg-emerald-500/30 blur-[120px] -z-10 rounded-full pointer-events-none"></div>
 
-        <div className="max-w-screen-2xl mx-auto px-6 lg:px-12 relative z-10">
-          
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
           {/* Main Grid Layout - Items aligned to center */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-            
+
             {/* LEFT COLUMN: Title + Video */}
             <div className="flex flex-col gap-10 text-left pt-4">
-               {/* Header Content - Full width to align with video */}
-               <div className="animate-fade-in w-full">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-ensil-gold text-xs font-bold tracking-wider uppercase mb-6 border border-white/10 shadow-lg">
-                    <span className="w-2 h-2 rounded-full bg-ensil-gold animate-pulse"></span>
-                    Método Exclusivo
+              {/* Header Content - Full width to align with video */}
+              <div className="animate-fade-in w-full">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-ensil-gold text-xs font-bold tracking-wider uppercase mb-6 border border-white/10 shadow-lg">
+                  <span className="w-2 h-2 rounded-full bg-ensil-gold animate-pulse"></span>
+                  Método Exclusivo
+                </div>
+                <h1 className="font-fraunces text-5xl md:text-6xl lg:text-7xl font-bold leading-none text-slate-900 mb-6 drop-shadow-sm tracking-tight">
+                  Transforma Tu Lectura en <br />
+                  <span className="relative z-10 inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-800 via-green-600 to-green-800">
+                    Tu Mayor Superpoder
+                    <span className="absolute left-0 bottom-2 w-full h-2 bg-ensil-gold/60 -z-10 -rotate-1 blur-[2px]"></span>
+                  </span>
+                </h1>
+                <p className="text-lg md:text-xl text-slate-600 font-light leading-relaxed max-w-2xl">
+                  Descubre el poder de una mente entrenada. Multiplica tu velocidad de lectura y desata tu potencial con nuestro sistema integral.
+                </p>
+              </div>
+
+              {/* Video Container - Expanded for better aspect ratio coverage */}
+              <div className="relative w-full rounded-[2rem] overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.6)] border border-white/10 bg-black aspect-video group transform hover:scale-[1.01] transition-transform duration-500">
+                <video
+                  ref={videoRef}
+                  className={`w-full h-full object-cover transition-all duration-700 ${videoEnded ? 'blur-md scale-105 opacity-60' : ''}`}
+                  controls
+                  playsInline
+                  onEnded={handleVideoEnd}
+                >
+                  <source src="https://fmbtcgilsicvvsltmzms.supabase.co/storage/v1/object/public/Videos/LandingVideo.webm" type="video/webm" />
+                </video>
+
+                {/* Replay Overlay */}
+                {videoEnded && (
+                  <div className="absolute inset-0 flex items-center justify-center z-20 animate-fade-in">
+                    <button
+                      onClick={handleReplay}
+                      className="group/btn flex flex-col items-center gap-3"
+                    >
+                      <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-300 group-hover/btn:scale-110 group-hover/btn:bg-white/20">
+                        <RotateCcw size={32} className="group-hover/btn:-rotate-90 transition-transform duration-500" />
+                      </div>
+                      <span className="text-white font-fraunces font-bold text-lg tracking-wide drop-shadow-md">Repetir Video</span>
+                    </button>
                   </div>
-                  <h1 className="font-fraunces text-5xl md:text-6xl lg:text-7xl font-bold leading-none text-white mb-6 drop-shadow-xl tracking-tight">
-                    Transforma Tu Lectura en <br/>
-                    <span className="relative z-10 inline-block text-transparent bg-clip-text bg-gradient-to-r from-white via-green-100 to-white">
-                      Tu Mayor Superpoder
-                      <span className="absolute left-0 bottom-2 w-full h-2 bg-ensil-gold/60 -z-10 -rotate-1 blur-[2px]"></span>
-                    </span>
-                  </h1>
-                  <p className="text-lg md:text-xl text-green-100/90 font-light leading-relaxed max-w-2xl">
-                    Descubre el poder de una mente entrenada. Multiplica tu velocidad de lectura y desata tu potencial con nuestro sistema integral.
-                  </p>
-               </div>
+                )}
 
-               {/* Video Container - Expanded for better aspect ratio coverage */}
-               <div className="relative w-full rounded-[2rem] overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.6)] border border-white/10 bg-black aspect-video group transform hover:scale-[1.01] transition-transform duration-500">
-                  <video 
-                    ref={videoRef}
-                    className={`w-full h-full object-cover transition-all duration-700 ${videoEnded ? 'blur-md scale-105 opacity-60' : ''}`}
-                    controls
-                    playsInline
-                    onEnded={handleVideoEnd}
-                  >
-                    <source src="https://fmbtcgilsicvvsltmzms.supabase.co/storage/v1/object/public/Videos/LandingVideo.webm" type="video/webm" />
-                  </video>
-                  
-                  {/* Replay Overlay */}
-                  {videoEnded && (
-                    <div className="absolute inset-0 flex items-center justify-center z-20 animate-fade-in">
-                        <button 
-                            onClick={handleReplay}
-                            className="group/btn flex flex-col items-center gap-3"
-                        >
-                            <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-300 group-hover/btn:scale-110 group-hover/btn:bg-white/20">
-                                <RotateCcw size={32} className="group-hover/btn:-rotate-90 transition-transform duration-500" />
-                            </div>
-                            <span className="text-white font-fraunces font-bold text-lg tracking-wide drop-shadow-md">Repetir Video</span>
-                        </button>
-                    </div>
-                  )}
+                {!videoEnded && (
+                  <div className="absolute inset-0 bg-black/10 pointer-events-none"></div>
+                )}
+              </div>
 
-                  {!videoEnded && (
-                    <div className="absolute inset-0 bg-black/10 pointer-events-none"></div>
-                  )}
-               </div>
-               
-               {/* 10x Badge removed here */}
+              {/* 10x Badge removed here */}
             </div>
 
             {/* RIGHT COLUMN: Form Card - Centered horizontally in the column */}
             <div className="w-full flex justify-center lg:justify-center">
-                {/* 
+              {/* 
                     GLASS CONTAINER WRAPPER
                     This creates the semi-transparent border effect around the main card.
                 */}
-                <div className="w-full max-w-xl p-3 md:p-4 rounded-[3rem] bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl">
-                    <div className="bg-white rounded-[2.5rem] shadow-inner p-6 md:p-10 border border-white/10 flex flex-col relative overflow-hidden min-h-[500px] w-full h-full">
-                        
-                        {step < 4 && (
-                            <div className="mb-6 border-b border-slate-100 pb-6">
-                                <span className="text-ensil-gold font-bold text-xs tracking-wide uppercase mb-2 block">
-                                    Paso {step} de 3
-                                </span>
-                                <h2 className="font-fraunces text-slate-900 text-2xl md:text-3xl font-bold leading-tight">
-                                    Agenda tu Entrevista
-                                </h2>
-                            </div>
-                        )}
+              <div className="w-full max-w-xl p-3 md:p-4 rounded-[3rem] bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl">
+                <div className="bg-white rounded-[2.5rem] shadow-inner p-6 md:p-10 border border-white/10 flex flex-col relative overflow-hidden min-h-[500px] w-full h-full">
 
-                        {/* STEP 1: TARGET SELECTION */}
-                        {step === 1 && (
-                            <div className="flex-1 flex flex-col justify-center animate-fade-in">
-                                <p className="text-slate-600 text-base mb-6 font-medium">¿Para quién deseas el programa?</p>
-                                <div className="grid grid-cols-1 gap-4 mb-8">
-                                    <button 
-                                        onClick={() => setTarget('me')}
-                                        className={`p-5 rounded-2xl border-2 transition-all duration-300 flex items-center gap-5 hover:shadow-lg text-left ${target === 'me' ? 'border-green-500 bg-green-50' : 'border-slate-100 hover:border-green-200'}`}
-                                    >
-                                        <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl shrink-0 ${target === 'me' ? 'bg-white text-green-600 shadow-sm' : 'bg-slate-50 text-slate-400'}`}>
-                                            <User size={20} />
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className={`font-bold text-lg ${target === 'me' ? 'text-slate-900' : 'text-slate-700'}`}>Para Mí</h3>
-                                            <p className="text-xs text-slate-500 mt-1">Desarrollo personal y profesional</p>
-                                        </div>
-                                        {target === 'me' && <CheckCircle className="text-green-500" size={24} />}
-                                    </button>
-
-                                    <button 
-                                        onClick={() => setTarget('child')}
-                                        className={`p-5 rounded-2xl border-2 transition-all duration-300 flex items-center gap-5 hover:shadow-lg text-left ${target === 'child' ? 'border-green-500 bg-green-50' : 'border-slate-100 hover:border-green-200'}`}
-                                    >
-                                        <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl shrink-0 ${target === 'child' ? 'bg-white text-green-600 shadow-sm' : 'bg-slate-50 text-slate-400'}`}>
-                                            <Baby size={20} />
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className={`font-bold text-lg ${target === 'child' ? 'text-slate-900' : 'text-slate-700'}`}>Para Mi Hijo</h3>
-                                            <p className="text-xs text-slate-500 mt-1">Potencial académico escolar</p>
-                                        </div>
-                                        {target === 'child' && <CheckCircle className="text-green-500" size={24} />}
-                                    </button>
-                                </div>
-                                <button onClick={nextStep} className="w-full bg-gradient-to-r from-emerald-500 to-green-700 hover:from-emerald-400 hover:to-green-600 text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 transition-all shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] hover:-translate-y-0.5">
-                                    Continuar <ArrowRight size={20} />
-                                </button>
-                                {error && <p className="text-red-500 text-sm mt-3 text-center">{error}</p>}
-                            </div>
-                        )}
-
-                        {/* STEP 2: DEPENDENCY (Only if Target is 'me') */}
-                        {step === 2 && (
-                            <div className="flex-1 flex flex-col justify-center animate-fade-in">
-                                <button onClick={prevStep} className="text-slate-400 hover:text-primary mb-4 flex items-center gap-1 text-sm w-fit"><ArrowLeft size={16}/> Volver</button>
-                                <p className="text-slate-600 text-base mb-6 font-medium">Para personalizar tu experiencia, ¿cómo te consideras?</p>
-                                
-                                <div className="space-y-4 mb-8">
-                                    <button 
-                                        onClick={() => setDependency('independent')}
-                                        className={`w-full p-5 rounded-xl border text-left flex items-center justify-between transition-all ${dependency === 'independent' ? 'border-green-500 bg-green-50 ring-1 ring-green-500' : 'border-slate-200 hover:border-green-300'}`}
-                                    >
-                                        <div>
-                                            <h4 className="font-bold text-slate-800 text-lg">Persona Totalmente Independiente</h4>
-                                            <p className="text-xs text-slate-500 mt-1">Manejo mis propias finanzas y decisiones.</p>
-                                        </div>
-                                        {dependency === 'independent' && <CheckCircle className="text-green-500" size={24} />}
-                                    </button>
-
-                                    <button 
-                                        onClick={() => setDependency('dependent')}
-                                        className={`w-full p-5 rounded-xl border text-left flex items-center justify-between transition-all ${dependency === 'dependent' ? 'border-green-500 bg-green-50 ring-1 ring-green-500' : 'border-slate-200 hover:border-green-300'}`}
-                                    >
-                                        <div>
-                                            <h4 className="font-bold text-slate-800 text-lg">Dependo de un Apoderado</h4>
-                                            <p className="text-xs text-slate-500 mt-1">Padres o tutores toman las decisiones.</p>
-                                        </div>
-                                        {dependency === 'dependent' && <CheckCircle className="text-green-500" size={24} />}
-                                    </button>
-                                </div>
-
-                                <button onClick={nextStep} className="w-full bg-gradient-to-r from-emerald-500 to-green-700 hover:from-emerald-400 hover:to-green-600 text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 transition-all shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] hover:-translate-y-0.5">
-                                    Continuar <ArrowRight size={20} />
-                                </button>
-                                {error && <p className="text-red-500 text-sm mt-3 text-center">{error}</p>}
-                            </div>
-                        )}
-
-                        {/* STEP 3: DATA FORM & APPOINTMENT */}
-                        {step === 3 && (
-                            <div className="flex-1 flex flex-col animate-fade-in">
-                                <button onClick={prevStep} className="text-slate-400 hover:text-primary mb-4 flex items-center gap-1 text-sm w-fit"><ArrowLeft size={16}/> Volver</button>
-                                
-                                <div className="space-y-4 mb-8 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-                                    {dependency === 'dependent' && (
-                                        <>
-                                            <h4 className="font-bold text-slate-700 text-sm uppercase flex items-center gap-2 mt-2">
-                                                <User size={16} /> Datos del Apoderado
-                                            </h4>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                <input 
-                                                    type="text" 
-                                                    name="guardianName"
-                                                    placeholder="Nombre Completo Apoderado" 
-                                                    value={formData.guardianName}
-                                                    onChange={handleInputChange}
-                                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
-                                                />
-                                                <input 
-                                                    type="tel" 
-                                                    name="guardianPhone"
-                                                    placeholder="Celular Apoderado" 
-                                                    value={formData.guardianPhone}
-                                                    onChange={(e) => {
-                                                        const val = e.target.value.replace(/\D/g, ''); 
-                                                        if (val.length <= 9) handleInputChange({ ...e, target: { ...e.target, value: val, name: 'guardianPhone' } });
-                                                    }}
-                                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
-                                                />
-                                            </div>
-                                            <div className="border-t border-slate-100 my-2"></div>
-                                        </>
-                                    )}
-
-                                    <h4 className="font-bold text-slate-700 text-sm uppercase flex items-center gap-2 mt-2">
-                                        {dependency === 'dependent' ? <Baby size={16}/> : <User size={16}/>} 
-                                        {dependency === 'dependent' ? 'Datos del Alumno' : 'Mis Datos'}
-                                    </h4>
-                                    
-                                    {/* ALUMNO PRINCIPAL */}
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <input 
-                                            type="text" 
-                                            name="studentName"
-                                            placeholder="Nombre Completo Alumno" 
-                                            value={formData.studentName}
-                                            onChange={handleInputChange}
-                                            className="md:col-span-2 w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
-                                        />
-                                        <input 
-                                            type="number" 
-                                            name="studentAge"
-                                            placeholder="Edad" 
-                                            value={formData.studentAge}
-                                            onChange={handleInputChange}
-                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
-                                        />
-                                        {dependency === 'independent' && (
-                                            <input 
-                                                type="tel" 
-                                                name="studentPhone"
-                                                placeholder="Mi Celular" 
-                                                value={formData.studentPhone}
-                                                onChange={(e) => {
-                                                    const val = e.target.value.replace(/\D/g, '');
-                                                    if (val.length <= 9) handleInputChange({ ...e, target: { ...e.target, value: val, name: 'studentPhone' } });
-                                                }}
-                                                className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
-                                            />
-                                        )}
-                                    </div>
-
-                                    {/* ALUMNOS ADICIONALES (SOLO DEPENDIENTES) */}
-                                    {dependency === 'dependent' && (
-                                        <div className="space-y-4 animate-fade-in">
-                                            {extraStudents.map((student, index) => (
-                                                <div key={student.id} className="relative bg-slate-100 p-4 rounded-xl border border-slate-200 mt-4 animate-fade-in group">
-                                                    <div className="flex items-center justify-between mb-2">
-                                                        <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Alumno Adicional #{index + 1}</h5>
-                                                        <button 
-                                                            onClick={() => removeExtraStudent(student.id)}
-                                                            className="text-red-400 hover:text-red-600 p-1 rounded-full hover:bg-red-50 transition-colors"
-                                                            title="Eliminar alumno"
-                                                        >
-                                                            <Trash2 size={16} />
-                                                        </button>
-                                                    </div>
-                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                        <input 
-                                                            type="text" 
-                                                            placeholder="Nombre Completo" 
-                                                            value={student.name}
-                                                            onChange={(e) => updateExtraStudent(student.id, 'name', e.target.value)}
-                                                            className="md:col-span-2 w-full bg-white border border-slate-300 rounded-lg py-2 px-3 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm font-medium"
-                                                        />
-                                                        <input 
-                                                            type="number" 
-                                                            placeholder="Edad" 
-                                                            value={student.age}
-                                                            onChange={(e) => updateExtraStudent(student.id, 'age', e.target.value)}
-                                                            className="w-full bg-white border border-slate-300 rounded-lg py-2 px-3 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm font-medium"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ))}
-
-                                            {extraStudents.length < 3 && (
-                                                <button 
-                                                    onClick={addExtraStudent}
-                                                    className="mt-2 text-sm text-green-700 hover:text-green-900 font-bold flex items-center gap-1.5 transition-colors py-2 px-3 rounded-lg hover:bg-green-50 w-fit border border-transparent hover:border-green-200"
-                                                >
-                                                    <Plus size={16} />
-                                                    Agregar otro alumno
-                                                </button>
-                                            )}
-                                        </div>
-                                    )}
-
-                                    {/* DATE/TIME/SEDE SELECTION */}
-                                    <div className="pt-4 border-t border-slate-100">
-                                        <h4 className="font-bold text-slate-700 text-sm uppercase flex items-center gap-2 mb-3">
-                                            <MapPin size={16} /> Preferencias de Cita
-                                        </h4>
-                                        
-                                        <div className="space-y-3">
-                                            <select 
-                                                name="filial"
-                                                value={formData.filial}
-                                                onChange={handleInputChange}
-                                                className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-slate-900 text-sm outline-none focus:ring-2 focus:ring-green-500"
-                                            >
-                                                <option value="">Selecciona una sede...</option>
-                                                {sedesDb.map((sede) => (
-                                                <option key={sede.id} value={sede.id}>
-                                                    {sede.provincia} - {sede.nombre}
-                                                </option>
-                                                ))}
-                                            </select>
-
-                                            <div className="grid grid-cols-2 gap-3">
-                                                {/* Simplified Date Picker Trigger */}
-                                                <div className="relative">
-                                                    <div className="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Fecha</div>
-                                                    <div className="bg-slate-50 border border-slate-200 rounded-xl p-2 h-48 overflow-hidden relative">
-                                                         {/* Calendar Mini */}
-                                                         <div className="flex justify-between items-center mb-2 px-1">
-                                                            <button onClick={handlePrevMonth} className="text-slate-400 hover:text-slate-600"><ChevronLeft size={16}/></button>
-                                                            <span className="text-xs font-bold text-slate-700">{MONTHS_ES[viewDate.getMonth()]}</span>
-                                                            <button onClick={handleNextMonth} className="text-slate-400 hover:text-slate-600"><ChevronRight size={16}/></button>
-                                                         </div>
-                                                         <div className="grid grid-cols-7 gap-1 text-center">
-                                                            {calendarDays.slice(0, 28).map((day, idx) => ( // Limit rows for mini view
-                                                                <div key={idx} className="flex justify-center">
-                                                                    {day && (
-                                                                        <button 
-                                                                            onClick={() => handleDayClick(day)}
-                                                                            className={`w-6 h-6 text-[10px] rounded-full flex items-center justify-center 
-                                                                                ${selectedDateObj?.getDate() === day && selectedDateObj?.getMonth() === viewDate.getMonth() 
-                                                                                    ? 'bg-green-600 text-white' 
-                                                                                    : 'text-slate-600 hover:bg-green-100'}`}
-                                                                        >
-                                                                            {day}
-                                                                        </button>
-                                                                    )}
-                                                                </div>
-                                                            ))}
-                                                         </div>
-                                                    </div>
-                                                </div>
-
-                                                {/* Time Picker */}
-                                                <div className="relative">
-                                                    <div className="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Hora</div>
-                                                    <div className="bg-slate-50 border border-slate-200 rounded-xl p-2 h-48 overflow-y-auto custom-scrollbar">
-                                                        {availableHours.length > 0 ? (
-                                                            <div className="grid grid-cols-1 gap-1">
-                                                                {availableHours.map(hour => (
-                                                                    <button
-                                                                        key={hour}
-                                                                        onClick={() => handleTimeClick(hour)}
-                                                                        className={`text-xs py-1.5 px-2 rounded-lg border ${formData.hora === hour ? 'bg-green-600 text-white border-green-600' : 'bg-white border-slate-200 text-slate-600 hover:border-green-400'}`}
-                                                                    >
-                                                                        {hour}
-                                                                    </button>
-                                                                ))}
-                                                            </div>
-                                                        ) : (
-                                                            <p className="text-[10px] text-slate-400 text-center mt-4">Selecciona fecha</p>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <button 
-                                    onClick={handleSubmit} 
-                                    disabled={loading}
-                                    className="mt-auto w-full bg-gradient-to-r from-emerald-500 to-green-700 hover:from-emerald-400 hover:to-green-600 text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] hover:-translate-y-0.5"
-                                >
-                                    {loading ? <Loader2 className="animate-spin" /> : 'Confirmar Reserva'}
-                                </button>
-                                {error && (
-                                    <div className="mt-3 bg-red-50 border border-red-100 rounded-xl p-3 flex items-start gap-3 animate-fade-in">
-                                        <AlertCircle className="text-red-500 shrink-0 mt-0.5" size={18} />
-                                        <p className="text-red-600 text-sm">{error}</p>
-                                    </div>
-                                )}
-                            </div>
-                        )}
-
-                        {/* STEP 4: SUCCESS */}
-                        {step === 4 && (
-                            <div className="flex-1 flex flex-col items-center justify-center text-center animate-fade-in py-10">
-                                <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6 shadow-md">
-                                    <CheckCircle size={40} />
-                                </div>
-                                <h2 className="font-fraunces text-3xl font-bold text-slate-800 mb-4">¡Reserva Exitosa!</h2>
-                                <p className="text-slate-600 mb-8 max-w-md text-sm">
-                                    Hemos registrado tus datos correctamente. Un asesor educativo se pondrá en contacto contigo a la brevedad.
-                                </p>
-                                <div className="bg-yellow-50 border border-yellow-200 p-6 rounded-2xl w-full max-w-sm">
-                                    <p className="text-xs text-yellow-700 font-bold uppercase tracking-wider mb-2">Central Telefónica</p>
-                                    <div className="flex items-center justify-center gap-3 text-2xl font-bold text-slate-900">
-                                        <Phone className="text-green-600" /> 
-                                        <span>908 880 167</span>
-                                    </div>
-                                </div>
-                                <button onClick={() => window.location.reload()} className="mt-8 text-slate-400 text-xs hover:text-slate-600 underline">
-                                    Volver al inicio
-                                </button>
-                            </div>
-                        )}
+                  {step < 4 && (
+                    <div className="mb-6 border-b border-slate-100 pb-6">
+                      <span className="text-ensil-gold font-bold text-xs tracking-wide uppercase mb-2 block">
+                        Paso {step} de 3
+                      </span>
+                      <h2 className="font-fraunces text-slate-900 text-2xl md:text-3xl font-bold leading-tight">
+                        Agenda tu Entrevista
+                      </h2>
                     </div>
+                  )}
+
+                  {/* STEP 1: TARGET SELECTION */}
+                  {step === 1 && (
+                    <div className="flex-1 flex flex-col justify-center animate-fade-in">
+                      <p className="text-slate-600 text-base mb-6 font-medium">¿Para quién deseas el programa?</p>
+                      <div className="grid grid-cols-1 gap-4 mb-8">
+                        <button
+                          onClick={() => setTarget('me')}
+                          className={`p-5 rounded-2xl border-2 transition-all duration-300 flex items-center gap-5 hover:shadow-lg text-left ${target === 'me' ? 'border-green-500 bg-green-50' : 'border-slate-100 hover:border-green-200'}`}
+                        >
+                          <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl shrink-0 ${target === 'me' ? 'bg-white text-green-600 shadow-sm' : 'bg-slate-50 text-slate-400'}`}>
+                            <User size={20} />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className={`font-bold text-lg ${target === 'me' ? 'text-slate-900' : 'text-slate-700'}`}>Para Mí</h3>
+                            <p className="text-xs text-slate-500 mt-1">Desarrollo personal y profesional</p>
+                          </div>
+                          {target === 'me' && <CheckCircle className="text-green-500" size={24} />}
+                        </button>
+
+                        <button
+                          onClick={() => setTarget('child')}
+                          className={`p-5 rounded-2xl border-2 transition-all duration-300 flex items-center gap-5 hover:shadow-lg text-left ${target === 'child' ? 'border-green-500 bg-green-50' : 'border-slate-100 hover:border-green-200'}`}
+                        >
+                          <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl shrink-0 ${target === 'child' ? 'bg-white text-green-600 shadow-sm' : 'bg-slate-50 text-slate-400'}`}>
+                            <Baby size={20} />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className={`font-bold text-lg ${target === 'child' ? 'text-slate-900' : 'text-slate-700'}`}>Para Mi Hijo</h3>
+                            <p className="text-xs text-slate-500 mt-1">Potencial académico escolar</p>
+                          </div>
+                          {target === 'child' && <CheckCircle className="text-green-500" size={24} />}
+                        </button>
+                      </div>
+                      <button onClick={nextStep} className="w-full bg-gradient-to-r from-emerald-500 to-green-700 hover:from-emerald-400 hover:to-green-600 text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 transition-all shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] hover:-translate-y-0.5">
+                        Continuar <ArrowRight size={20} />
+                      </button>
+                      {error && <p className="text-red-500 text-sm mt-3 text-center">{error}</p>}
+                    </div>
+                  )}
+
+                  {/* STEP 2: DEPENDENCY (Only if Target is 'me') */}
+                  {step === 2 && (
+                    <div className="flex-1 flex flex-col justify-center animate-fade-in">
+                      <button onClick={prevStep} className="text-slate-400 hover:text-primary mb-4 flex items-center gap-1 text-sm w-fit"><ArrowLeft size={16} /> Volver</button>
+                      <p className="text-slate-600 text-base mb-6 font-medium">Para personalizar tu experiencia, ¿cómo te consideras?</p>
+
+                      <div className="space-y-4 mb-8">
+                        <button
+                          onClick={() => setDependency('independent')}
+                          className={`w-full p-5 rounded-xl border text-left flex items-center justify-between transition-all ${dependency === 'independent' ? 'border-green-500 bg-green-50 ring-1 ring-green-500' : 'border-slate-200 hover:border-green-300'}`}
+                        >
+                          <div>
+                            <h4 className="font-bold text-slate-800 text-lg">Persona Totalmente Independiente</h4>
+                            <p className="text-xs text-slate-500 mt-1">Manejo mis propias finanzas y decisiones.</p>
+                          </div>
+                          {dependency === 'independent' && <CheckCircle className="text-green-500" size={24} />}
+                        </button>
+
+                        <button
+                          onClick={() => setDependency('dependent')}
+                          className={`w-full p-5 rounded-xl border text-left flex items-center justify-between transition-all ${dependency === 'dependent' ? 'border-green-500 bg-green-50 ring-1 ring-green-500' : 'border-slate-200 hover:border-green-300'}`}
+                        >
+                          <div>
+                            <h4 className="font-bold text-slate-800 text-lg">Dependo de un Apoderado</h4>
+                            <p className="text-xs text-slate-500 mt-1">Padres o tutores toman las decisiones.</p>
+                          </div>
+                          {dependency === 'dependent' && <CheckCircle className="text-green-500" size={24} />}
+                        </button>
+                      </div>
+
+                      <button onClick={nextStep} className="w-full bg-gradient-to-r from-emerald-500 to-green-700 hover:from-emerald-400 hover:to-green-600 text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 transition-all shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] hover:-translate-y-0.5">
+                        Continuar <ArrowRight size={20} />
+                      </button>
+                      {error && <p className="text-red-500 text-sm mt-3 text-center">{error}</p>}
+                    </div>
+                  )}
+
+                  {/* STEP 3: DATA FORM & APPOINTMENT */}
+                  {step === 3 && (
+                    <div className="flex-1 flex flex-col animate-fade-in">
+                      <button onClick={prevStep} className="text-slate-400 hover:text-primary mb-4 flex items-center gap-1 text-sm w-fit"><ArrowLeft size={16} /> Volver</button>
+
+                      <div className="space-y-4 mb-8 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                        {dependency === 'dependent' && (
+                          <>
+                            <h4 className="font-bold text-slate-700 text-sm uppercase flex items-center gap-2 mt-2">
+                              <User size={16} /> Datos del Apoderado
+                            </h4>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <input
+                                type="text"
+                                name="guardianName"
+                                placeholder="Nombre Completo Apoderado"
+                                value={formData.guardianName}
+                                onChange={handleInputChange}
+                                className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
+                              />
+                              <input
+                                type="tel"
+                                name="guardianPhone"
+                                placeholder="Celular Apoderado"
+                                value={formData.guardianPhone}
+                                onChange={(e) => {
+                                  const val = e.target.value.replace(/\D/g, '');
+                                  if (val.length <= 9) handleInputChange({ ...e, target: { ...e.target, value: val, name: 'guardianPhone' } });
+                                }}
+                                className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
+                              />
+                            </div>
+                            <div className="border-t border-slate-100 my-2"></div>
+                          </>
+                        )}
+
+                        <h4 className="font-bold text-slate-700 text-sm uppercase flex items-center gap-2 mt-2">
+                          {dependency === 'dependent' ? <Baby size={16} /> : <User size={16} />}
+                          {dependency === 'dependent' ? 'Datos del Alumno' : 'Mis Datos'}
+                        </h4>
+
+                        {/* ALUMNO PRINCIPAL */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <input
+                            type="text"
+                            name="studentName"
+                            placeholder="Nombre Completo Alumno"
+                            value={formData.studentName}
+                            onChange={handleInputChange}
+                            className="md:col-span-2 w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
+                          />
+                          <input
+                            type="number"
+                            name="studentAge"
+                            placeholder="Edad"
+                            value={formData.studentAge}
+                            onChange={handleInputChange}
+                            className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
+                          />
+                          {dependency === 'independent' && (
+                            <input
+                              type="tel"
+                              name="studentPhone"
+                              placeholder="Mi Celular"
+                              value={formData.studentPhone}
+                              onChange={(e) => {
+                                const val = e.target.value.replace(/\D/g, '');
+                                if (val.length <= 9) handleInputChange({ ...e, target: { ...e.target, value: val, name: 'studentPhone' } });
+                              }}
+                              className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
+                            />
+                          )}
+                        </div>
+
+                        {/* ALUMNOS ADICIONALES (SOLO DEPENDIENTES) */}
+                        {dependency === 'dependent' && (
+                          <div className="space-y-4 animate-fade-in">
+                            {extraStudents.map((student, index) => (
+                              <div key={student.id} className="relative bg-slate-100 p-4 rounded-xl border border-slate-200 mt-4 animate-fade-in group">
+                                <div className="flex items-center justify-between mb-2">
+                                  <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Alumno Adicional #{index + 1}</h5>
+                                  <button
+                                    onClick={() => removeExtraStudent(student.id)}
+                                    className="text-red-400 hover:text-red-600 p-1 rounded-full hover:bg-red-50 transition-colors"
+                                    title="Eliminar alumno"
+                                  >
+                                    <Trash2 size={16} />
+                                  </button>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  <input
+                                    type="text"
+                                    placeholder="Nombre Completo"
+                                    value={student.name}
+                                    onChange={(e) => updateExtraStudent(student.id, 'name', e.target.value)}
+                                    className="md:col-span-2 w-full bg-white border border-slate-300 rounded-lg py-2 px-3 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm font-medium"
+                                  />
+                                  <input
+                                    type="number"
+                                    placeholder="Edad"
+                                    value={student.age}
+                                    onChange={(e) => updateExtraStudent(student.id, 'age', e.target.value)}
+                                    className="w-full bg-white border border-slate-300 rounded-lg py-2 px-3 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm font-medium"
+                                  />
+                                </div>
+                              </div>
+                            ))}
+
+                            {extraStudents.length < 3 && (
+                              <button
+                                onClick={addExtraStudent}
+                                className="mt-2 text-sm text-green-700 hover:text-green-900 font-bold flex items-center gap-1.5 transition-colors py-2 px-3 rounded-lg hover:bg-green-50 w-fit border border-transparent hover:border-green-200"
+                              >
+                                <Plus size={16} />
+                                Agregar otro alumno
+                              </button>
+                            )}
+                          </div>
+                        )}
+
+                        {/* DATE/TIME/SEDE SELECTION */}
+                        <div className="pt-4 border-t border-slate-100">
+                          <h4 className="font-bold text-slate-700 text-sm uppercase flex items-center gap-2 mb-3">
+                            <MapPin size={16} /> Preferencias de Cita
+                          </h4>
+
+                          <div className="space-y-3">
+                            <select
+                              name="filial"
+                              value={formData.filial}
+                              onChange={handleInputChange}
+                              className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-slate-900 text-sm outline-none focus:ring-2 focus:ring-green-500"
+                            >
+                              <option value="">Selecciona una sede...</option>
+                              {sedesDb.map((sede) => (
+                                <option key={sede.id} value={sede.id}>
+                                  {sede.provincia} - {sede.nombre}
+                                </option>
+                              ))}
+                            </select>
+
+                            <div className="grid grid-cols-2 gap-3">
+                              {/* Simplified Date Picker Trigger */}
+                              <div className="relative">
+                                <div className="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Fecha</div>
+                                <div className="bg-slate-50 border border-slate-200 rounded-xl p-2 h-48 overflow-hidden relative">
+                                  {/* Calendar Mini */}
+                                  <div className="flex justify-between items-center mb-2 px-1">
+                                    <button onClick={handlePrevMonth} className="text-slate-400 hover:text-slate-600"><ChevronLeft size={16} /></button>
+                                    <span className="text-xs font-bold text-slate-700">{MONTHS_ES[viewDate.getMonth()]}</span>
+                                    <button onClick={handleNextMonth} className="text-slate-400 hover:text-slate-600"><ChevronRight size={16} /></button>
+                                  </div>
+                                  <div className="grid grid-cols-7 gap-1 text-center">
+                                    {calendarDays.slice(0, 28).map((day, idx) => ( // Limit rows for mini view
+                                      <div key={idx} className="flex justify-center">
+                                        {day && (
+                                          <button
+                                            onClick={() => handleDayClick(day)}
+                                            className={`w-6 h-6 text-[10px] rounded-full flex items-center justify-center 
+                                                                                ${selectedDateObj?.getDate() === day && selectedDateObj?.getMonth() === viewDate.getMonth()
+                                                ? 'bg-green-600 text-white'
+                                                : 'text-slate-600 hover:bg-green-100'}`}
+                                          >
+                                            {day}
+                                          </button>
+                                        )}
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Time Picker */}
+                              <div className="relative">
+                                <div className="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Hora</div>
+                                <div className="bg-slate-50 border border-slate-200 rounded-xl p-2 h-48 overflow-y-auto custom-scrollbar">
+                                  {availableHours.length > 0 ? (
+                                    <div className="grid grid-cols-1 gap-1">
+                                      {availableHours.map(hour => (
+                                        <button
+                                          key={hour}
+                                          onClick={() => handleTimeClick(hour)}
+                                          className={`text-xs py-1.5 px-2 rounded-lg border ${formData.hora === hour ? 'bg-green-600 text-white border-green-600' : 'bg-white border-slate-200 text-slate-600 hover:border-green-400'}`}
+                                        >
+                                          {hour}
+                                        </button>
+                                      ))}
+                                    </div>
+                                  ) : (
+                                    <p className="text-[10px] text-slate-400 text-center mt-4">Selecciona fecha</p>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={handleSubmit}
+                        disabled={loading}
+                        className="mt-auto w-full bg-gradient-to-r from-emerald-500 to-green-700 hover:from-emerald-400 hover:to-green-600 text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] hover:-translate-y-0.5"
+                      >
+                        {loading ? <Loader2 className="animate-spin" /> : 'Confirmar Reserva'}
+                      </button>
+                      {error && (
+                        <div className="mt-3 bg-red-50 border border-red-100 rounded-xl p-3 flex items-start gap-3 animate-fade-in">
+                          <AlertCircle className="text-red-500 shrink-0 mt-0.5" size={18} />
+                          <p className="text-red-600 text-sm">{error}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* STEP 4: SUCCESS */}
+                  {step === 4 && (
+                    <div className="flex-1 flex flex-col items-center justify-center text-center animate-fade-in py-10">
+                      <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6 shadow-md">
+                        <CheckCircle size={40} />
+                      </div>
+                      <h2 className="font-fraunces text-3xl font-bold text-slate-800 mb-4">¡Reserva Exitosa!</h2>
+                      <p className="text-slate-600 mb-8 max-w-md text-sm">
+                        Hemos registrado tus datos correctamente. Un asesor educativo se pondrá en contacto contigo a la brevedad.
+                      </p>
+                      <div className="bg-yellow-50 border border-yellow-200 p-6 rounded-2xl w-full max-w-sm">
+                        <p className="text-xs text-yellow-700 font-bold uppercase tracking-wider mb-2">Central Telefónica</p>
+                        <div className="flex items-center justify-center gap-3 text-2xl font-bold text-slate-900">
+                          <Phone className="text-green-600" />
+                          <span>908 880 167</span>
+                        </div>
+                      </div>
+                      <button onClick={() => window.location.reload()} className="mt-8 text-slate-400 text-xs hover:text-slate-600 underline">
+                        Volver al inicio
+                      </button>
+                    </div>
+                  )}
                 </div>
+              </div>
             </div>
 
           </div>
@@ -763,23 +763,23 @@ const ContactContent: React.FC = () => {
 
       {/* Benefits Section - Glassmorphism */}
       <section className="py-20 md:py-24" id="programa">
-        <div className="max-w-screen-2xl mx-auto px-6 lg:px-12">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="text-ensil-gold font-bold text-sm tracking-wide uppercase mb-3 block">Beneficios</span>
-            <h2 className="font-fraunces text-4xl md:text-5xl text-white font-bold mb-6">
+            <h2 className="font-fraunces text-4xl md:text-5xl text-slate-900 font-bold mb-6">
               Eleva tu Intelecto, <span className="text-ensil-gold italic">Domina</span> tu Tiempo.
             </h2>
-            <p className="text-lg text-green-100/80 font-light">
+            <p className="text-lg text-slate-600 font-light">
               Nuestro programa integral está diseñado para desbloquear tu máximo potencial, mejorando no solo tu velocidad de lectura, sino tu comprensión.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="group bg-white/5 backdrop-blur-md p-8 rounded-3xl hover:bg-white/10 transition-all duration-300 border border-white/10 hover:border-white/30">
+            <div className="group bg-white p-8 rounded-3xl hover:shadow-xl transition-all duration-300 border border-slate-100">
               <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-white/10">
                 <span className="material-icons-round text-3xl text-ensil-gold">speed</span>
               </div>
-              <h3 className="font-fraunces text-2xl text-white font-semibold mb-3">Lectura Veloz</h3>
-              <p className="text-green-100/70 leading-relaxed text-sm">
+              <h3 className="font-fraunces text-2xl text-slate-900 font-semibold mb-3">Lectura Veloz</h3>
+              <p className="text-slate-600 leading-relaxed text-sm">
                 Multiplica tu velocidad de lectura por 10, manteniendo una comprensión superior al 90% mediante técnicas oculares avanzadas.
               </p>
             </div>
@@ -787,17 +787,17 @@ const ContactContent: React.FC = () => {
               <div className="w-14 h-14 rounded-2xl bg-ensil-gold flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-md">
                 <span className="material-icons-round text-3xl text-white">psychology</span>
               </div>
-              <h3 className="font-fraunces text-2xl text-white font-semibold mb-3">Comprensión Total</h3>
-              <p className="text-white/90 leading-relaxed text-sm">
+              <h3 className="font-fraunces text-2xl text-yellow-900 font-semibold mb-3">Comprensión Total</h3>
+              <p className="text-yellow-900/80 leading-relaxed text-sm">
                 Aprende técnicas avanzadas para analizar, sintetizar y retener información compleja sin esfuerzo mental adicional.
               </p>
             </div>
-            <div className="group bg-white/5 backdrop-blur-md p-8 rounded-3xl hover:bg-white/10 transition-all duration-300 border border-white/10 hover:border-white/30">
+            <div className="group bg-white p-8 rounded-3xl hover:shadow-xl transition-all duration-300 border border-slate-100">
               <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-white/10">
                 <span className="material-icons-round text-3xl text-ensil-gold">timer</span>
               </div>
-              <h3 className="font-fraunces text-2xl text-white font-semibold mb-3">Gestión del Tiempo</h3>
-              <p className="text-green-100/70 leading-relaxed text-sm">
+              <h3 className="font-fraunces text-2xl text-slate-900 font-semibold mb-3">Gestión del Tiempo</h3>
+              <p className="text-slate-600 leading-relaxed text-sm">
                 Integra la lectura eficiente en tu rutina diaria para optimizar tu productividad y alcanzar tus metas más rápido.
               </p>
             </div>
@@ -853,7 +853,7 @@ const ContactContent: React.FC = () => {
                   ENSIL cambió mi forma de estudiar. Ahora termino mis lecturas en una fracción del tiempo y recuerdo todo para mis exámenes. ¡Increíble!
                 </p>
                 <div className="mt-auto flex items-center gap-4 border-t border-white/10 pt-6">
-                  <img alt="Maria González" className="w-12 h-12 rounded-full object-cover ring-2 ring-ensil-gold/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRAhavN8ic6iNWz1xyUyI_e4T4xGD6-SRIpI3suejnXxFQyvPfjUVbNUWqfzVSnf27vGtv5U_SUJ0vrD4WTdv0r2tsDYFNF_F0LrE4v8Bvv2WAxm6dcDbYC9K20Bhcri_0RqF8RN7lIVs3cr1DXCM1QvHferHjlGsUU2VMc5MJHsFwHiZA5FSkTyBeE6YIkJDLXhWeQoOznkW2SoKtG9eFLaNS1SgmCmqZ1LWlPmJhz6z7el8LUT59x-dERjKYyooADe_lkvsYDXQ"/>
+                  <img alt="Maria González" className="w-12 h-12 rounded-full object-cover ring-2 ring-ensil-gold/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRAhavN8ic6iNWz1xyUyI_e4T4xGD6-SRIpI3suejnXxFQyvPfjUVbNUWqfzVSnf27vGtv5U_SUJ0vrD4WTdv0r2tsDYFNF_F0LrE4v8Bvv2WAxm6dcDbYC9K20Bhcri_0RqF8RN7lIVs3cr1DXCM1QvHferHjlGsUU2VMc5MJHsFwHiZA5FSkTyBeE6YIkJDLXhWeQoOznkW2SoKtG9eFLaNS1SgmCmqZ1LWlPmJhz6z7el8LUT59x-dERjKYyooADe_lkvsYDXQ" />
                   <div>
                     <p className="font-bold text-white text-sm">Maria González</p>
                     <p className="text-xs text-green-200/70">Estudiante de Derecho</p>
@@ -868,7 +868,7 @@ const ContactContent: React.FC = () => {
                   Como profesional, el tiempo es oro. Gracias a este programa, me mantengo actualizado en mi campo sin sacrificar horas de mi día.
                 </p>
                 <div className="mt-auto flex items-center gap-4 border-t border-white/10 pt-6">
-                  <img alt="Carlos Rodriguez" className="w-12 h-12 rounded-full object-cover ring-2 ring-ensil-gold/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjdO_2g_DzSGg34Yxw3B46sUtVJ3hR6zn8kNrgIW95wQnc-sMsYJM5-7VYMnpMFjr3WvmOwEQlH3lqZISPj0AqNbPO1r6izjvRiMP2CTiZn4LvgUdkZXlGoPRyunVnpy7yaLqcHFwFE5NFBcKJ-zQIzGrxvSqVTpLckZgY1R6lnQVIQsI4nfcaKbx2V2Hi6EAXaSl0la8EJ4mfNij0hFOvF4c6ONgVHhL3tzMY9y4W4w4rVBEtOaDUke8wQKZRLqZWgAuyFFkbu7U"/>
+                  <img alt="Carlos Rodriguez" className="w-12 h-12 rounded-full object-cover ring-2 ring-ensil-gold/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjdO_2g_DzSGg34Yxw3B46sUtVJ3hR6zn8kNrgIW95wQnc-sMsYJM5-7VYMnpMFjr3WvmOwEQlH3lqZISPj0AqNbPO1r6izjvRiMP2CTiZn4LvgUdkZXlGoPRyunVnpy7yaLqcHFwFE5NFBcKJ-zQIzGrxvSqVTpLckZgY1R6lnQVIQsI4nfcaKbx2V2Hi6EAXaSl0la8EJ4mfNij0hFOvF4c6ONgVHhL3tzMY9y4W4w4rVBEtOaDUke8wQKZRLqZWgAuyFFkbu7U" />
                   <div>
                     <p className="font-bold text-white text-sm">Carlos Rodriguez</p>
                     <p className="text-xs text-green-200/70">Ingeniero de Software</p>
@@ -883,7 +883,7 @@ const ContactContent: React.FC = () => {
                   Inscribí a mi hijo y su rendimiento escolar mejoró notablemente. Ahora disfruta de la lectura y tiene más confianza en sí mismo.
                 </p>
                 <div className="mt-auto flex items-center gap-4 border-t border-white/10 pt-6">
-                  <img alt="Ana Torres" className="w-12 h-12 rounded-full object-cover ring-2 ring-ensil-gold/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFKfGH8fTAlAON297D-JFcwqhxwykctGgKUhmClCZ-dTPKfyThjym2Eu54MoWBf2YPCjMpyWJu_mS6M_gLD68FUPJV2STxtql6QbU-_OHDChsVnuIYdFfVk1L-z7SWQuijKBj3cH7jeJcXcJoNB51bSddAbwFBRBLKXgV8uxLlBh9nU0KWGfekwd0p_efgCQEd9GSP0ZZ1NIbvCyYUOOoJ964UFKtUVSY8h2wL5Kj8JP-bDUgA4Mr0F8ERvxzwt7kUF_et2wU969g"/>
+                  <img alt="Ana Torres" className="w-12 h-12 rounded-full object-cover ring-2 ring-ensil-gold/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFKfGH8fTAlAON297D-JFcwqhxwykctGgKUhmClCZ-dTPKfyThjym2Eu54MoWBf2YPCjMpyWJu_mS6M_gLD68FUPJV2STxtql6QbU-_OHDChsVnuIYdFfVk1L-z7SWQuijKBj3cH7jeJcXcJoNB51bSddAbwFBRBLKXgV8uxLlBh9nU0KWGfekwd0p_efgCQEd9GSP0ZZ1NIbvCyYUOOoJ964UFKtUVSY8h2wL5Kj8JP-bDUgA4Mr0F8ERvxzwt7kUF_et2wU969g" />
                   <div>
                     <p className="font-bold text-white text-sm">Ana Torres</p>
                     <p className="text-xs text-green-200/70">Madre de Familia</p>
@@ -911,7 +911,7 @@ const ContactContent: React.FC = () => {
               { id: '3', q: '¿Los resultados están garantizados?', a: 'Sí. Confiamos tanto en nuestro método que garantizamos por escrito que multiplicarás tu velocidad de lectura por 10 y mejorarás tu comprensión, o te devolvemos tu inversión. Tu éxito es nuestro compromiso.' }
             ].map((item) => (
               <div key={item.id} className="group border-b border-white/20 pb-4">
-                <button 
+                <button
                   onClick={() => toggleFaq(item.id)}
                   className="flex justify-between items-center w-full text-left py-4 focus:outline-none"
                 >
@@ -922,7 +922,7 @@ const ContactContent: React.FC = () => {
                     <span className={`material-icons-round text-sm transition-transform duration-300 ${openFaq === item.id ? 'rotate-180' : ''}`}>arrow_downward</span>
                   </div>
                 </button>
-                <div 
+                <div
                   className={`text-green-100/80 pl-0 md:pl-8 leading-relaxed overflow-hidden transition-all duration-300 ${openFaq === item.id ? 'max-h-40 opacity-100 py-2' : 'max-h-0 opacity-0'}`}
                 >
                   {item.a}
@@ -941,7 +941,7 @@ const ContactContent: React.FC = () => {
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
             <div className="relative z-10 max-w-4xl mx-auto">
               <h2 className="font-fraunces text-4xl md:text-6xl font-bold mb-6 text-white drop-shadow-md">
-                ¡Tu futuro está a solo una <br/><span className="italic text-green-900">decisión de cambiar!</span>
+                ¡Tu futuro está a solo una <br /><span className="italic text-green-900">decisión de cambiar!</span>
               </h2>
               <p className="text-lg text-white/90 mb-10 max-w-2xl mx-auto font-light">
                 No esperes más para darte a ti mismo o a tu ser querido la herramienta más poderosa: el conocimiento.
@@ -954,7 +954,7 @@ const ContactContent: React.FC = () => {
           </div>
         </div>
       </section>
-      
+
     </div>
   );
 };
