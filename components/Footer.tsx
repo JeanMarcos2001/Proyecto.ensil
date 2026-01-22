@@ -10,20 +10,21 @@ const Footer: React.FC<FooterProps> = ({ variant = 'light', showCta = true }) =>
   const isDark = variant === 'dark';
 
   // LOGO URLs
-  const logoColor = "https://fmbtcgilsicvvsltmzms.supabase.co/storage/v1/object/public/Image/LOGO_ENSIL-14.png";
-  const logoWhite = "https://fmbtcgilsicvvsltmzms.supabase.co/storage/v1/object/public/Image/LOGO_ENSIL-18.png";
+  // LOGO URLs
+  const logoColor = "/img/LOGO_ENSIL.webp";
+  const logoWhite = "/img/LOGO_ENSIL-19.png";
 
   // Styles based on variant
-  const bgClass = isDark 
-    ? 'bg-transparent border-t border-white/10' 
-    : 'bg-surface-light border-t border-gray-100 rounded-t-3xl shadow-xl';
-  
+  const bgClass = isDark
+    ? 'bg-transparent border-t border-white/10'
+    : 'bg-transparent border-t-0 shadow-none';
+
   const textClass = isDark ? 'text-white' : 'text-gray-900';
   const subTextClass = isDark ? 'text-gray-300' : 'text-gray-500';
-  const linkClass = isDark 
-    ? 'text-gray-300 hover:text-ensil-gold' 
+  const linkClass = isDark
+    ? 'text-gray-300 hover:text-ensil-gold'
     : 'text-gray-500 hover:text-primary';
-  
+
   const iconContainerClass = isDark
     ? 'bg-white/10 text-white hover:bg-white hover:text-primary border-white/10'
     : 'bg-green-50 text-primary hover:bg-primary hover:text-white border-transparent';
@@ -33,35 +34,19 @@ const Footer: React.FC<FooterProps> = ({ variant = 'light', showCta = true }) =>
     : 'bg-gray-50 text-gray-600 hover:text-primary hover:bg-green-50 border-gray-100';
 
   return (
-    <div className={`w-full flex flex-col items-center justify-end pb-0 relative ${!isDark ? 'bg-background-light' : ''}`}>
+    <div className={`w-full flex flex-col items-center justify-end pb-0 relative`}>
       <div className="w-full max-w-screen-2xl px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Floating CTA Card - Conditionally Rendered */}
-        {showCta && (
-          <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl cta-gradient text-white mb-[-80px] p-8 md:p-16 text-center transform translate-y-0 z-20">
-            <div className="absolute top-0 left-0 w-full h-full bg-white opacity-5 mix-blend-overlay pointer-events-none"></div>
-            <h2 className="font-serif text-3xl md:text-5xl mb-6 leading-tight relative z-10 font-medium">
-              ¿Listo para transformar tu lectura?
-            </h2>
-            <p className="font-body text-gray-200 text-lg md:text-xl max-w-2xl mx-auto mb-10 relative z-10 font-light">
-              Agenda una evaluación gratuita y descubre cómo ENSIL puede ayudarte a alcanzar tu máximo potencial intelectual.
-            </p>
-            <button className="bg-white text-primary hover:bg-gray-100 font-bold py-4 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white relative z-10">
-              Agende ya una evaluación gratuita
-            </button>
-          </div>
-        )}
 
         {/* Main Footer Content */}
-        <footer className={`${bgClass} ${showCta ? 'pt-32' : 'pt-12'} pb-10 px-8 md:px-12 w-full relative z-0 transition-colors duration-300`}>
-          
+        <footer className={`${bgClass} pt-12 pb-10 px-8 md:px-12 w-full relative z-0 transition-colors duration-300`}>
+
           <div className={`flex flex-col md:flex-row justify-between items-start md:items-center ${isDark ? 'border-white/10' : 'border-gray-200'} border-b pb-10 mb-10`}>
             <div className="flex items-center gap-3 mb-6 md:mb-0">
-               <img 
-                 src={isDark ? logoWhite : logoColor} 
-                 alt="ENSIL PERÚ" 
-                 className="h-12 w-auto object-contain"
-               />
+              <img
+                src={isDark ? logoWhite : logoColor}
+                alt="ENSIL PERÚ"
+                className="h-12 w-auto object-contain"
+              />
             </div>
             <div className="text-left md:text-right">
               <p className={`font-serif text-2xl italic ${isDark ? 'text-white' : 'text-gray-800'}`}>
@@ -131,10 +116,10 @@ const Footer: React.FC<FooterProps> = ({ variant = 'light', showCta = true }) =>
                 <a className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm border ${socialIconClass}`} href="#">
                   <Instagram size={20} />
                 </a>
-                 <a className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm border ${socialIconClass}`} href="#">
+                <a className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm border ${socialIconClass}`} href="#">
                   <Linkedin size={20} className="fill-current" />
                 </a>
-                 <a className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm border ${socialIconClass}`} href="#">
+                <a className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm border ${socialIconClass}`} href="#">
                   <Twitter size={20} className="fill-current" />
                 </a>
               </div>

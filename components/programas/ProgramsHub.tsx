@@ -56,7 +56,7 @@ const ProgramsHub: React.FC = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-paper-texture overflow-hidden flex flex-col items-center py-8 relative">
+    <div className="w-full min-h-screen bg-white overflow-hidden flex flex-col items-center py-8 relative">
 
       {/* Background Decorative Blobs */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">

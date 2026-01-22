@@ -9,7 +9,7 @@ const navItems: NavItem[] = [
   { label: 'Resultados', href: '/resultados' },
   { label: 'Sedes', href: '/sedes' },
   { label: '¿Es para ti?', href: '/es-para-ti' },
-  { label: '¿Qué estás esperando?', href: '/contacto', isButton: true },
+  { label: 'Separa tu cita', href: '/contacto', isButton: true },
 ];
 
 const Navbar: React.FC = () => {
@@ -38,53 +38,54 @@ const Navbar: React.FC = () => {
     return false;
   };
 
+  const navLinks = navItems.filter(item => !item.isButton);
+  const ctaButton = navItems.find(item => item.isButton);
+
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 px-3 py-3`}>
-      <div className={`max-w-7xl mx-auto rounded-full px-5 py-2.5 flex items-center justify-between transition-all duration-300 ${isScrolled || location.pathname !== '/'
-          ? 'bg-transparent'
-          : 'bg-transparent'
-        }`}>
-        <Link to="/" className="flex items-center">
+    // Global: Fixed, Full Width, ALWAYS Transparent Background
+    <nav className="fixed top-0 w-full z-50 transition-all duration-300 bg-transparent py-3">
+      <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between relative">
+
+        {/* Logo (Left) */}
+        <Link to="/" className="flex items-center flex-shrink-0 z-20">
           <img
-            src="https://fmbtcgilsicvvsltmzms.supabase.co/storage/v1/object/public/Image/LOGO_ENSIL-14.png"
+            src="/img/LOGO_ENSIL.webp"
             alt="ENSIL PERÚ"
             className="h-10 md:h-12 w-auto object-contain"
           />
         </Link>
 
-        {/* Desktop Menu */}
-        <div className="hidden lg:flex items-center gap-6">
-          {navItems.map((item) => {
-            if (item.isButton) {
-              return (
-                <Link
-                  key={item.label}
-                  to={item.href}
-                  className="bg-primary hover:bg-green-800 text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-all hover:scale-105 shadow-md hover:shadow-lg"
-                >
-                  {item.label}
-                </Link>
-              );
-            }
+        {/* Desktop Menu (Centered) */}
+        <div className="hidden lg:flex items-center gap-6 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          {navLinks.map((item) => (
+            <Link
+              key={item.label}
+              to={item.href}
+              className={`text-sm font-medium transition-all ${isActive(item.href)
+                ? 'text-primary font-bold'
+                : 'text-gray-700 hover:text-primary hover:font-semibold'
+                }`}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
 
-            return (
-              <Link
-                key={item.label}
-                to={item.href}
-                className={`text-sm font-medium transition-all ${isActive(item.href)
-                    ? 'text-primary font-bold'
-                    : 'text-gray-700 hover:text-primary hover:font-semibold'
-                  }`}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
+        {/* CTA Button (Right) */}
+        <div className="hidden lg:block z-20">
+          {ctaButton && (
+            <Link
+              to={ctaButton.href}
+              className="bg-primary hover:bg-green-800 text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-all hover:scale-105 shadow-md hover:shadow-lg"
+            >
+              {ctaButton.label}
+            </Link>
+          )}
         </div>
 
         {/* Mobile Menu Toggle */}
         <button
-          className="lg:hidden text-primary"
+          className="lg:hidden text-primary z-20"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -101,8 +102,8 @@ const Navbar: React.FC = () => {
                 to={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`text-center py-2 ${item.isButton
-                    ? 'bg-primary text-white rounded-full font-bold'
-                    : `font-medium border-b border-gray-100 pb-2 ${isActive(item.href) ? 'text-primary' : 'text-gray-700'}`
+                  ? 'bg-primary text-white rounded-full font-bold'
+                  : `font-medium border-b border-gray-100 pb-2 ${isActive(item.href) ? 'text-primary' : 'text-gray-700'}`
                   }`}
               >
                 {item.label}

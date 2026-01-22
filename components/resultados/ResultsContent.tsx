@@ -2,7 +2,7 @@ import React from 'react';
 
 const ResultsContent: React.FC = () => {
   return (
-    <div className="w-full bg-paper-texture text-slate-800 font-jakarta">
+    <div className="w-full bg-white text-slate-800 font-jakarta">
       <main className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
 
         {/* Hero Section */}

@@ -30,11 +30,11 @@ const Programs: React.FC = () => {
   ];
 
   return (
-    <section id="programa" className="py-24 px-4 bg-background-light">
-      <div className="max-w-7xl mx-auto">
+    <section id="programa" className="py-24 px-4 bg-white">
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="font-display text-4xl md:text-5xl text-gray-900 font-bold leading-tight">
-            Eleva tu <span className="text-primary">Intelecto.</span><br/>
+            Eleva tu <span className="text-primary">Intelecto.</span><br />
             Domina el conocimiento.
           </h2>
           <p className="mt-6 text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed font-light">

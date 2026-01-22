@@ -1,0 +1,38 @@
+@font-face {
+  font-family: 'Kontora';
+  src: url('/fonts/Kontora-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Kontora';
+  src: url('/fonts/Kontora-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Kontora';
+  src: url('/fonts/Kontora-SemiBold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Kontora';
+  src: url('/fonts/Kontora-ExtraBold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Kontora';
+  src: url('/fonts/Kontora-Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Kontora', sans-serif;
+}

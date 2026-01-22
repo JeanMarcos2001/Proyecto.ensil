@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { Brain, BookOpen, MapPin, ChevronDown } from 'lucide-react';
 
 const Hero: React.FC = () => {
@@ -10,10 +10,24 @@ const Hero: React.FC = () => {
     }
   };
 
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+  const textRef = useRef<HTMLSpanElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLSpanElement>) => {
+    if (textRef.current) {
+      const rect = textRef.current.getBoundingClientRect();
+      setMousePosition({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      });
+    }
+  };
+
   return (
     <section id="inicio" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 z-0 bg-paper-texture">
+      <div className="absolute inset-0 z-0 bg-gradient-to-br from-green-50 via-green-100 to-white">
         {/* Subtle gradient overlay for depth */}
         <div className="absolute inset-0 bg-gradient-to-b from-white/0 via-white/50 to-white/80 pointer-events-none"></div>
       </div>
@@ -21,9 +35,30 @@ const Hero: React.FC = () => {
       <div className="relative z-10 w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-20">
         <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-slate-900 font-bold mb-6 leading-tight drop-shadow-sm">
           Transforma Tu Lectura en <br />
-          <span className="text-green-700 relative inline-block transition-all duration-300 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-green-600 hover:via-green-400 hover:to-green-600">
-            Tu Mayor Superpoder
-            <svg className="absolute w-full h-3 -bottom-1 left-0 text-yellow-400 opacity-80" fill="none" viewBox="0 0 200 9" xmlns="http://www.w3.org/2000/svg"><path d="M2.00025 6.99997C25.7509 3.03352 65.0886 -0.99975 198.001 2.99996" stroke="currentColor" strokeLinecap="round" strokeWidth="3"></path></svg>
+          <span
+            ref={textRef}
+            onMouseMove={handleMouseMove}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className="relative inline-block cursor-default select-none py-2"
+          >
+            {/* Base Text (Dark Rich Gradient) */}
+            <span className="bg-gradient-to-r from-green-900 via-emerald-800 to-green-900 bg-clip-text text-transparent relative z-10">
+              Tu Mayor Superpoder
+            </span>
+
+            {/* Spotlight Overlay (Vibrant Multi-tone Gradient) */}
+            <span
+              className="absolute top-0 left-0 bg-gradient-to-r from-lime-400 via-emerald-500 to-green-600 bg-clip-text text-transparent z-20 pointer-events-none py-2"
+              style={{
+                opacity: isHovered ? 1 : 0,
+                maskImage: `radial-gradient(150px circle at ${mousePosition.x}px ${mousePosition.y}px, black, transparent)`,
+                WebkitMaskImage: `radial-gradient(150px circle at ${mousePosition.x}px ${mousePosition.y}px, black, transparent)`,
+                transition: 'opacity 0.2s ease',
+              }}
+            >
+              Tu Mayor Superpoder
+            </span>
           </span>
         </h1>
 

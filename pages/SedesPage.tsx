@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 
 const SedesPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-background-light pt-20">
+    <div className="min-h-screen bg-white pt-20">
       <Navbar />
       <SedesContent />
       <Footer />
