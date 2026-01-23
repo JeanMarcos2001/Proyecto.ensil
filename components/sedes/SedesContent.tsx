@@ -109,7 +109,7 @@ const sedesData: Sede[] = [
     referencia: 'Costado del Mía Market',
     fijo: '—',
     movil: '913632393',
-    image: '/img/filiales/juliaca.png'
+    image: '/img/filiales/Juliaca.png'
   },
   {
     id: '9',
@@ -193,7 +193,7 @@ const sedesData: Sede[] = [
     referencia: 'Urb. Mariscal Cáceres',
     fijo: '—',
     movil: '925846402',
-    image: '/img/filiales/ayacucho.png'
+    image: '/img/filiales/Ayacucho.png'
   },
   {
     id: '16',
