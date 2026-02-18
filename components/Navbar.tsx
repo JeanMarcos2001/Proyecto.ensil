@@ -13,17 +13,8 @@ const navItems: NavItem[] = [
 ];
 
 const Navbar: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -32,9 +23,7 @@ const Navbar: React.FC = () => {
 
   const isActive = (href: string) => {
     if (href === '/' && location.pathname === '/') return true;
-    if (href !== '/' && location.pathname.startsWith(href)) {
-      return true;
-    }
+    if (href !== '/' && location.pathname.startsWith(href)) return true;
     return false;
   };
 
@@ -42,31 +31,39 @@ const Navbar: React.FC = () => {
   const ctaButton = navItems.find(item => item.isButton);
 
   return (
-    // Global: Fixed, Full Width, ALWAYS Transparent Background
-    <nav className="fixed top-0 w-full z-50 transition-all duration-300 bg-transparent py-3">
-      <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between relative">
+    <nav className="fixed top-0 w-full z-50 py-3">
+      <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between">
 
         {/* Logo (Left) */}
         <Link to="/" className="flex items-center flex-shrink-0 z-20">
           <img
             src="/img/LOGO_ENSIL.webp"
             alt="ENSIL PERÚ"
-            className="h-10 md:h-12 w-auto object-contain"
+            className="h-10 md:h-11 w-auto object-contain"
           />
         </Link>
 
-        {/* Desktop Menu (Centered) */}
-        <div className="hidden lg:flex items-center gap-6 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        {/* Desktop Nav — Pill Container */}
+        <div className="hidden lg:flex items-center bg-white/80 backdrop-blur-md border border-gray-200/70 rounded-full shadow-sm px-1.5 py-1.5 gap-0.5">
           {navLinks.map((item) => (
             <Link
               key={item.label}
               to={item.href}
-              className={`text-sm font-medium transition-all ${isActive(item.href)
-                ? 'text-primary font-bold'
-                : 'text-gray-700 hover:text-primary hover:font-semibold'
+              onClick={(e) => {
+                if (isActive(item.href)) {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              }}
+              className={`relative px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${isActive(item.href)
+                ? 'bg-white text-gray-900 shadow-sm font-semibold'
+                : 'text-gray-500 hover:text-gray-800 hover:bg-white/60'
                 }`}
             >
-              {item.label}
+              {isActive(item.href) && (
+                <span className="absolute left-2.5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary inline-block" />
+              )}
+              <span className={isActive(item.href) ? 'pl-3' : ''}>{item.label}</span>
             </Link>
           ))}
         </div>
@@ -76,7 +73,7 @@ const Navbar: React.FC = () => {
           {ctaButton && (
             <Link
               to={ctaButton.href}
-              className="bg-primary hover:bg-green-800 text-white px-6 py-2.5 rounded-full text-sm font-semibold transition-all hover:scale-105 shadow-md hover:shadow-lg"
+              className="bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 px-5 py-2 rounded-full text-sm font-semibold transition-all hover:shadow-md shadow-sm"
             >
               {ctaButton.label}
             </Link>
@@ -85,31 +82,37 @@ const Navbar: React.FC = () => {
 
         {/* Mobile Menu Toggle */}
         <button
-          className="lg:hidden text-primary z-20"
+          className="lg:hidden text-gray-700 z-20 bg-white/80 backdrop-blur-md border border-gray-200 rounded-full p-2 shadow-sm"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
       {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
-        <div className="absolute top-20 left-4 right-4 bg-white rounded-2xl shadow-xl p-6 flex flex-col gap-4 lg:hidden animate-fade-in z-40 border border-gray-100 max-h-[80vh] overflow-y-auto">
-          {navItems.map((item) => {
-            return (
-              <Link
-                key={item.label}
-                to={item.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`text-center py-2 ${item.isButton
-                  ? 'bg-primary text-white rounded-full font-bold'
-                  : `font-medium border-b border-gray-100 pb-2 ${isActive(item.href) ? 'text-primary' : 'text-gray-700'}`
-                  }`}
-              >
-                {item.label}
-              </Link>
-            )
-          })}
+        <div className="absolute top-16 left-4 right-4 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl p-4 flex flex-col gap-2 lg:hidden z-40 border border-gray-100">
+          {navItems.map((item) => (
+            <Link
+              key={item.label}
+              to={item.href}
+              onClick={(e) => {
+                setIsMobileMenuOpen(false);
+                if (isActive(item.href)) {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              }}
+              className={`text-center py-2.5 px-4 rounded-xl text-sm font-medium transition-all ${item.isButton
+                ? 'bg-primary text-white font-bold mt-1'
+                : isActive(item.href)
+                  ? 'bg-gray-100 text-gray-900 font-semibold'
+                  : 'text-gray-600 hover:bg-gray-50'
+                }`}
+            >
+              {item.label}
+            </Link>
+          ))}
         </div>
       )}
     </nav>

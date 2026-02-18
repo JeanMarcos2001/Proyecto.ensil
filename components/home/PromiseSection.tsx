@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 
 const PromiseSection: React.FC = () => {
   return (
-    <section className="py-24 px-4 bg-white">
+    <section id="promesa" className="py-24 px-4 bg-white">
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         {/* Text Content */}
         <div className="order-2 lg:order-1">

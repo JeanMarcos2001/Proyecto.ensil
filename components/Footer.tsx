@@ -1,5 +1,6 @@
 import React from 'react';
 import { Mail, Phone, MapPin, Globe, ChevronDown, Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface FooterProps {
   variant?: 'light' | 'dark';
@@ -9,7 +10,6 @@ interface FooterProps {
 const Footer: React.FC<FooterProps> = ({ variant = 'light', showCta = true }) => {
   const isDark = variant === 'dark';
 
-  // LOGO URLs
   // LOGO URLs
   const logoColor = "/img/LOGO_ENSIL.webp";
   const logoWhite = "/img/LOGO_ENSIL-19.png";
@@ -62,20 +62,20 @@ const Footer: React.FC<FooterProps> = ({ variant = 'light', showCta = true }) =>
             <div className="flex flex-col space-y-4">
               <h3 className={`font-display text-lg font-bold ${textClass}`}>El Programa</h3>
               <ul className="space-y-3">
-                <li><a className={`${linkClass} transition-colors text-sm font-medium`} href="#">Beneficios</a></li>
-                <li><a className={`${linkClass} transition-colors text-sm font-medium`} href="#">Metodología</a></li>
-                <li><a className={`${linkClass} transition-colors text-sm font-medium`} href="#">Testimonios</a></li>
-                <li><a className={`${linkClass} transition-colors text-sm font-medium`} href="#">Garantía</a></li>
+                <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/programas">Beneficios</Link></li>
+                <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/programas">Metodología</Link></li>
+                <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/resultados">Testimonios</Link></li>
+                <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/programas?section=garantia">Garantía</Link></li>
               </ul>
             </div>
 
             <div className="flex flex-col space-y-4">
               <h3 className={`font-display text-lg font-bold ${textClass}`}>Explorar</h3>
               <ul className="space-y-3">
-                <li><a className={`${linkClass} transition-colors text-sm font-medium`} href="#">Resultados</a></li>
-                <li><a className={`${linkClass} transition-colors text-sm font-medium`} href="#">Sedes</a></li>
-                <li><a className={`${linkClass} transition-colors text-sm font-medium`} href="#">Nuestra Historia</a></li>
-                <li><a className={`${linkClass} transition-colors text-sm font-medium`} href="#">Blog</a></li>
+                <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/resultados">Resultados</Link></li>
+                <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/sedes">Sedes</Link></li>
+                <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/es-para-ti">Es para ti</Link></li>
+                <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/contacto">Contacto</Link></li>
               </ul>
             </div>
 

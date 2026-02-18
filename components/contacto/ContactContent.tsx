@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { User, Baby, ArrowRight, CheckCircle, ArrowLeft, MapPin, Loader2, Phone, Sparkles, ChevronLeft, ChevronRight, Clock, Calendar, AlertCircle, Plus, Trash2, RotateCcw } from 'lucide-react';
+import { User, Baby, ArrowRight, CheckCircle, ArrowLeft, MapPin, Loader2, Phone, Sparkles, ChevronLeft, ChevronRight, Clock, Calendar, AlertCircle, Plus, Trash2, RotateCcw, ChevronDown } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
 
 // --- 1. CREDENCIALES DE CONEXIÓN ---
@@ -355,409 +355,474 @@ const ContactContent: React.FC = () => {
         COMBINED HERO & FORM SECTION 
         Replaces the previous separate sections.
       */}
-      <section className="relative pt-10 pb-28 overflow-hidden" id="agenda-form">
+      <section className="relative py-4 md:py-8 overflow-hidden" id="agenda-form">
 
         {/* Ambient Background Effects */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-64 bg-emerald-500/30 blur-[120px] -z-10 rounded-full pointer-events-none"></div>
 
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Custom Style for slow spin if not in tailwind config */}
+        <style>{`
+          @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
+          .animate-spin-slow {
+            animation: spin-slow 8s linear infinite;
+          }
+        `}</style>
 
-          {/* Main Grid Layout - Items aligned to center */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
 
-            {/* LEFT COLUMN: Title + Video */}
-            <div className="flex flex-col gap-10 text-left pt-4">
-              {/* Header Content - Full width to align with video */}
-              <div className="animate-fade-in w-full">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-ensil-gold text-xs font-bold tracking-wider uppercase mb-6 border border-white/10 shadow-lg">
-                  <span className="w-2 h-2 rounded-full bg-ensil-gold animate-pulse"></span>
-                  Método Exclusivo
-                </div>
-                <h1 className="font-fraunces text-5xl md:text-6xl lg:text-7xl font-bold leading-none text-slate-900 mb-6 drop-shadow-sm tracking-tight">
-                  Transforma Tu Lectura en <br />
-                  <span className="relative z-10 inline-block text-transparent bg-clip-text bg-gradient-to-r from-green-800 via-green-600 to-green-800">
-                    Tu Mayor Superpoder
-                    <span className="absolute left-0 bottom-2 w-full h-2 bg-ensil-gold/60 -z-10 -rotate-1 blur-[2px]"></span>
-                  </span>
-                </h1>
-                <p className="text-lg md:text-xl text-slate-600 font-light leading-relaxed max-w-2xl">
-                  Descubre el poder de una mente entrenada. Multiplica tu velocidad de lectura y desata tu potencial con nuestro sistema integral.
-                </p>
-              </div>
+        <div className="w-full flex flex-col items-center px-4 sm:px-6 lg:px-8 relative z-10">
 
-              {/* Video Container - Expanded for better aspect ratio coverage */}
-              <div className="relative w-full rounded-[2rem] overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.6)] border border-white/10 bg-black aspect-video group transform hover:scale-[1.01] transition-transform duration-500">
-                <video
-                  ref={videoRef}
-                  className={`w-full h-full object-cover transition-all duration-700 ${videoEnded ? 'blur-md scale-105 opacity-60' : ''}`}
-                  controls
-                  playsInline
-                  onEnded={handleVideoEnd}
-                >
-                  <source src="https://fmbtcgilsicvvsltmzms.supabase.co/storage/v1/object/public/Videos/LandingVideo.webm" type="video/webm" />
-                </video>
+          {/* Center Header Content - Full width above grid */}
 
-                {/* Replay Overlay */}
-                {videoEnded && (
-                  <div className="absolute inset-0 flex items-center justify-center z-20 animate-fade-in">
-                    <button
-                      onClick={handleReplay}
-                      className="group/btn flex flex-col items-center gap-3"
-                    >
-                      <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-300 group-hover/btn:scale-110 group-hover/btn:bg-white/20">
-                        <RotateCcw size={32} className="group-hover/btn:-rotate-90 transition-transform duration-500" />
-                      </div>
-                      <span className="text-white font-fraunces font-bold text-lg tracking-wide drop-shadow-md">Repetir Video</span>
-                    </button>
+
+          {/* Main Grid Layout - Video Left, Form Right */}
+          <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch min-h-[600px]">
+
+            {/* LEFT COLUMN: Split into Title Card and Video Card */}
+            <div className="w-full h-full flex flex-col gap-6">
+
+              {/* BLOCK 1: Title Card */}
+              <div className="relative w-full shrink-0">
+                <div className="absolute -inset-[2px] bg-gradient-to-r from-emerald-500 via-green-400 to-emerald-600 rounded-[2.2rem] opacity-75 blur-sm transition duration-1000 animate-gradient-xy"></div>
+                <div className="relative w-full rounded-[2rem] bg-white p-[2px] overflow-hidden">
+                  <div className="absolute inset-[-100%] bg-[conic-gradient(from_90deg_at_50%_50%,#f1f5f9_0%,#84cc16_50%,#f1f5f9_100%)] animate-spin-slow opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  {/* Top Section: Title & Badge */}
+                  <div className="p-5 md:p-8 pb-2 flex-shrink-0">
+                    {/* Badge */}
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100/80 text-ensil-gold text-[10px] font-bold tracking-wider uppercase mb-3 border border-slate-200/60 shadow-sm w-fit">
+                      <span className="w-1.5 h-1.5 rounded-full bg-ensil-gold animate-pulse"></span>
+                      Método Exclusivo
+                    </div>
+
+                    {/* Title */}
+                    <h1 className="font-fraunces text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.1] text-slate-900 tracking-tight m-0 mb-3">
+                      Transforma Tu Lectura <br />
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-700 via-emerald-600 to-green-700 drop-shadow-sm inline-block">
+                        En Tu Mayor Poder
+                      </span>
+                    </h1>
+
+                    {/* Subtitle */}
+                    <p className="text-slate-500 text-sm md:text-base font-medium max-w-md leading-relaxed">
+                      Domina la lectura veloz y la comprensión total en tiempo récord.
+                    </p>
                   </div>
-                )}
-
-                {!videoEnded && (
-                  <div className="absolute inset-0 bg-black/10 pointer-events-none"></div>
-                )}
+                </div>
               </div>
 
-              {/* 10x Badge removed here */}
+              {/* BLOCK 2: Video Card - Fills remaining height */}
+              <div className="relative group w-full flex-1 min-h-[0px] flex flex-col">
+                <div className="absolute -inset-[2px] bg-gradient-to-r from-lime-400 via-green-500 to-lime-400 rounded-[2.2rem] opacity-75 blur-sm group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
+                <div className="relative h-full w-full rounded-[2rem] bg-white p-[2px] overflow-hidden flex flex-col">
+                  <div className="absolute inset-[-100%] bg-[conic-gradient(from_90deg_at_50%_50%,#f1f5f9_0%,#84cc16_50%,#f1f5f9_100%)] animate-spin-slow opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                  {/* Video Container */}
+                  <div className="relative h-full w-full bg-black rounded-[1.9rem] overflow-hidden border border-slate-100/50 group/video flex-1">
+                    <video
+                      ref={(el) => {
+                        if (el) {
+                          videoRef.current = el;
+                          el.volume = 0.5;
+                        }
+                      }}
+                      className={`w-full h-full object-cover transition-all duration-700 ${videoEnded ? 'blur-md scale-105 opacity-60' : ''}`}
+                      autoPlay
+                      muted={false}
+                      controls
+                      playsInline
+                      onEnded={handleVideoEnd}
+                    >
+                      <source src="https://fmbtcgilsicvvsltmzms.supabase.co/storage/v1/object/public/Videos/LandingVideo.webm" type="video/webm" />
+                    </video>
+
+                    {/* Replay Overlay */}
+                    {videoEnded && (
+                      <div className="absolute inset-0 flex items-center justify-center z-20 animate-fade-in">
+                        <button
+                          onClick={handleReplay}
+                          className="group/btn flex flex-col items-center gap-3"
+                        >
+                          <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-300 group-hover/btn:scale-110 group-hover/btn:bg-white/20">
+                            <RotateCcw size={32} className="group-hover/btn:-rotate-90 transition-transform duration-500" />
+                          </div>
+                          <span className="text-white font-fraunces font-bold text-lg tracking-wide drop-shadow-md">Repetir Video</span>
+                        </button>
+                      </div>
+                    )}
+
+                    {!videoEnded && (
+                      <div className="absolute inset-0 bg-black/10 pointer-events-none"></div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
             </div>
 
-            {/* RIGHT COLUMN: Form Card - Centered horizontally in the column */}
-            <div className="w-full flex justify-center lg:justify-center">
-              {/* 
-                    GLASS CONTAINER WRAPPER
-                    This creates the semi-transparent border effect around the main card.
-                */}
-              <div className="w-full max-w-xl p-3 md:p-4 rounded-[3rem] bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl">
-                <div className="bg-white rounded-[2.5rem] shadow-inner p-6 md:p-10 border border-white/10 flex flex-col relative overflow-hidden min-h-[500px] w-full h-full">
+            {/* RIGHT COLUMN: Form Card */}
+            <div className="relative group w-full h-full flex flex-col">
+              {/* Animated Border Container */}
+              <div className="absolute -inset-[2px] bg-gradient-to-r from-emerald-500 via-green-400 to-emerald-600 rounded-[2.2rem] opacity-75 blur-sm group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
+              <div className="relative h-full w-full rounded-[2rem] bg-white p-[2px] overflow-hidden">
+                {/* Rotating Border Effect */}
+                <div className="absolute inset-[-100%] bg-[conic-gradient(from_90deg_at_50%_50%,#f1f5f9_0%,#34d399_50%,#f1f5f9_100%)] animate-spin-slow opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                  {step < 4 && (
-                    <div className="mb-6 border-b border-slate-100 pb-6">
-                      <span className="text-ensil-gold font-bold text-xs tracking-wide uppercase mb-2 block">
-                        Paso {step} de 3
-                      </span>
-                      <h2 className="font-fraunces text-slate-900 text-2xl md:text-3xl font-bold leading-tight">
-                        Agenda tu Entrevista
-                      </h2>
-                    </div>
-                  )}
+                <div className="relative h-full w-full bg-white rounded-[1.9rem] overflow-hidden flex flex-col border border-slate-100/50">
+                  <div className="p-5 md:p-8 flex flex-col h-full overflow-y-auto">
 
-                  {/* STEP 1: TARGET SELECTION */}
-                  {step === 1 && (
-                    <div className="flex-1 flex flex-col justify-center animate-fade-in">
-                      <p className="text-slate-600 text-base mb-6 font-medium">¿Para quién deseas el programa?</p>
-                      <div className="grid grid-cols-1 gap-4 mb-8">
-                        <button
-                          onClick={() => setTarget('me')}
-                          className={`p-5 rounded-2xl border-2 transition-all duration-300 flex items-center gap-5 hover:shadow-lg text-left ${target === 'me' ? 'border-green-500 bg-green-50' : 'border-slate-100 hover:border-green-200'}`}
-                        >
-                          <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl shrink-0 ${target === 'me' ? 'bg-white text-green-600 shadow-sm' : 'bg-slate-50 text-slate-400'}`}>
-                            <User size={20} />
-                          </div>
-                          <div className="flex-1">
-                            <h3 className={`font-bold text-lg ${target === 'me' ? 'text-slate-900' : 'text-slate-700'}`}>Para Mí</h3>
-                            <p className="text-xs text-slate-500 mt-1">Desarrollo personal y profesional</p>
-                          </div>
-                          {target === 'me' && <CheckCircle className="text-green-500" size={24} />}
-                        </button>
-
-                        <button
-                          onClick={() => setTarget('child')}
-                          className={`p-5 rounded-2xl border-2 transition-all duration-300 flex items-center gap-5 hover:shadow-lg text-left ${target === 'child' ? 'border-green-500 bg-green-50' : 'border-slate-100 hover:border-green-200'}`}
-                        >
-                          <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl shrink-0 ${target === 'child' ? 'bg-white text-green-600 shadow-sm' : 'bg-slate-50 text-slate-400'}`}>
-                            <Baby size={20} />
-                          </div>
-                          <div className="flex-1">
-                            <h3 className={`font-bold text-lg ${target === 'child' ? 'text-slate-900' : 'text-slate-700'}`}>Para Mi Hijo</h3>
-                            <p className="text-xs text-slate-500 mt-1">Potencial académico escolar</p>
-                          </div>
-                          {target === 'child' && <CheckCircle className="text-green-500" size={24} />}
-                        </button>
+                    {step < 4 && (
+                      <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div>
+                          <h2 className="font-fraunces text-slate-900 text-xl md:text-2xl font-bold leading-tight">
+                            Inicia Tu Transformación
+                          </h2>
+                          <p className="text-xs text-slate-500 mt-1 font-medium">Postula ahora y descubre tu potencial</p>
+                        </div>
+                        <div className="bg-ensil-gold/10 text-ensil-gold font-bold text-[10px] px-3 py-1 rounded-full uppercase tracking-wider border border-ensil-gold/20 whitespace-nowrap">
+                          Paso {step}/3
+                        </div>
                       </div>
-                      <button onClick={nextStep} className="w-full bg-gradient-to-r from-emerald-500 to-green-700 hover:from-emerald-400 hover:to-green-600 text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 transition-all shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] hover:-translate-y-0.5">
-                        Continuar <ArrowRight size={20} />
-                      </button>
-                      {error && <p className="text-red-500 text-sm mt-3 text-center">{error}</p>}
-                    </div>
-                  )}
+                    )}
 
-                  {/* STEP 2: DEPENDENCY (Only if Target is 'me') */}
-                  {step === 2 && (
-                    <div className="flex-1 flex flex-col justify-center animate-fade-in">
-                      <button onClick={prevStep} className="text-slate-400 hover:text-primary mb-4 flex items-center gap-1 text-sm w-fit"><ArrowLeft size={16} /> Volver</button>
-                      <p className="text-slate-600 text-base mb-6 font-medium">Para personalizar tu experiencia, ¿cómo te consideras?</p>
+                    {/* STEP 1: TARGET SELECTION */}
+                    {step === 1 && (
+                      <div className="flex-1 flex flex-col justify-center animate-fade-in">
+                        <p className="text-slate-600 text-base mb-6 font-medium">¿Para quién deseas el programa?</p>
+                        <div className="grid grid-cols-1 gap-4 mb-8">
+                          <button
+                            onClick={() => setTarget('me')}
+                            className={`p-5 rounded-2xl border-2 transition-all duration-300 flex items-center gap-5 hover:shadow-lg text-left ${target === 'me' ? 'border-green-500 bg-green-50' : 'border-slate-100 hover:border-green-200'}`}
+                          >
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl shrink-0 ${target === 'me' ? 'bg-white text-green-600 shadow-sm' : 'bg-slate-50 text-slate-400'}`}>
+                              <User size={20} />
+                            </div>
+                            <div className="flex-1">
+                              <h3 className={`font-bold text-lg ${target === 'me' ? 'text-slate-900' : 'text-slate-700'}`}>Para Mí</h3>
+                              <p className="text-xs text-slate-500 mt-1">Desarrollo personal y profesional</p>
+                            </div>
+                            {target === 'me' && <CheckCircle className="text-green-500" size={24} />}
+                          </button>
 
-                      <div className="space-y-4 mb-8">
-                        <button
-                          onClick={() => setDependency('independent')}
-                          className={`w-full p-5 rounded-xl border text-left flex items-center justify-between transition-all ${dependency === 'independent' ? 'border-green-500 bg-green-50 ring-1 ring-green-500' : 'border-slate-200 hover:border-green-300'}`}
-                        >
-                          <div>
-                            <h4 className="font-bold text-slate-800 text-lg">Persona Totalmente Independiente</h4>
-                            <p className="text-xs text-slate-500 mt-1">Manejo mis propias finanzas y decisiones.</p>
-                          </div>
-                          {dependency === 'independent' && <CheckCircle className="text-green-500" size={24} />}
+                          <button
+                            onClick={() => setTarget('child')}
+                            className={`p-5 rounded-2xl border-2 transition-all duration-300 flex items-center gap-5 hover:shadow-lg text-left ${target === 'child' ? 'border-green-500 bg-green-50' : 'border-slate-100 hover:border-green-200'}`}
+                          >
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl shrink-0 ${target === 'child' ? 'bg-white text-green-600 shadow-sm' : 'bg-slate-50 text-slate-400'}`}>
+                              <Baby size={20} />
+                            </div>
+                            <div className="flex-1">
+                              <h3 className={`font-bold text-lg ${target === 'child' ? 'text-slate-900' : 'text-slate-700'}`}>Para Mi Hijo</h3>
+                              <p className="text-xs text-slate-500 mt-1">Potencial académico escolar</p>
+                            </div>
+                            {target === 'child' && <CheckCircle className="text-green-500" size={24} />}
+                          </button>
+                        </div>
+                        <button onClick={nextStep} className="w-full bg-gradient-to-r from-emerald-500 to-green-700 hover:from-emerald-400 hover:to-green-600 text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 transition-all shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] hover:-translate-y-0.5">
+                          Continuar <ArrowRight size={20} />
                         </button>
-
-                        <button
-                          onClick={() => setDependency('dependent')}
-                          className={`w-full p-5 rounded-xl border text-left flex items-center justify-between transition-all ${dependency === 'dependent' ? 'border-green-500 bg-green-50 ring-1 ring-green-500' : 'border-slate-200 hover:border-green-300'}`}
-                        >
-                          <div>
-                            <h4 className="font-bold text-slate-800 text-lg">Dependo de un Apoderado</h4>
-                            <p className="text-xs text-slate-500 mt-1">Padres o tutores toman las decisiones.</p>
-                          </div>
-                          {dependency === 'dependent' && <CheckCircle className="text-green-500" size={24} />}
-                        </button>
+                        {error && <p className="text-red-500 text-sm mt-3 text-center">{error}</p>}
                       </div>
+                    )}
 
-                      <button onClick={nextStep} className="w-full bg-gradient-to-r from-emerald-500 to-green-700 hover:from-emerald-400 hover:to-green-600 text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 transition-all shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] hover:-translate-y-0.5">
-                        Continuar <ArrowRight size={20} />
-                      </button>
-                      {error && <p className="text-red-500 text-sm mt-3 text-center">{error}</p>}
-                    </div>
-                  )}
+                    {/* STEP 2: DEPENDENCY (Only if Target is 'me') */}
+                    {step === 2 && (
+                      <div className="flex-1 flex flex-col justify-center animate-fade-in">
+                        <button onClick={prevStep} className="text-slate-400 hover:text-primary mb-4 flex items-center gap-1 text-sm w-fit"><ArrowLeft size={16} /> Volver</button>
+                        <p className="text-slate-600 text-base mb-6 font-medium">Para personalizar tu experiencia, ¿cómo te consideras?</p>
 
-                  {/* STEP 3: DATA FORM & APPOINTMENT */}
-                  {step === 3 && (
-                    <div className="flex-1 flex flex-col animate-fade-in">
-                      <button onClick={prevStep} className="text-slate-400 hover:text-primary mb-4 flex items-center gap-1 text-sm w-fit"><ArrowLeft size={16} /> Volver</button>
+                        <div className="space-y-4 mb-8">
+                          <button
+                            onClick={() => setDependency('independent')}
+                            className={`w-full p-5 rounded-xl border text-left flex items-center justify-between transition-all ${dependency === 'independent' ? 'border-green-500 bg-green-50 ring-1 ring-green-500' : 'border-slate-200 hover:border-green-300'}`}
+                          >
+                            <div>
+                              <h4 className="font-bold text-slate-800 text-lg">Persona Totalmente Independiente</h4>
+                              <p className="text-xs text-slate-500 mt-1">Manejo mis propias finanzas y decisiones.</p>
+                            </div>
+                            {dependency === 'independent' && <CheckCircle className="text-green-500" size={24} />}
+                          </button>
 
-                      <div className="space-y-4 mb-8 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-                        {dependency === 'dependent' && (
-                          <>
-                            <h4 className="font-bold text-slate-700 text-sm uppercase flex items-center gap-2 mt-2">
-                              <User size={16} /> Datos del Apoderado
-                            </h4>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              <input
-                                type="text"
-                                name="guardianName"
-                                placeholder="Nombre Completo Apoderado"
-                                value={formData.guardianName}
-                                onChange={handleInputChange}
-                                className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
-                              />
+                          <button
+                            onClick={() => setDependency('dependent')}
+                            className={`w-full p-5 rounded-xl border text-left flex items-center justify-between transition-all ${dependency === 'dependent' ? 'border-green-500 bg-green-50 ring-1 ring-green-500' : 'border-slate-200 hover:border-green-300'}`}
+                          >
+                            <div>
+                              <h4 className="font-bold text-slate-800 text-lg">Dependo de un Apoderado</h4>
+                              <p className="text-xs text-slate-500 mt-1">Padres o tutores toman las decisiones.</p>
+                            </div>
+                            {dependency === 'dependent' && <CheckCircle className="text-green-500" size={24} />}
+                          </button>
+                        </div>
+
+                        <button onClick={nextStep} className="w-full bg-gradient-to-r from-emerald-500 to-green-700 hover:from-emerald-400 hover:to-green-600 text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 transition-all shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] hover:-translate-y-0.5">
+                          Continuar <ArrowRight size={20} />
+                        </button>
+                        {error && <p className="text-red-500 text-sm mt-3 text-center">{error}</p>}
+                      </div>
+                    )}
+
+                    {/* STEP 3: DATA FORM & APPOINTMENT */}
+                    {step === 3 && (
+                      <div className="flex-1 flex flex-col animate-fade-in">
+                        <button onClick={prevStep} className="text-slate-400 hover:text-primary mb-4 flex items-center gap-1 text-sm w-fit"><ArrowLeft size={16} /> Volver</button>
+
+                        <div className="space-y-4 mb-8 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                          {dependency === 'dependent' && (
+                            <>
+                              <h4 className="font-bold text-slate-700 text-sm uppercase flex items-center gap-2 mt-2">
+                                <User size={16} /> Datos del Apoderado
+                              </h4>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <input
+                                  type="text"
+                                  name="guardianName"
+                                  placeholder="Nombre Completo Apoderado"
+                                  value={formData.guardianName}
+                                  onChange={handleInputChange}
+                                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
+                                />
+                                <input
+                                  type="tel"
+                                  name="guardianPhone"
+                                  placeholder="Celular Apoderado"
+                                  value={formData.guardianPhone}
+                                  onChange={(e) => {
+                                    const val = e.target.value.replace(/\D/g, '');
+                                    if (val.length <= 9) handleInputChange({ ...e, target: { ...e.target, value: val, name: 'guardianPhone' } });
+                                  }}
+                                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
+                                />
+                              </div>
+                              <div className="border-t border-slate-100 my-2"></div>
+                            </>
+                          )}
+
+                          <h4 className="font-bold text-slate-700 text-sm uppercase flex items-center gap-2 mt-2">
+                            {dependency === 'dependent' ? <Baby size={16} /> : <User size={16} />}
+                            {dependency === 'dependent' ? 'Datos del Alumno' : 'Mis Datos'}
+                          </h4>
+
+                          {/* ALUMNO PRINCIPAL */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input
+                              type="text"
+                              name="studentName"
+                              placeholder="Nombre Completo Alumno"
+                              value={formData.studentName}
+                              onChange={handleInputChange}
+                              className="md:col-span-2 w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
+                            />
+                            <input
+                              type="number"
+                              name="studentAge"
+                              placeholder="Edad"
+                              value={formData.studentAge}
+                              onChange={handleInputChange}
+                              className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
+                            />
+                            {dependency === 'independent' && (
                               <input
                                 type="tel"
-                                name="guardianPhone"
-                                placeholder="Celular Apoderado"
-                                value={formData.guardianPhone}
+                                name="studentPhone"
+                                placeholder="Mi Celular"
+                                value={formData.studentPhone}
                                 onChange={(e) => {
                                   const val = e.target.value.replace(/\D/g, '');
-                                  if (val.length <= 9) handleInputChange({ ...e, target: { ...e.target, value: val, name: 'guardianPhone' } });
+                                  if (val.length <= 9) handleInputChange({ ...e, target: { ...e.target, value: val, name: 'studentPhone' } });
                                 }}
                                 className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
                               />
-                            </div>
-                            <div className="border-t border-slate-100 my-2"></div>
-                          </>
-                        )}
-
-                        <h4 className="font-bold text-slate-700 text-sm uppercase flex items-center gap-2 mt-2">
-                          {dependency === 'dependent' ? <Baby size={16} /> : <User size={16} />}
-                          {dependency === 'dependent' ? 'Datos del Alumno' : 'Mis Datos'}
-                        </h4>
-
-                        {/* ALUMNO PRINCIPAL */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <input
-                            type="text"
-                            name="studentName"
-                            placeholder="Nombre Completo Alumno"
-                            value={formData.studentName}
-                            onChange={handleInputChange}
-                            className="md:col-span-2 w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
-                          />
-                          <input
-                            type="number"
-                            name="studentAge"
-                            placeholder="Edad"
-                            value={formData.studentAge}
-                            onChange={handleInputChange}
-                            className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
-                          />
-                          {dependency === 'independent' && (
-                            <input
-                              type="tel"
-                              name="studentPhone"
-                              placeholder="Mi Celular"
-                              value={formData.studentPhone}
-                              onChange={(e) => {
-                                const val = e.target.value.replace(/\D/g, '');
-                                if (val.length <= 9) handleInputChange({ ...e, target: { ...e.target, value: val, name: 'studentPhone' } });
-                              }}
-                              className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
-                            />
-                          )}
-                        </div>
-
-                        {/* ALUMNOS ADICIONALES (SOLO DEPENDIENTES) */}
-                        {dependency === 'dependent' && (
-                          <div className="space-y-4 animate-fade-in">
-                            {extraStudents.map((student, index) => (
-                              <div key={student.id} className="relative bg-slate-100 p-4 rounded-xl border border-slate-200 mt-4 animate-fade-in group">
-                                <div className="flex items-center justify-between mb-2">
-                                  <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Alumno Adicional #{index + 1}</h5>
-                                  <button
-                                    onClick={() => removeExtraStudent(student.id)}
-                                    className="text-red-400 hover:text-red-600 p-1 rounded-full hover:bg-red-50 transition-colors"
-                                    title="Eliminar alumno"
-                                  >
-                                    <Trash2 size={16} />
-                                  </button>
-                                </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                  <input
-                                    type="text"
-                                    placeholder="Nombre Completo"
-                                    value={student.name}
-                                    onChange={(e) => updateExtraStudent(student.id, 'name', e.target.value)}
-                                    className="md:col-span-2 w-full bg-white border border-slate-300 rounded-lg py-2 px-3 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm font-medium"
-                                  />
-                                  <input
-                                    type="number"
-                                    placeholder="Edad"
-                                    value={student.age}
-                                    onChange={(e) => updateExtraStudent(student.id, 'age', e.target.value)}
-                                    className="w-full bg-white border border-slate-300 rounded-lg py-2 px-3 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm font-medium"
-                                  />
-                                </div>
-                              </div>
-                            ))}
-
-                            {extraStudents.length < 3 && (
-                              <button
-                                onClick={addExtraStudent}
-                                className="mt-2 text-sm text-green-700 hover:text-green-900 font-bold flex items-center gap-1.5 transition-colors py-2 px-3 rounded-lg hover:bg-green-50 w-fit border border-transparent hover:border-green-200"
-                              >
-                                <Plus size={16} />
-                                Agregar otro alumno
-                              </button>
                             )}
                           </div>
-                        )}
 
-                        {/* DATE/TIME/SEDE SELECTION */}
-                        <div className="pt-4 border-t border-slate-100">
-                          <h4 className="font-bold text-slate-700 text-sm uppercase flex items-center gap-2 mb-3">
-                            <MapPin size={16} /> Preferencias de Cita
-                          </h4>
-
-                          <div className="space-y-3">
-                            <select
-                              name="filial"
-                              value={formData.filial}
-                              onChange={handleInputChange}
-                              className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-slate-900 text-sm outline-none focus:ring-2 focus:ring-green-500"
-                            >
-                              <option value="">Selecciona una sede...</option>
-                              {sedesDb.map((sede) => (
-                                <option key={sede.id} value={sede.id}>
-                                  {sede.provincia} - {sede.nombre}
-                                </option>
-                              ))}
-                            </select>
-
-                            <div className="grid grid-cols-2 gap-3">
-                              {/* Simplified Date Picker Trigger */}
-                              <div className="relative">
-                                <div className="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Fecha</div>
-                                <div className="bg-slate-50 border border-slate-200 rounded-xl p-2 h-48 overflow-hidden relative">
-                                  {/* Calendar Mini */}
-                                  <div className="flex justify-between items-center mb-2 px-1">
-                                    <button onClick={handlePrevMonth} className="text-slate-400 hover:text-slate-600"><ChevronLeft size={16} /></button>
-                                    <span className="text-xs font-bold text-slate-700">{MONTHS_ES[viewDate.getMonth()]}</span>
-                                    <button onClick={handleNextMonth} className="text-slate-400 hover:text-slate-600"><ChevronRight size={16} /></button>
+                          {/* ALUMNOS ADICIONALES (SOLO DEPENDIENTES) */}
+                          {dependency === 'dependent' && (
+                            <div className="space-y-4 animate-fade-in">
+                              {extraStudents.map((student, index) => (
+                                <div key={student.id} className="relative bg-slate-100 p-4 rounded-xl border border-slate-200 mt-4 animate-fade-in group">
+                                  <div className="flex items-center justify-between mb-2">
+                                    <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Alumno Adicional #{index + 1}</h5>
+                                    <button
+                                      onClick={() => removeExtraStudent(student.id)}
+                                      className="text-red-400 hover:text-red-600 p-1 rounded-full hover:bg-red-50 transition-colors"
+                                      title="Eliminar alumno"
+                                    >
+                                      <Trash2 size={16} />
+                                    </button>
                                   </div>
-                                  <div className="grid grid-cols-7 gap-1 text-center">
-                                    {calendarDays.slice(0, 28).map((day, idx) => ( // Limit rows for mini view
-                                      <div key={idx} className="flex justify-center">
-                                        {day && (
-                                          <button
-                                            onClick={() => handleDayClick(day)}
-                                            className={`w-6 h-6 text-[10px] rounded-full flex items-center justify-center 
-                                                                                ${selectedDateObj?.getDate() === day && selectedDateObj?.getMonth() === viewDate.getMonth()
-                                                ? 'bg-green-600 text-white'
-                                                : 'text-slate-600 hover:bg-green-100'}`}
-                                          >
-                                            {day}
-                                          </button>
-                                        )}
-                                      </div>
-                                    ))}
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <input
+                                      type="text"
+                                      placeholder="Nombre Completo"
+                                      value={student.name}
+                                      onChange={(e) => updateExtraStudent(student.id, 'name', e.target.value)}
+                                      className="md:col-span-2 w-full bg-white border border-slate-300 rounded-lg py-2 px-3 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm font-medium"
+                                    />
+                                    <input
+                                      type="number"
+                                      placeholder="Edad"
+                                      value={student.age}
+                                      onChange={(e) => updateExtraStudent(student.id, 'age', e.target.value)}
+                                      className="w-full bg-white border border-slate-300 rounded-lg py-2 px-3 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm font-medium"
+                                    />
                                   </div>
                                 </div>
-                              </div>
+                              ))}
 
-                              {/* Time Picker */}
-                              <div className="relative">
-                                <div className="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Hora</div>
-                                <div className="bg-slate-50 border border-slate-200 rounded-xl p-2 h-48 overflow-y-auto custom-scrollbar">
-                                  {availableHours.length > 0 ? (
-                                    <div className="grid grid-cols-1 gap-1">
-                                      {availableHours.map(hour => (
-                                        <button
-                                          key={hour}
-                                          onClick={() => handleTimeClick(hour)}
-                                          className={`text-xs py-1.5 px-2 rounded-lg border ${formData.hora === hour ? 'bg-green-600 text-white border-green-600' : 'bg-white border-slate-200 text-slate-600 hover:border-green-400'}`}
-                                        >
-                                          {hour}
-                                        </button>
+                              {extraStudents.length < 3 && (
+                                <button
+                                  onClick={addExtraStudent}
+                                  className="mt-2 text-sm text-green-700 hover:text-green-900 font-bold flex items-center gap-1.5 transition-colors py-2 px-3 rounded-lg hover:bg-green-50 w-fit border border-transparent hover:border-green-200"
+                                >
+                                  <Plus size={16} />
+                                  Agregar otro alumno
+                                </button>
+                              )}
+                            </div>
+                          )}
+
+                          {/* DATE/TIME/SEDE SELECTION */}
+                          <div className="pt-4 border-t border-slate-100">
+                            <h4 className="font-bold text-slate-700 text-sm uppercase flex items-center gap-2 mb-3">
+                              <MapPin size={16} /> Preferencias de Cita
+                            </h4>
+
+                            <div className="space-y-3">
+                              <select
+                                name="filial"
+                                value={formData.filial}
+                                onChange={handleInputChange}
+                                className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-slate-900 text-sm outline-none focus:ring-2 focus:ring-green-500"
+                              >
+                                <option value="">Selecciona una sede...</option>
+                                {sedesDb.map((sede) => (
+                                  <option key={sede.id} value={sede.id}>
+                                    {sede.provincia} - {sede.nombre}
+                                  </option>
+                                ))}
+                              </select>
+
+                              <div className="grid grid-cols-2 gap-3">
+                                {/* Simplified Date Picker Trigger */}
+                                <div className="relative">
+                                  <div className="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Fecha</div>
+                                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-2 h-48 overflow-hidden relative">
+                                    {/* Calendar Mini */}
+                                    <div className="flex justify-between items-center mb-2 px-1">
+                                      <button onClick={handlePrevMonth} className="text-slate-400 hover:text-slate-600"><ChevronLeft size={16} /></button>
+                                      <span className="text-xs font-bold text-slate-700">{MONTHS_ES[viewDate.getMonth()]}</span>
+                                      <button onClick={handleNextMonth} className="text-slate-400 hover:text-slate-600"><ChevronRight size={16} /></button>
+                                    </div>
+                                    <div className="grid grid-cols-7 gap-1 text-center">
+                                      {calendarDays.slice(0, 28).map((day, idx) => ( // Limit rows for mini view
+                                        <div key={idx} className="flex justify-center">
+                                          {day && (
+                                            <button
+                                              onClick={() => handleDayClick(day)}
+                                              className={`w-6 h-6 text-[10px] rounded-full flex items-center justify-center 
+                                                                                ${selectedDateObj?.getDate() === day && selectedDateObj?.getMonth() === viewDate.getMonth()
+                                                  ? 'bg-green-600 text-white'
+                                                  : 'text-slate-600 hover:bg-green-100'}`}
+                                            >
+                                              {day}
+                                            </button>
+                                          )}
+                                        </div>
                                       ))}
                                     </div>
-                                  ) : (
-                                    <p className="text-[10px] text-slate-400 text-center mt-4">Selecciona fecha</p>
-                                  )}
+                                  </div>
+                                </div>
+
+                                {/* Time Picker */}
+                                <div className="relative">
+                                  <div className="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Hora</div>
+                                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-2 h-48 overflow-y-auto custom-scrollbar">
+                                    {availableHours.length > 0 ? (
+                                      <div className="grid grid-cols-1 gap-1">
+                                        {availableHours.map(hour => (
+                                          <button
+                                            key={hour}
+                                            onClick={() => handleTimeClick(hour)}
+                                            className={`text-xs py-1.5 px-2 rounded-lg border ${formData.hora === hour ? 'bg-green-600 text-white border-green-600' : 'bg-white border-slate-200 text-slate-600 hover:border-green-400'}`}
+                                          >
+                                            {hour}
+                                          </button>
+                                        ))}
+                                      </div>
+                                    ) : (
+                                      <p className="text-[10px] text-slate-400 text-center mt-4">Selecciona fecha</p>
+                                    )}
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
 
-                      <button
-                        onClick={handleSubmit}
-                        disabled={loading}
-                        className="mt-auto w-full bg-gradient-to-r from-emerald-500 to-green-700 hover:from-emerald-400 hover:to-green-600 text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] hover:-translate-y-0.5"
-                      >
-                        {loading ? <Loader2 className="animate-spin" /> : 'Confirmar Reserva'}
-                      </button>
-                      {error && (
-                        <div className="mt-3 bg-red-50 border border-red-100 rounded-xl p-3 flex items-start gap-3 animate-fade-in">
-                          <AlertCircle className="text-red-500 shrink-0 mt-0.5" size={18} />
-                          <p className="text-red-600 text-sm">{error}</p>
-                        </div>
-                      )}
-                    </div>
-                  )}
+                        <button
+                          onClick={handleSubmit}
+                          disabled={loading}
+                          className="mt-auto w-full bg-gradient-to-r from-emerald-500 to-green-700 hover:from-emerald-400 hover:to-green-600 text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] hover:-translate-y-0.5"
+                        >
+                          {loading ? <Loader2 className="animate-spin" /> : 'Confirmar Reserva'}
+                        </button>
+                        {error && (
+                          <div className="mt-3 bg-red-50 border border-red-100 rounded-xl p-3 flex items-start gap-3 animate-fade-in">
+                            <AlertCircle className="text-red-500 shrink-0 mt-0.5" size={18} />
+                            <p className="text-red-600 text-sm">{error}</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
 
-                  {/* STEP 4: SUCCESS */}
-                  {step === 4 && (
-                    <div className="flex-1 flex flex-col items-center justify-center text-center animate-fade-in py-10">
-                      <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6 shadow-md">
-                        <CheckCircle size={40} />
-                      </div>
-                      <h2 className="font-fraunces text-3xl font-bold text-slate-800 mb-4">¡Reserva Exitosa!</h2>
-                      <p className="text-slate-600 mb-8 max-w-md text-sm">
-                        Hemos registrado tus datos correctamente. Un asesor educativo se pondrá en contacto contigo a la brevedad.
-                      </p>
-                      <div className="bg-yellow-50 border border-yellow-200 p-6 rounded-2xl w-full max-w-sm">
-                        <p className="text-xs text-yellow-700 font-bold uppercase tracking-wider mb-2">Central Telefónica</p>
-                        <div className="flex items-center justify-center gap-3 text-2xl font-bold text-slate-900">
-                          <Phone className="text-green-600" />
-                          <span>908 880 167</span>
+                    {/* STEP 4: SUCCESS */}
+                    {step === 4 && (
+                      <div className="flex-1 flex flex-col items-center justify-center text-center animate-fade-in py-10">
+                        <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6 shadow-md">
+                          <CheckCircle size={40} />
                         </div>
+                        <h2 className="font-fraunces text-3xl font-bold text-slate-800 mb-4">¡Reserva Exitosa!</h2>
+                        <p className="text-slate-600 mb-8 max-w-md text-sm">
+                          Hemos registrado tus datos correctamente. Un asesor educativo se pondrá en contacto contigo a la brevedad.
+                        </p>
+                        <div className="bg-yellow-50 border border-yellow-200 p-6 rounded-2xl w-full max-w-sm">
+                          <p className="text-xs text-yellow-700 font-bold uppercase tracking-wider mb-2">Central Telefónica</p>
+                          <div className="flex items-center justify-center gap-3 text-2xl font-bold text-slate-900">
+                            <Phone className="text-green-600" />
+                            <span>908 880 167</span>
+                          </div>
+                        </div>
+                        <button onClick={() => window.location.reload()} className="mt-8 text-slate-400 text-xs hover:text-slate-600 underline">
+                          Volver al inicio
+                        </button>
                       </div>
-                      <button onClick={() => window.location.reload()} className="mt-8 text-slate-400 text-xs hover:text-slate-600 underline">
-                        Volver al inicio
-                      </button>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
+
               </div>
             </div>
-
           </div>
+
+          {/* Scroll Down Indicator - Moved OUTSIDE and BELOW the cards completely */}
+          <div className="w-full flex justify-center mt-12 pb-8 relative z-20">
+            <a
+              href="#programa"
+              className="inline-flex flex-col items-center text-slate-400 hover:text-green-700 transition-colors group cursor-pointer"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('programa')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase mb-2">Sigue Aprendiendo</span>
+              <div className="p-2 rounded-full bg-white/50 backdrop-blur-sm border border-slate-200 shadow-sm group-hover:bg-white transition-all">
+                <ChevronDown className="w-5 h-5 md:w-6 md:h-6 animate-bounce text-slate-400 group-hover:text-green-600" />
+              </div>
+            </a>
+          </div>
+
         </div>
       </section>
 
@@ -802,6 +867,9 @@ const ContactContent: React.FC = () => {
               </p>
             </div>
           </div>
+
+
+
         </div>
       </section>
 
@@ -810,99 +878,99 @@ const ContactContent: React.FC = () => {
         <div className="max-w-screen-2xl mx-auto px-6 lg:px-12 relative z-10">
           <div className="flex flex-col md:flex-row items-end justify-between mb-12 gap-6">
             <div className="max-w-2xl">
-              <h2 className="font-fraunces text-4xl md:text-5xl font-bold text-white mb-2">Estadísticas de <span className="text-ensil-gold italic">Impacto</span></h2>
-              <p className="text-lg text-green-100/70">Resultados tangibles que nuestros alumnos experimentan cada día.</p>
+              <h2 className="font-fraunces text-4xl md:text-5xl font-bold text-slate-900 mb-2">Estadísticas de <span className="text-ensil-gold italic">Impacto</span></h2>
+              <p className="text-lg text-slate-600">Resultados tangibles que nuestros alumnos experimentan cada día.</p>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10">
-              <p className="font-fraunces text-6xl font-bold text-white mb-2">10x</p>
+            <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-lg">
+              <p className="font-fraunces text-6xl font-bold text-ensil-green mb-2">10x</p>
               <div className="h-1 w-12 bg-ensil-gold mb-4"></div>
-              <p className="text-white font-medium">Aumento en Velocidad de Lectura</p>
-              <p className="text-sm text-green-100/60 mt-2">Promedio logrado en 6 meses.</p>
+              <p className="text-slate-900 font-medium">Aumento en Velocidad de Lectura</p>
+              <p className="text-sm text-slate-500 mt-2">Promedio logrado en 6 meses.</p>
             </div>
-            <div className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl border border-white/20 shadow-[0_0_30px_rgba(255,255,255,0.05)]">
+            <div className="bg-slate-900 p-8 rounded-2xl border border-slate-800 shadow-xl">
               <p className="font-fraunces text-6xl font-bold text-ensil-gold mb-2">95%</p>
-              <div className="h-1 w-12 bg-white mb-4"></div>
+              <div className="h-1 w-12 bg-white/20 mb-4"></div>
               <p className="text-white font-medium">Tasa de Comprensión Promedio</p>
-              <p className="text-sm text-green-100/60 mt-2">Retención superior garantizada.</p>
+              <p className="text-sm text-slate-400 mt-2">Retención superior garantizada.</p>
             </div>
-            <div className="bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10">
-              <p className="font-fraunces text-6xl font-bold text-white mb-2">+25k</p>
+            <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-lg">
+              <p className="font-fraunces text-6xl font-bold text-ensil-green mb-2">+25k</p>
               <div className="h-1 w-12 bg-ensil-gold mb-4"></div>
-              <p className="text-white font-medium">Alumnos Graduados con Éxito</p>
-              <p className="text-sm text-green-100/60 mt-2">Una comunidad en crecimiento.</p>
+              <p className="text-slate-900 font-medium">Alumnos Graduados con Éxito</p>
+              <p className="text-sm text-slate-500 mt-2">Una comunidad en crecimiento.</p>
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Testimonials Section */}
-      <section className="py-24" id="testimonios">
+      < section className="py-24" id="testimonios" >
         <div className="max-w-screen-2xl mx-auto px-6 lg:px-12">
           <div className="text-center mb-16">
             <span className="text-ensil-gold font-bold text-sm tracking-wide uppercase mb-3 block">Testimonios</span>
-            <h2 className="font-fraunces text-4xl md:text-5xl text-white font-bold">Lo que dicen nuestros alumnos</h2>
+            <h2 className="font-fraunces text-4xl md:text-5xl text-slate-900 font-bold">Lo que dicen nuestros alumnos</h2>
             <div className="w-24 h-1 bg-gradient-to-r from-transparent via-ensil-gold to-transparent mx-auto mt-6 rounded-full opacity-50"></div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white/5 backdrop-blur-md rounded-3xl p-8 relative hover:bg-white/10 transition-all duration-300 group border border-white/10">
-              <span className="text-6xl text-ensil-gold/40 font-serif absolute top-6 left-6">"</span>
+            <div className="bg-white rounded-3xl p-8 relative hover:shadow-xl transition-all duration-300 group border border-slate-100 shadow-sm">
+              <span className="text-6xl text-ensil-gold/20 font-serif absolute top-6 left-6">"</span>
               <div className="relative z-10 flex flex-col h-full">
-                <p className="text-green-100/90 italic mb-8 pt-4 leading-relaxed font-light">
+                <p className="text-slate-600 italic mb-8 pt-4 leading-relaxed font-light">
                   ENSIL cambió mi forma de estudiar. Ahora termino mis lecturas en una fracción del tiempo y recuerdo todo para mis exámenes. ¡Increíble!
                 </p>
-                <div className="mt-auto flex items-center gap-4 border-t border-white/10 pt-6">
+                <div className="mt-auto flex items-center gap-4 border-t border-slate-100 pt-6">
                   <img alt="Maria González" className="w-12 h-12 rounded-full object-cover ring-2 ring-ensil-gold/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRAhavN8ic6iNWz1xyUyI_e4T4xGD6-SRIpI3suejnXxFQyvPfjUVbNUWqfzVSnf27vGtv5U_SUJ0vrD4WTdv0r2tsDYFNF_F0LrE4v8Bvv2WAxm6dcDbYC9K20Bhcri_0RqF8RN7lIVs3cr1DXCM1QvHferHjlGsUU2VMc5MJHsFwHiZA5FSkTyBeE6YIkJDLXhWeQoOznkW2SoKtG9eFLaNS1SgmCmqZ1LWlPmJhz6z7el8LUT59x-dERjKYyooADe_lkvsYDXQ" />
                   <div>
-                    <p className="font-bold text-white text-sm">Maria González</p>
-                    <p className="text-xs text-green-200/70">Estudiante de Derecho</p>
+                    <p className="font-bold text-slate-900 text-sm">Maria González</p>
+                    <p className="text-xs text-slate-500">Estudiante de Derecho</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="bg-white/5 backdrop-blur-md rounded-3xl p-8 relative hover:bg-white/10 transition-all duration-300 group border border-white/10">
-              <span className="text-6xl text-ensil-gold/40 font-serif absolute top-6 left-6">"</span>
+            <div className="bg-white rounded-3xl p-8 relative hover:shadow-xl transition-all duration-300 group border border-slate-100 shadow-sm">
+              <span className="text-6xl text-ensil-gold/20 font-serif absolute top-6 left-6">"</span>
               <div className="relative z-10 flex flex-col h-full">
-                <p className="text-green-100/90 italic mb-8 pt-4 leading-relaxed font-light">
+                <p className="text-slate-600 italic mb-8 pt-4 leading-relaxed font-light">
                   Como profesional, el tiempo es oro. Gracias a este programa, me mantengo actualizado en mi campo sin sacrificar horas de mi día.
                 </p>
-                <div className="mt-auto flex items-center gap-4 border-t border-white/10 pt-6">
+                <div className="mt-auto flex items-center gap-4 border-t border-slate-100 pt-6">
                   <img alt="Carlos Rodriguez" className="w-12 h-12 rounded-full object-cover ring-2 ring-ensil-gold/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjdO_2g_DzSGg34Yxw3B46sUtVJ3hR6zn8kNrgIW95wQnc-sMsYJM5-7VYMnpMFjr3WvmOwEQlH3lqZISPj0AqNbPO1r6izjvRiMP2CTiZn4LvgUdkZXlGoPRyunVnpy7yaLqcHFwFE5NFBcKJ-zQIzGrxvSqVTpLckZgY1R6lnQVIQsI4nfcaKbx2V2Hi6EAXaSl0la8EJ4mfNij0hFOvF4c6ONgVHhL3tzMY9y4W4w4rVBEtOaDUke8wQKZRLqZWgAuyFFkbu7U" />
                   <div>
-                    <p className="font-bold text-white text-sm">Carlos Rodriguez</p>
-                    <p className="text-xs text-green-200/70">Ingeniero de Software</p>
+                    <p className="font-bold text-slate-900 text-sm">Carlos Rodriguez</p>
+                    <p className="text-xs text-slate-500">Ingeniero de Software</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="bg-white/5 backdrop-blur-md rounded-3xl p-8 relative hover:bg-white/10 transition-all duration-300 group border border-white/10">
-              <span className="text-6xl text-ensil-gold/40 font-serif absolute top-6 left-6">"</span>
+            <div className="bg-white rounded-3xl p-8 relative hover:shadow-xl transition-all duration-300 group border border-slate-100 shadow-sm">
+              <span className="text-6xl text-ensil-gold/20 font-serif absolute top-6 left-6">"</span>
               <div className="relative z-10 flex flex-col h-full">
-                <p className="text-green-100/90 italic mb-8 pt-4 leading-relaxed font-light">
+                <p className="text-slate-600 italic mb-8 pt-4 leading-relaxed font-light">
                   Inscribí a mi hijo y su rendimiento escolar mejoró notablemente. Ahora disfruta de la lectura y tiene más confianza en sí mismo.
                 </p>
-                <div className="mt-auto flex items-center gap-4 border-t border-white/10 pt-6">
+                <div className="mt-auto flex items-center gap-4 border-t border-slate-100 pt-6">
                   <img alt="Ana Torres" className="w-12 h-12 rounded-full object-cover ring-2 ring-ensil-gold/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFKfGH8fTAlAON297D-JFcwqhxwykctGgKUhmClCZ-dTPKfyThjym2Eu54MoWBf2YPCjMpyWJu_mS6M_gLD68FUPJV2STxtql6QbU-_OHDChsVnuIYdFfVk1L-z7SWQuijKBj3cH7jeJcXcJoNB51bSddAbwFBRBLKXgV8uxLlBh9nU0KWGfekwd0p_efgCQEd9GSP0ZZ1NIbvCyYUOOoJ964UFKtUVSY8h2wL5Kj8JP-bDUgA4Mr0F8ERvxzwt7kUF_et2wU969g" />
                   <div>
-                    <p className="font-bold text-white text-sm">Ana Torres</p>
-                    <p className="text-xs text-green-200/70">Madre de Familia</p>
+                    <p className="font-bold text-slate-900 text-sm">Ana Torres</p>
+                    <p className="text-xs text-slate-500">Madre de Familia</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* FAQ Section */}
-      <section className="py-20 md:py-28" id="faq">
+      < section className="py-20 md:py-28" id="faq" >
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center justify-between mb-12">
-            <h2 className="font-fraunces text-4xl text-white font-bold">
+            <h2 className="font-fraunces text-4xl text-slate-900 font-bold">
               Preguntas <span className="text-ensil-gold italic">Frecuentes</span>
             </h2>
-            <p className="text-green-100/70 text-sm mt-2 md:mt-0">Respuestas a tus dudas más comunes</p>
+            <p className="text-slate-600 text-sm mt-2 md:mt-0">Respuestas a tus dudas más comunes</p>
           </div>
           <div className="space-y-4">
             {[
@@ -910,20 +978,20 @@ const ContactContent: React.FC = () => {
               { id: '2', q: '¿Cuánto tiempo dura el programa?', a: 'La duración estándar del programa es de 6 meses, con clases semanales. Ofrecemos horarios flexibles para adaptarnos a tu rutina y asegurar que puedas completar el entrenamiento satisfactoriamente.' },
               { id: '3', q: '¿Los resultados están garantizados?', a: 'Sí. Confiamos tanto en nuestro método que garantizamos por escrito que multiplicarás tu velocidad de lectura por 10 y mejorarás tu comprensión, o te devolvemos tu inversión. Tu éxito es nuestro compromiso.' }
             ].map((item) => (
-              <div key={item.id} className="group border-b border-white/20 pb-4">
+              <div key={item.id} className="group border-b border-slate-200 pb-4">
                 <button
                   onClick={() => toggleFaq(item.id)}
                   className="flex justify-between items-center w-full text-left py-4 focus:outline-none"
                 >
-                  <span className="font-fraunces text-xl text-white font-medium group-hover:text-ensil-gold transition-colors">
+                  <span className="font-fraunces text-xl text-slate-800 font-medium group-hover:text-ensil-gold transition-colors">
                     /0{item.id} {item.q}
                   </span>
-                  <div className={`rounded-full p-2 transition-all ${openFaq === item.id ? 'bg-ensil-gold text-white' : 'bg-white/10 text-white group-hover:bg-ensil-gold'}`}>
+                  <div className={`rounded-full p-2 transition-all ${openFaq === item.id ? 'bg-ensil-gold text-white' : 'bg-slate-100 text-slate-600 group-hover:bg-ensil-gold group-hover:text-white'}`}>
                     <span className={`material-icons-round text-sm transition-transform duration-300 ${openFaq === item.id ? 'rotate-180' : ''}`}>arrow_downward</span>
                   </div>
                 </button>
                 <div
-                  className={`text-green-100/80 pl-0 md:pl-8 leading-relaxed overflow-hidden transition-all duration-300 ${openFaq === item.id ? 'max-h-40 opacity-100 py-2' : 'max-h-0 opacity-0'}`}
+                  className={`text-slate-600 pl-0 md:pl-8 leading-relaxed overflow-hidden transition-all duration-300 ${openFaq === item.id ? 'max-h-40 opacity-100 py-2' : 'max-h-0 opacity-0'}`}
                 >
                   {item.a}
                 </div>
@@ -931,10 +999,10 @@ const ContactContent: React.FC = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Final CTA Section */}
-      <section className="py-20 px-6">
+      < section className="py-20 px-6" >
         <div className="max-w-7xl mx-auto">
           <div className="bg-gradient-to-r from-ensil-gold to-yellow-600 rounded-[2.5rem] p-12 md:p-20 text-center text-white relative overflow-hidden shadow-2xl border border-white/20">
             <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay"></div>
@@ -953,9 +1021,9 @@ const ContactContent: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
-    </div>
+    </div >
   );
 };
 
