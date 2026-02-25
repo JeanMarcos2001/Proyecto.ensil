@@ -1,10 +1,17 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 const PromiseSection: React.FC = () => {
+  const { ref: sectionRef, isVisible } = useScrollReveal(0.2);
   return (
-    <section id="promesa" className="py-24 px-4 bg-white">
-      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <section id="promesa" className="py-24 px-4 bg-white overflow-hidden">
+      <div
+        ref={sectionRef as React.RefObject<HTMLDivElement>}
+        className={`max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center transition-all duration-1000 ease-out transform
+          ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-24'}
+        `}
+      >
         {/* Text Content */}
         <div className="order-2 lg:order-1">
           <div className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-6">

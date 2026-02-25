@@ -1,6 +1,13 @@
 import React from 'react';
-import { Mail, Phone, MapPin, Globe, ChevronDown, Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
+import { Mail, Phone, MapPin, Globe, ChevronDown, Facebook, Instagram } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+// Custom TikTok SVG Icon as Lucide doesn't have it natively
+const TikTok = ({ size = 24, className = "" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+  </svg>
+);
 
 interface FooterProps {
   variant?: 'light' | 'dark';
@@ -59,9 +66,23 @@ const Footer: React.FC<FooterProps> = ({ variant = 'light', showCta = true }) =>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-            <div className="flex flex-col space-y-4">
+            <div className="flex flex-col space-y-5">
               <h3 className={`font-display text-lg font-bold ${textClass}`}>El Programa</h3>
-              <ul className="space-y-3">
+
+              {/* Program Badges - Inline Row with bright colors */}
+              <div className="flex flex-wrap gap-2">
+                <Link to="/programas" className="bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors shadow-sm">
+                  Profesional
+                </Link>
+                <Link to="/programas" className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors shadow-sm">
+                  Kids
+                </Link>
+                <Link to="/programas" className="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors shadow-sm">
+                  Pre-Kids
+                </Link>
+              </div>
+
+              <ul className="space-y-3 pt-2 border-t border-gray-200/20">
                 <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/programas">Beneficios</Link></li>
                 <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/programas">Metodología</Link></li>
                 <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/resultados">Testimonios</Link></li>
@@ -75,7 +96,6 @@ const Footer: React.FC<FooterProps> = ({ variant = 'light', showCta = true }) =>
                 <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/resultados">Resultados</Link></li>
                 <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/sedes">Sedes</Link></li>
                 <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/es-para-ti">Es para ti</Link></li>
-                <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/contacto">Contacto</Link></li>
               </ul>
             </div>
 
@@ -94,11 +114,14 @@ const Footer: React.FC<FooterProps> = ({ variant = 'light', showCta = true }) =>
                   </div>
                   <span className={`${linkClass} transition-colors text-sm font-medium`}>960 508 686</span>
                 </a>
-                <div className="flex items-center group">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-3 ${iconContainerClass}`}>
+                <div className="flex items-start group">
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-3 mt-1 shrink-0 ${iconContainerClass}`}>
                     <MapPin size={18} />
                   </div>
-                  <span className={`${isDark ? 'text-gray-300' : 'text-gray-600'} text-sm font-medium`}>Lima, Perú</span>
+                  <div className="flex flex-col">
+                    <span className={`${textClass} text-sm font-bold`}>Sede San Isidro</span>
+                    <span className={`${isDark ? 'text-gray-300' : 'text-gray-600'} text-sm font-medium mt-0.5`}>Calle Francisco de Zela #2575</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -110,17 +133,14 @@ const Footer: React.FC<FooterProps> = ({ variant = 'light', showCta = true }) =>
                 <ChevronDown size={16} />
               </button>
               <div className="flex space-x-4">
-                <a className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm border ${socialIconClass}`} href="#">
+                <a className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm border ${socialIconClass}`} href="https://www.facebook.com/profile.php?id=61557499991606" target="_blank" rel="noopener noreferrer" title="Facebook">
                   <Facebook size={20} className="fill-current" />
                 </a>
-                <a className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm border ${socialIconClass}`} href="#">
+                <a className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm border ${socialIconClass}`} href="#" title="TikTok">
+                  <TikTok size={20} />
+                </a>
+                <a className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm border ${socialIconClass}`} href="#" title="Instagram">
                   <Instagram size={20} />
-                </a>
-                <a className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm border ${socialIconClass}`} href="#">
-                  <Linkedin size={20} className="fill-current" />
-                </a>
-                <a className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm border ${socialIconClass}`} href="#">
-                  <Twitter size={20} className="fill-current" />
                 </a>
               </div>
             </div>

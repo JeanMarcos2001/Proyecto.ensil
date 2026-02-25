@@ -23,18 +23,6 @@ const ProgramsHub: React.FC = () => {
       subtitle: 'Lectura Ágil',
       icon: 'school', // Material Icon name
       component: <ProfessionalContent />,
-      color: 'bg-emerald-50', // Very light pastel green
-      activeColor: 'bg-white',
-      borderColor: 'border-emerald-200',
-      iconBg: 'bg-emerald-100',
-      iconColor: 'text-emerald-600'
-    },
-    {
-      id: 'kids',
-      title: 'Kids',
-      subtitle: 'Potencia Escolar',
-      icon: 'child_care',
-      component: <KidsContent />,
       color: 'bg-blue-50', // Light pastel blue
       activeColor: 'bg-white',
       borderColor: 'border-blue-200',
@@ -42,21 +30,33 @@ const ProgramsHub: React.FC = () => {
       iconColor: 'text-blue-600'
     },
     {
+      id: 'kids',
+      title: 'Kids',
+      subtitle: 'Potencia Escolar',
+      icon: 'child_care',
+      component: <KidsContent />,
+      color: 'bg-red-50', // Light pastel red
+      activeColor: 'bg-white',
+      borderColor: 'border-red-200',
+      iconBg: 'bg-red-100',
+      iconColor: 'text-red-600'
+    },
+    {
       id: 'pre-kids',
       title: 'Pre-Kids',
       subtitle: 'Iniciación',
       icon: 'toys',
       component: <PreKidsContent />,
-      color: 'bg-amber-50', // Light pastel amber/orange
+      color: 'bg-orange-50', // Light pastel orange
       activeColor: 'bg-white',
-      borderColor: 'border-amber-200',
-      iconBg: 'bg-amber-100',
-      iconColor: 'text-amber-600'
+      borderColor: 'border-orange-200',
+      iconBg: 'bg-orange-100',
+      iconColor: 'text-orange-600'
     }
   ];
 
   return (
-    <div className="w-full min-h-screen bg-white flex flex-col items-center py-8 md:py-12 relative overflow-hidden">
+    <div className="w-full min-h-screen bg-white font-jakarta flex flex-col items-center pt-8 pb-12 md:pt-8 md:pb-16 relative overflow-hidden">
 
       {/* Background Decor */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
@@ -66,7 +66,7 @@ const ProgramsHub: React.FC = () => {
 
       {/* Header Text - Improved Typography */}
       <div className="text-center max-w-4xl px-4 mb-8 z-10 relative">
-        <span className="inline-block py-1 px-3 rounded-full bg-slate-50 border border-slate-200 text-slate-500 font-bold tracking-widest text-[10px] uppercase mb-3">
+        <span className="inline-block py-1 px-3 rounded-full bg-green-100 text-green-700 text-xs font-bold uppercase tracking-wider mb-4">
           Nuestros Programas
         </span>
         <h1 className="font-fraunces text-3xl md:text-5xl lg:text-6xl text-slate-900 font-bold tracking-tight leading-tight">
@@ -84,7 +84,7 @@ const ProgramsHub: React.FC = () => {
               key={program.id}
               onClick={() => setActiveId(program.id)}
               className={`
-                                relative overflow-hidden rounded-[2rem] border transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] cursor-pointer shadow-sm hover:shadow-md
+                                group relative overflow-hidden rounded-[2rem] border transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] cursor-pointer shadow-sm hover:shadow-md
                                 ${isActive ? 'md:flex-[3] flex-[3] shadow-xl' : 'md:flex-[0.4] flex-[0.5] hover:flex-[0.5]'}
                                 ${isActive ? program.activeColor : program.color}
                                 ${program.borderColor}
@@ -93,8 +93,8 @@ const ProgramsHub: React.FC = () => {
               {/* COLLAPSED CONTENT (Vertical Strip Mode) */}
               <div
                 className={`
-                                    absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 z-10
-                                    ${isActive ? 'opacity-0 pointer-events-none' : 'opacity-100 delay-100'}
+                                    absolute inset-0 flex flex-col items-center justify-center transition-all duration-500 z-10
+                                    ${isActive ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 delay-100'}
                                 `}
               >
                 <div className={`p-4 rounded-2xl ${program.iconBg} mb-4 md:mb-8 transition-transform duration-300 transform group-hover:scale-110`}>
@@ -115,18 +115,26 @@ const ProgramsHub: React.FC = () => {
                 <div className="md:hidden text-center">
                   <h3 className="text-lg font-bold text-slate-700">{program.title}</h3>
                 </div>
+
+                {/* Expand Visual Indicator */}
+                <div className="absolute top-6 md:top-8 flex flex-col items-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+                  <div className={`w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center border border-slate-100 animate-bounce`}>
+                    <span className={`material-icons-round text-lg ${program.iconColor}`}>open_in_full</span>
+                  </div>
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest hidden md:block">Expandir</span>
+                </div>
               </div>
 
               {/* EXPANDED CONTENT */}
               <div
                 className={`
-                                    w-full h-full overflow-hidden transition-all duration-700 ease-in-out relative
-                                    ${isActive ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95 absolute inset-0'}
+                                    absolute inset-0 w-full h-full overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]
+                                    ${isActive ? 'opacity-100 translate-y-0 z-20 delay-100' : 'opacity-0 translate-y-8 pointer-events-none z-0'}
                                 `}
               >
                 <div className="w-full h-full overflow-y-auto custom-scrollbar p-1">
                   {/* Wrapper to ensure content takes full width/height */}
-                  <div className="min-h-full">
+                  <div className="min-h-full min-w-[320px] md:min-w-[500px]">
                     {program.component}
                   </div>
                 </div>

@@ -1,14 +1,16 @@
 import React from 'react';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 const EsParaTiContent: React.FC = () => {
+    const { ref: gridRef, isVisible } = useScrollReveal(0.15);
     return (
         <div className="w-full bg-white text-slate-800 font-jakarta">
-            <main className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 space-y-24">
+            <main className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 space-y-20">
 
                 {/* Header Section */}
-                <section className="text-center space-y-6 relative">
+                <div className="text-center mb-10 md:mb-12 relative">
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-12 w-64 h-64 bg-green-400/10 rounded-full blur-3xl -z-10"></div>
-                    <span className="inline-block py-1 px-4 rounded-full bg-green-100 text-ensil-green font-semibold text-xs uppercase tracking-wider mb-4 font-jakarta">
+                    <span className="inline-block py-1 px-3 rounded-full bg-green-100 text-green-700 text-xs font-bold uppercase tracking-wider mb-4">
                         Criterios de Admisión
                     </span>
                     <h1 className="text-5xl md:text-7xl font-bold text-slate-900 leading-tight font-fraunces">
@@ -21,10 +23,15 @@ const EsParaTiContent: React.FC = () => {
                     <p className="max-w-2xl mx-auto text-lg text-slate-600 font-jakarta">
                         La lectura integral requiere compromiso. Descubre si tu perfil se alinea con nuestra metodología de alto rendimiento.
                     </p>
-                </section>
+                </div>
 
                 {/* Comparison Grid */}
-                <section className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                <section
+                    ref={gridRef as React.RefObject<HTMLElement>}
+                    className={`grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 transition-all duration-1000 ease-out transform
+                        ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-24'}
+                    `}
+                >
                     {/* YES Column */}
                     <div className="bg-white rounded-3xl shadow-xl border border-slate-100 relative overflow-hidden group hover:border-ensil-green/50 transition-all duration-300 flex flex-col">
                         <div className="h-56 relative w-full overflow-hidden">

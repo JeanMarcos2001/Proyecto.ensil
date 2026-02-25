@@ -38,7 +38,7 @@ const Results: React.FC = () => {
                   <p className="text-xs text-gray-500">Abogada</p>
                 </div>
               </div>
-              <Quote className="text-blue-100 fill-current" size={40} />
+              <Quote className="text-green-100 fill-current" size={40} />
             </div>
           </div>
 
@@ -78,7 +78,7 @@ const Results: React.FC = () => {
                   <p className="text-xs text-gray-500">Madre de familia</p>
                 </div>
               </div>
-              <Quote className="text-blue-100 fill-current" size={40} />
+              <Quote className="text-green-100 fill-current" size={40} />
             </div>
           </div>
         </div>

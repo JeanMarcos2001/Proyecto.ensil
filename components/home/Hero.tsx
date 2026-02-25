@@ -1,14 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { Brain, BookOpen, MapPin, ChevronDown } from 'lucide-react';
+import { smoothScrollTo } from '../../utils/scroll';
 
 const Hero: React.FC = () => {
-  const scrollToPrograms = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const element = document.getElementById('programa');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -87,7 +81,10 @@ const Hero: React.FC = () => {
 
         <a
           href="#programa"
-          onClick={scrollToPrograms}
+          onClick={(e) => {
+            e.preventDefault();
+            smoothScrollTo('programa', 1200);
+          }}
           className="inline-flex flex-col items-center text-slate-600 hover:text-green-700 transition-colors group cursor-pointer"
         >
           <span className="text-xs font-bold tracking-[0.2em] uppercase mb-2">Descubre cómo funciona</span>

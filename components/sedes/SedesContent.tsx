@@ -243,7 +243,7 @@ const SedesContent: React.FC = () => {
 
   return (
     <div className="w-full bg-white text-slate-800 font-jakarta">
-      <main className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <main className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
 
         {/* Header Section */}
         <div className="text-center mb-10 md:mb-12">

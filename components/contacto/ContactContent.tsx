@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { User, Baby, ArrowRight, CheckCircle, ArrowLeft, MapPin, Loader2, Phone, Sparkles, ChevronLeft, ChevronRight, Clock, Calendar, AlertCircle, Plus, Trash2, RotateCcw, ChevronDown } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
+import { smoothScrollTo } from '../../utils/scroll';
 
 // --- 1. CREDENCIALES DE CONEXIÓN ---
 const supabaseUrl = 'https://fmbtcgilsicvvsltmzms.supabase.co';
@@ -381,7 +382,7 @@ const ContactContent: React.FC = () => {
           <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch min-h-[600px]">
 
             {/* LEFT COLUMN: Split into Title Card and Video Card */}
-            <div className="w-full h-full flex flex-col gap-6">
+            <div className="w-full h-full flex flex-col gap-4">
 
               {/* BLOCK 1: Title Card */}
               <div className="relative w-full shrink-0">
@@ -389,15 +390,15 @@ const ContactContent: React.FC = () => {
                 <div className="relative w-full rounded-[2rem] bg-white p-[2px] overflow-hidden">
                   <div className="absolute inset-[-100%] bg-[conic-gradient(from_90deg_at_50%_50%,#f1f5f9_0%,#84cc16_50%,#f1f5f9_100%)] animate-spin-slow opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   {/* Top Section: Title & Badge */}
-                  <div className="p-5 md:p-8 pb-2 flex-shrink-0">
+                  <div className="p-4 md:p-6 pb-2 flex-shrink-0">
                     {/* Badge */}
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100/80 text-ensil-gold text-[10px] font-bold tracking-wider uppercase mb-3 border border-slate-200/60 shadow-sm w-fit">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100/80 text-ensil-gold text-[10px] font-bold tracking-wider uppercase mb-2 border border-slate-200/60 shadow-sm w-fit">
                       <span className="w-1.5 h-1.5 rounded-full bg-ensil-gold animate-pulse"></span>
                       Método Exclusivo
                     </div>
 
                     {/* Title */}
-                    <h1 className="font-fraunces text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.1] text-slate-900 tracking-tight m-0 mb-3">
+                    <h1 className="font-fraunces text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] text-slate-900 tracking-tight m-0 mb-2">
                       Transforma Tu Lectura <br />
                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-700 via-emerald-600 to-green-700 drop-shadow-sm inline-block">
                         En Tu Mayor Poder
@@ -405,7 +406,7 @@ const ContactContent: React.FC = () => {
                     </h1>
 
                     {/* Subtitle */}
-                    <p className="text-slate-500 text-sm md:text-base font-medium max-w-md leading-relaxed">
+                    <p className="text-slate-500 text-xs md:text-sm font-medium max-w-md leading-relaxed">
                       Domina la lectura veloz y la comprensión total en tiempo récord.
                     </p>
                   </div>
@@ -489,34 +490,34 @@ const ContactContent: React.FC = () => {
                     {/* STEP 1: TARGET SELECTION */}
                     {step === 1 && (
                       <div className="flex-1 flex flex-col justify-center animate-fade-in">
-                        <p className="text-slate-600 text-base mb-6 font-medium">¿Para quién deseas el programa?</p>
-                        <div className="grid grid-cols-1 gap-4 mb-8">
+                        <p className="text-slate-600 text-sm md:text-base mb-4 font-medium text-center">Nivel del estudiante:</p>
+                        <div className="grid grid-cols-2 gap-3 mb-6">
                           <button
-                            onClick={() => setTarget('me')}
-                            className={`p-5 rounded-2xl border-2 transition-all duration-300 flex items-center gap-5 hover:shadow-lg text-left ${target === 'me' ? 'border-green-500 bg-green-50' : 'border-slate-100 hover:border-green-200'}`}
+                            onClick={() => { setTarget('me'); setTimeout(nextStep, 150); }}
+                            className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${target === 'me' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 relative top-0 hover:-translate-y-1'}`}
                           >
-                            <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl shrink-0 ${target === 'me' ? 'bg-white text-green-600 shadow-sm' : 'bg-slate-50 text-slate-400'}`}>
-                              <User size={20} />
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${target === 'me' ? 'bg-green-600 text-white shadow-lg' : 'bg-slate-100 text-slate-400'}`}>
+                              <User size={24} />
                             </div>
-                            <div className="flex-1">
-                              <h3 className={`font-bold text-lg ${target === 'me' ? 'text-slate-900' : 'text-slate-700'}`}>Para Mí</h3>
-                              <p className="text-xs text-slate-500 mt-1">Desarrollo personal y profesional</p>
+                            <div>
+                              <h3 className={`font-bold text-sm md:text-base leading-tight ${target === 'me' ? 'text-green-800' : 'text-slate-700'}`}>Jóvenes & Adultos</h3>
+                              <p className={`text-[10px] md:text-xs mt-1 leading-tight ${target === 'me' ? 'text-green-600 font-medium' : 'text-slate-400'}`}>Desarrollo profesional</p>
                             </div>
-                            {target === 'me' && <CheckCircle className="text-green-500" size={24} />}
+                            {target === 'me' && <CheckCircle className="text-green-500 absolute top-3 right-3" size={18} />}
                           </button>
 
                           <button
-                            onClick={() => setTarget('child')}
-                            className={`p-5 rounded-2xl border-2 transition-all duration-300 flex items-center gap-5 hover:shadow-lg text-left ${target === 'child' ? 'border-green-500 bg-green-50' : 'border-slate-100 hover:border-green-200'}`}
+                            onClick={() => { setTarget('child'); setTimeout(nextStep, 150); }}
+                            className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${target === 'child' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 relative top-0 hover:-translate-y-1'}`}
                           >
-                            <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl shrink-0 ${target === 'child' ? 'bg-white text-green-600 shadow-sm' : 'bg-slate-50 text-slate-400'}`}>
-                              <Baby size={20} />
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${target === 'child' ? 'bg-green-600 text-white shadow-lg' : 'bg-slate-100 text-slate-400'}`}>
+                              <Baby size={24} />
                             </div>
-                            <div className="flex-1">
-                              <h3 className={`font-bold text-lg ${target === 'child' ? 'text-slate-900' : 'text-slate-700'}`}>Para Mi Hijo</h3>
-                              <p className="text-xs text-slate-500 mt-1">Potencial académico escolar</p>
+                            <div>
+                              <h3 className={`font-bold text-sm md:text-base leading-tight ${target === 'child' ? 'text-green-800' : 'text-slate-700'}`}>Pre-Kids & Kids</h3>
+                              <p className={`text-[10px] md:text-xs mt-1 leading-tight ${target === 'child' ? 'text-green-600 font-medium' : 'text-slate-400'}`}>Potencial escolar</p>
                             </div>
-                            {target === 'child' && <CheckCircle className="text-green-500" size={24} />}
+                            {target === 'child' && <CheckCircle className="text-green-500 absolute top-3 right-3" size={18} />}
                           </button>
                         </div>
                         <button onClick={nextStep} className="w-full bg-gradient-to-r from-emerald-500 to-green-700 hover:from-emerald-400 hover:to-green-600 text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 transition-all shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] hover:-translate-y-0.5">
@@ -529,30 +530,26 @@ const ContactContent: React.FC = () => {
                     {/* STEP 2: DEPENDENCY (Only if Target is 'me') */}
                     {step === 2 && (
                       <div className="flex-1 flex flex-col justify-center animate-fade-in">
-                        <button onClick={prevStep} className="text-slate-400 hover:text-primary mb-4 flex items-center gap-1 text-sm w-fit"><ArrowLeft size={16} /> Volver</button>
-                        <p className="text-slate-600 text-base mb-6 font-medium">Para personalizar tu experiencia, ¿cómo te consideras?</p>
+                        <button onClick={prevStep} className="text-slate-400 hover:text-green-600 mb-2 flex items-center gap-1 text-xs font-bold uppercase tracking-wider transition-colors w-fit bg-slate-50 px-3 py-1.5 rounded-lg hover:bg-green-50"><ArrowLeft size={14} /> Atrás</button>
+                        <p className="text-slate-600 text-sm md:text-base mb-4 font-medium text-center">Tipo de dependencia:</p>
 
-                        <div className="space-y-4 mb-8">
+                        <div className="grid grid-cols-2 gap-3 mb-6">
                           <button
-                            onClick={() => setDependency('independent')}
-                            className={`w-full p-5 rounded-xl border text-left flex items-center justify-between transition-all ${dependency === 'independent' ? 'border-green-500 bg-green-50 ring-1 ring-green-500' : 'border-slate-200 hover:border-green-300'}`}
+                            onClick={() => { setDependency('independent'); setTimeout(nextStep, 150); }}
+                            className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${dependency === 'independent' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 relative top-0 hover:-translate-y-1'}`}
                           >
-                            <div>
-                              <h4 className="font-bold text-slate-800 text-lg">Persona Totalmente Independiente</h4>
-                              <p className="text-xs text-slate-500 mt-1">Manejo mis propias finanzas y decisiones.</p>
-                            </div>
-                            {dependency === 'independent' && <CheckCircle className="text-green-500" size={24} />}
+                            <h4 className={`font-bold text-sm md:text-base leading-tight ${dependency === 'independent' ? 'text-green-800' : 'text-slate-700'}`}>Independiente</h4>
+                            <p className={`text-[10px] md:text-xs leading-tight ${dependency === 'independent' ? 'text-green-600 font-medium' : 'text-slate-400'}`}>Manejo mis propias finanzas.</p>
+                            {dependency === 'independent' && <CheckCircle className="text-green-500 absolute top-3 right-3" size={18} />}
                           </button>
 
                           <button
-                            onClick={() => setDependency('dependent')}
-                            className={`w-full p-5 rounded-xl border text-left flex items-center justify-between transition-all ${dependency === 'dependent' ? 'border-green-500 bg-green-50 ring-1 ring-green-500' : 'border-slate-200 hover:border-green-300'}`}
+                            onClick={() => { setDependency('dependent'); setTimeout(nextStep, 150); }}
+                            className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${dependency === 'dependent' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 relative top-0 hover:-translate-y-1'}`}
                           >
-                            <div>
-                              <h4 className="font-bold text-slate-800 text-lg">Dependo de un Apoderado</h4>
-                              <p className="text-xs text-slate-500 mt-1">Padres o tutores toman las decisiones.</p>
-                            </div>
-                            {dependency === 'dependent' && <CheckCircle className="text-green-500" size={24} />}
+                            <h4 className={`font-bold text-sm md:text-base leading-tight ${dependency === 'dependent' ? 'text-green-800' : 'text-slate-700'}`}>Dependiente</h4>
+                            <p className={`text-[10px] md:text-xs leading-tight ${dependency === 'dependent' ? 'text-green-600 font-medium' : 'text-slate-400'}`}>Tutor o Apoderado a cargo.</p>
+                            {dependency === 'dependent' && <CheckCircle className="text-green-500 absolute top-3 right-3" size={18} />}
                           </button>
                         </div>
 
@@ -813,7 +810,7 @@ const ContactContent: React.FC = () => {
               className="inline-flex flex-col items-center text-slate-400 hover:text-green-700 transition-colors group cursor-pointer"
               onClick={(e) => {
                 e.preventDefault();
-                document.getElementById('programa')?.scrollIntoView({ behavior: 'smooth' });
+                smoothScrollTo('programa', 1200);
               }}
             >
               <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase mb-2">Sigue Aprendiendo</span>
