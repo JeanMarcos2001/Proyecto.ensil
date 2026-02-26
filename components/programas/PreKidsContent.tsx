@@ -4,7 +4,7 @@ import React from 'react';
 // CONFIGURACIÓN DE IMAGEN PRINCIPAL (HERO)
 // ==========================================
 // SUSTITUYE el enlace entre comillas debajo por tu enlace de imagen para Niños de 4-5 años (Pre-Kids)
-const MAIN_IMAGE_URL = "/img/programas/prekids.png";
+const MAIN_IMAGE_URL = "/img/programas/prekids.webp";
 
 const PreKidsContent: React.FC = () => {
     return (

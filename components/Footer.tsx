@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone, MapPin, Globe, ChevronDown, Facebook, Instagram } from 'lucide-react';
+import { Mail, Phone, MapPin, Facebook, Instagram, Youtube } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 // Custom TikTok SVG Icon as Lucide doesn't have it natively
@@ -126,12 +126,7 @@ const Footer: React.FC<FooterProps> = ({ variant = 'light', showCta = true }) =>
               </div>
             </div>
 
-            <div className="flex flex-col justify-between space-y-6 lg:items-end">
-              <button className={`flex items-center space-x-2 border rounded-full px-4 py-2 transition-colors bg-transparent w-fit ${isDark ? 'border-white/30 text-white hover:border-white' : 'border-gray-300 text-gray-800 hover:border-primary hover:text-primary'}`}>
-                <Globe size={18} />
-                <span className="text-sm font-bold">Español</span>
-                <ChevronDown size={16} />
-              </button>
+            <div className="flex flex-col justify-end space-y-6 lg:items-end">
               <div className="flex space-x-4">
                 <a className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm border ${socialIconClass}`} href="https://www.facebook.com/profile.php?id=61557499991606" target="_blank" rel="noopener noreferrer" title="Facebook">
                   <Facebook size={20} className="fill-current" />
@@ -141,6 +136,9 @@ const Footer: React.FC<FooterProps> = ({ variant = 'light', showCta = true }) =>
                 </a>
                 <a className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm border ${socialIconClass}`} href="#" title="Instagram">
                   <Instagram size={20} />
+                </a>
+                <a className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm border ${socialIconClass}`} href="https://www.youtube.com/@EnsilLecturaIntegral" target="_blank" rel="noopener noreferrer" title="YouTube">
+                  <Youtube size={20} />
                 </a>
               </div>
             </div>

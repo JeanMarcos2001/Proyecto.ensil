@@ -6,7 +6,7 @@ const Results: React.FC = () => {
     <section id="resultados" className="py-24 px-4 bg-white">
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <span className="text-primary font-bold tracking-[0.2em] text-sm uppercase">Testimonios</span>
+          <span className="text-ensil-green font-bold tracking-[0.2em] text-sm uppercase">Testimonios</span>
           <h2 className="font-display text-4xl md:text-5xl text-gray-900 font-bold mt-3 relative inline-block z-10">
             Resultados que hablan
             <span className="absolute right-0 -bottom-2 w-full h-3 bg-accent/20 -skew-x-12 -z-10"></span>
@@ -24,8 +24,8 @@ const Results: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Testimonial 1 */}
           <div className="bg-white p-8 rounded-3xl shadow-sm relative hover:shadow-lg transition-shadow">
-            <div className="text-xs font-bold uppercase tracking-wider text-primary mb-4 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-primary"></span> 2023 • Programa Integral
+            <div className="text-xs font-bold uppercase tracking-wider text-ensil-green mb-4 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-ensil-green"></span> 2023 • Programa Integral
             </div>
             <p className="text-gray-700 mb-8 italic font-serif text-lg leading-relaxed">
               "Entré leyendo 180 palabras por minuto y salí con 2100. Pude terminar mi tesis en tiempo récord. ENSIL cambió mi carrera profesional."
@@ -42,8 +42,8 @@ const Results: React.FC = () => {
             </div>
           </div>
 
-          {/* Testimonial 2 (Primary) */}
-          <div className="bg-primary p-8 rounded-3xl shadow-xl relative transform md:-translate-y-4">
+          {/* Testimonial 2 (ensil-green) */}
+          <div className="bg-ensil-green p-8 rounded-3xl shadow-xl relative transform md:-translate-y-4">
             <div className="text-xs font-bold uppercase tracking-wider text-white/70 mb-4 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-accent"></span> 2024 • Lectura Veloz
             </div>
@@ -64,8 +64,8 @@ const Results: React.FC = () => {
 
           {/* Testimonial 3 */}
           <div className="bg-white p-8 rounded-3xl shadow-sm relative hover:shadow-lg transition-shadow">
-            <div className="text-xs font-bold uppercase tracking-wider text-primary mb-4 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-primary"></span> 2023 • Memoria
+            <div className="text-xs font-bold uppercase tracking-wider text-ensil-green mb-4 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-ensil-green"></span> 2023 • Memoria
             </div>
             <p className="text-gray-700 mb-8 italic font-serif text-lg leading-relaxed">
               "Mi hija tenía problemas de atención en el colegio. El método ENSIL le dio las herramientas para concentrarse y disfrutar aprendiendo."

@@ -37,7 +37,7 @@ const Hero: React.FC = () => {
             className="relative inline-block cursor-default select-none py-2"
           >
             {/* Base Text (Dark Rich Gradient) */}
-            <span className="bg-gradient-to-r from-green-900 via-emerald-800 to-green-900 bg-clip-text text-transparent relative z-10">
+            <span className="bg-gradient-to-r from-ensil-green-900 via-emerald-800 to-ensil-green-900 bg-clip-text text-transparent relative z-10">
               Tu Mayor Superpoder
             </span>
 
@@ -63,17 +63,17 @@ const Hero: React.FC = () => {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-16">
           <div className="bg-white rounded-2xl p-6 text-slate-800 shadow-lg border border-slate-100 transform hover:-translate-y-1 transition-transform duration-300 group">
-            <BookOpen className="w-10 h-10 text-green-700 mb-4 mx-auto" />
+            <BookOpen className="w-10 h-10 text-ensil-green mb-4 mx-auto" />
             <div className="font-display text-4xl font-bold">200</div>
             <div className="text-xs font-bold tracking-widest uppercase text-slate-500 mt-1">Páginas en 5 min</div>
           </div>
           <div className="bg-white rounded-2xl p-6 text-slate-800 shadow-lg border border-slate-100 transform hover:-translate-y-1 transition-transform duration-300 group">
-            <Brain className="w-10 h-10 text-green-700 mb-4 mx-auto" />
+            <Brain className="w-10 h-10 text-ensil-green mb-4 mx-auto" />
             <div className="font-display text-4xl font-bold">100%</div>
             <div className="text-xs font-bold tracking-widest uppercase text-slate-500 mt-1">de Comprensión</div>
           </div>
           <div className="bg-white rounded-2xl p-6 text-slate-800 shadow-lg border border-slate-100 transform hover:-translate-y-1 transition-transform duration-300 group">
-            <MapPin className="w-10 h-10 text-green-700 mb-4 mx-auto" />
+            <MapPin className="w-10 h-10 text-ensil-green mb-4 mx-auto" />
             <div className="font-display text-4xl font-bold">16</div>
             <div className="text-xs font-bold tracking-widest uppercase text-slate-500 mt-1">Sedes en todo Perú</div>
           </div>
@@ -85,10 +85,10 @@ const Hero: React.FC = () => {
             e.preventDefault();
             smoothScrollTo('programa', 1200);
           }}
-          className="inline-flex flex-col items-center text-slate-600 hover:text-green-700 transition-colors group cursor-pointer"
+          className="inline-flex flex-col items-center text-slate-600 hover:text-ensil-green transition-colors group cursor-pointer"
         >
           <span className="text-xs font-bold tracking-[0.2em] uppercase mb-2">Descubre cómo funciona</span>
-          <ChevronDown className="w-8 h-8 animate-bounce group-hover:text-green-700" />
+          <ChevronDown className="w-8 h-8 animate-bounce group-hover:text-ensil-green" />
         </a>
       </div>
     </section>

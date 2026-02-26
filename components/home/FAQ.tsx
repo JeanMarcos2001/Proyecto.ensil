@@ -44,27 +44,25 @@ const FAQ: React.FC = () => {
           {faqData.map((item, index) => {
             const isOpen = openId === item.id;
             return (
-              <div 
+              <div
                 key={item.id}
                 onClick={() => toggleFAQ(item.id)}
-                className={`rounded-2xl p-6 cursor-pointer transition-all duration-300 border ${
-                  isOpen 
-                    ? 'bg-primary text-white shadow-lg border-primary' 
+                className={`rounded-2xl p-6 cursor-pointer transition-all duration-300 border ${isOpen
+                    ? 'bg-ensil-green text-white shadow-lg border-ensil-green'
                     : 'bg-gray-50 text-gray-900 hover:bg-white border-transparent hover:border-gray-200 shadow-sm'
-                }`}
+                  }`}
               >
                 <div className="flex justify-between items-center">
-                  <h3 className={`text-lg font-bold ${isOpen ? 'text-white' : 'text-primary'}`}>
+                  <h3 className={`text-lg font-bold ${isOpen ? 'text-white' : 'text-ensil-green'}`}>
                     /0{index + 1} {item.question}
                   </h3>
-                  <ChevronDown 
-                    className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-white' : 'text-gray-400'}`} 
+                  <ChevronDown
+                    className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-white' : 'text-gray-400'}`}
                   />
                 </div>
-                <div 
-                  className={`grid transition-all duration-300 ease-in-out ${
-                    isOpen ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0'
-                  }`}
+                <div
+                  className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0'
+                    }`}
                 >
                   <p className={`overflow-hidden ${isOpen ? 'text-white/90' : 'text-gray-600'}`}>
                     {item.answer}

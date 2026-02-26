@@ -247,11 +247,11 @@ const SedesContent: React.FC = () => {
 
         {/* Header Section */}
         <div className="text-center mb-10 md:mb-12">
-          <span className="inline-block py-1 px-3 rounded-full bg-green-100 text-green-700 text-xs font-bold uppercase tracking-wider mb-4">
+          <span className="inline-block py-1 px-3 rounded-full bg-green-100 text-ensil-green text-xs font-bold uppercase tracking-wider mb-4">
             Nuestras Sedes
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 leading-tight">
-            Encuéntranos en <span className="relative inline-block text-green-700">Tu Ciudad
+            Encuéntranos en <span className="relative inline-block text-ensil-green">Tu Ciudad
               <svg className="absolute w-full h-3 -bottom-1 left-0 text-yellow-500 opacity-70" preserveAspectRatio="none" viewBox="0 0 100 10">
                 <path d="M0 5 Q 50 10 100 5" fill="none" stroke="currentColor" strokeWidth="8"></path>
               </svg>
@@ -266,7 +266,7 @@ const SedesContent: React.FC = () => {
         <div className="max-w-2xl mx-auto mb-16 relative">
           <div className="relative group">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Search className="text-slate-400 group-focus-within:text-green-700 transition-colors" size={24} />
+              <Search className="text-slate-400 group-focus-within:text-ensil-green transition-colors" size={24} />
             </div>
             <input
               type="text"
@@ -276,7 +276,7 @@ const SedesContent: React.FC = () => {
                 setCurrentPage(1); // Reset page on search
               }}
               placeholder="Escribe tu departamento de residencia..."
-              className="block w-full pl-12 pr-4 py-4 bg-white border-0 ring-1 ring-slate-200 rounded-2xl text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-green-700 shadow-soft text-lg transition-all"
+              className="block w-full pl-12 pr-4 py-4 bg-white border-0 ring-1 ring-slate-200 rounded-2xl text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-ensil-green shadow-soft text-lg transition-all"
             />
             {searchTerm && filteredSedes.length === 0 && (
               <div className="absolute top-full mt-2 w-full bg-white rounded-xl shadow-lg p-4 text-center text-slate-500 text-sm z-20">
@@ -315,7 +315,7 @@ const SedesContent: React.FC = () => {
 
                 <button
                   onClick={() => toggleExpand(sede.id)}
-                  className={`absolute bottom-3 right-3 bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full p-2 hover:bg-white hover:text-green-700 transition-all duration-300 z-10 shadow-lg ${expandedId === sede.id ? 'rotate-180 bg-white text-green-700' : ''}`}
+                  className={`absolute bottom-3 right-3 bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full p-2 hover:bg-white hover:text-ensil-green transition-all duration-300 z-10 shadow-lg ${expandedId === sede.id ? 'rotate-180 bg-white text-ensil-green' : ''}`}
                 >
                   <ChevronDown size={20} />
                 </button>
@@ -376,7 +376,7 @@ const SedesContent: React.FC = () => {
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className={`w-12 h-12 flex items-center justify-center rounded-full border transition-all ${currentPage === 1 ? 'border-slate-200 text-slate-300 cursor-not-allowed' : 'border-slate-300 text-slate-600 hover:border-green-700 hover:text-green-700 hover:shadow-md'}`}
+              className={`w-12 h-12 flex items-center justify-center rounded-full border transition-all ${currentPage === 1 ? 'border-slate-200 text-slate-300 cursor-not-allowed' : 'border-slate-300 text-slate-600 hover:border-ensil-green hover:text-ensil-green hover:shadow-md'}`}
             >
               <ArrowLeft size={20} />
             </button>
@@ -386,7 +386,7 @@ const SedesContent: React.FC = () => {
                 <button
                   key={page}
                   onClick={() => handlePageChange(page)}
-                  className={`w-10 h-10 flex items-center justify-center rounded-full text-sm font-bold transition-all ${currentPage === page ? 'bg-green-700 text-white shadow-lg scale-110' : 'border border-slate-200 text-slate-600 hover:border-green-700 hover:text-green-700'}`}
+                  className={`w-10 h-10 flex items-center justify-center rounded-full text-sm font-bold transition-all ${currentPage === page ? 'bg-ensil-green text-white shadow-lg scale-110' : 'border border-slate-200 text-slate-600 hover:border-ensil-green hover:text-ensil-green'}`}
                 >
                   {page}
                 </button>
@@ -396,7 +396,7 @@ const SedesContent: React.FC = () => {
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className={`w-12 h-12 flex items-center justify-center rounded-full border transition-all ${currentPage === totalPages ? 'border-slate-200 text-slate-300 cursor-not-allowed' : 'border-slate-300 text-slate-600 hover:border-green-700 hover:text-green-700 hover:shadow-md'}`}
+              className={`w-12 h-12 flex items-center justify-center rounded-full border transition-all ${currentPage === totalPages ? 'border-slate-200 text-slate-300 cursor-not-allowed' : 'border-slate-300 text-slate-600 hover:border-ensil-green hover:text-ensil-green hover:shadow-md'}`}
             >
               <ArrowRight size={20} />
             </button>

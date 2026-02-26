@@ -4,7 +4,7 @@ import React from 'react';
 // CONFIGURACIÓN DE IMAGEN PRINCIPAL (HERO)
 // ==========================================
 // SUSTITUYE el enlace entre comillas debajo por tu enlace de imagen para Niños (Programa Kids)
-const MAIN_IMAGE_URL = "/img/programas/kids.png";
+const MAIN_IMAGE_URL = "/img/programas/kids.webp";
 
 const KidsContent: React.FC = () => {
     return (

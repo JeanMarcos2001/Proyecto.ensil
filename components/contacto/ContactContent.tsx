@@ -496,28 +496,28 @@ const ContactContent: React.FC = () => {
                             onClick={() => { setTarget('me'); setTimeout(nextStep, 150); }}
                             className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${target === 'me' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 relative top-0 hover:-translate-y-1'}`}
                           >
-                            <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${target === 'me' ? 'bg-green-600 text-white shadow-lg' : 'bg-slate-100 text-slate-400'}`}>
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${target === 'me' ? 'bg-ensil-green text-white shadow-lg' : 'bg-slate-100 text-slate-400'}`}>
                               <User size={24} />
                             </div>
                             <div>
-                              <h3 className={`font-bold text-sm md:text-base leading-tight ${target === 'me' ? 'text-green-800' : 'text-slate-700'}`}>Jóvenes & Adultos</h3>
-                              <p className={`text-[10px] md:text-xs mt-1 leading-tight ${target === 'me' ? 'text-green-600 font-medium' : 'text-slate-400'}`}>Desarrollo profesional</p>
+                              <h3 className={`font-bold text-sm md:text-base leading-tight ${target === 'me' ? 'text-ensil-green' : 'text-slate-700'}`}>Jóvenes & Adultos</h3>
+                              <p className={`text-[10px] md:text-xs mt-1 leading-tight ${target === 'me' ? 'text-ensil-green font-medium' : 'text-slate-400'}`}>Desarrollo profesional</p>
                             </div>
-                            {target === 'me' && <CheckCircle className="text-green-500 absolute top-3 right-3" size={18} />}
+                            {target === 'me' && <CheckCircle className="text-ensil-green absolute top-3 right-3" size={18} />}
                           </button>
 
                           <button
                             onClick={() => { setTarget('child'); setTimeout(nextStep, 150); }}
                             className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${target === 'child' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 relative top-0 hover:-translate-y-1'}`}
                           >
-                            <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${target === 'child' ? 'bg-green-600 text-white shadow-lg' : 'bg-slate-100 text-slate-400'}`}>
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${target === 'child' ? 'bg-ensil-green text-white shadow-lg' : 'bg-slate-100 text-slate-400'}`}>
                               <Baby size={24} />
                             </div>
                             <div>
-                              <h3 className={`font-bold text-sm md:text-base leading-tight ${target === 'child' ? 'text-green-800' : 'text-slate-700'}`}>Pre-Kids & Kids</h3>
-                              <p className={`text-[10px] md:text-xs mt-1 leading-tight ${target === 'child' ? 'text-green-600 font-medium' : 'text-slate-400'}`}>Potencial escolar</p>
+                              <h3 className={`font-bold text-sm md:text-base leading-tight ${target === 'child' ? 'text-ensil-green' : 'text-slate-700'}`}>Pre-Kids & Kids</h3>
+                              <p className={`text-[10px] md:text-xs mt-1 leading-tight ${target === 'child' ? 'text-ensil-green font-medium' : 'text-slate-400'}`}>Potencial escolar</p>
                             </div>
-                            {target === 'child' && <CheckCircle className="text-green-500 absolute top-3 right-3" size={18} />}
+                            {target === 'child' && <CheckCircle className="text-ensil-green absolute top-3 right-3" size={18} />}
                           </button>
                         </div>
                         <button onClick={nextStep} className="w-full bg-gradient-to-r from-emerald-500 to-green-700 hover:from-emerald-400 hover:to-green-600 text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 transition-all shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] hover:-translate-y-0.5">
@@ -538,18 +538,18 @@ const ContactContent: React.FC = () => {
                             onClick={() => { setDependency('independent'); setTimeout(nextStep, 150); }}
                             className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${dependency === 'independent' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 relative top-0 hover:-translate-y-1'}`}
                           >
-                            <h4 className={`font-bold text-sm md:text-base leading-tight ${dependency === 'independent' ? 'text-green-800' : 'text-slate-700'}`}>Independiente</h4>
-                            <p className={`text-[10px] md:text-xs leading-tight ${dependency === 'independent' ? 'text-green-600 font-medium' : 'text-slate-400'}`}>Manejo mis propias finanzas.</p>
-                            {dependency === 'independent' && <CheckCircle className="text-green-500 absolute top-3 right-3" size={18} />}
+                            <h4 className={`font-bold text-sm md:text-base leading-tight ${dependency === 'independent' ? 'text-ensil-green' : 'text-slate-700'}`}>Independiente</h4>
+                            <p className={`text-[10px] md:text-xs leading-tight ${dependency === 'independent' ? 'text-ensil-green font-medium' : 'text-slate-400'}`}>Manejo mis propias finanzas.</p>
+                            {dependency === 'independent' && <CheckCircle className="text-ensil-green absolute top-3 right-3" size={18} />}
                           </button>
 
                           <button
                             onClick={() => { setDependency('dependent'); setTimeout(nextStep, 150); }}
                             className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${dependency === 'dependent' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 relative top-0 hover:-translate-y-1'}`}
                           >
-                            <h4 className={`font-bold text-sm md:text-base leading-tight ${dependency === 'dependent' ? 'text-green-800' : 'text-slate-700'}`}>Dependiente</h4>
-                            <p className={`text-[10px] md:text-xs leading-tight ${dependency === 'dependent' ? 'text-green-600 font-medium' : 'text-slate-400'}`}>Tutor o Apoderado a cargo.</p>
-                            {dependency === 'dependent' && <CheckCircle className="text-green-500 absolute top-3 right-3" size={18} />}
+                            <h4 className={`font-bold text-sm md:text-base leading-tight ${dependency === 'dependent' ? 'text-ensil-green' : 'text-slate-700'}`}>Dependiente</h4>
+                            <p className={`text-[10px] md:text-xs leading-tight ${dependency === 'dependent' ? 'text-ensil-green font-medium' : 'text-slate-400'}`}>Tutor o Apoderado a cargo.</p>
+                            {dependency === 'dependent' && <CheckCircle className="text-ensil-green absolute top-3 right-3" size={18} />}
                           </button>
                         </div>
 
@@ -563,7 +563,7 @@ const ContactContent: React.FC = () => {
                     {/* STEP 3: DATA FORM & APPOINTMENT */}
                     {step === 3 && (
                       <div className="flex-1 flex flex-col animate-fade-in">
-                        <button onClick={prevStep} className="text-slate-400 hover:text-primary mb-4 flex items-center gap-1 text-sm w-fit"><ArrowLeft size={16} /> Volver</button>
+                        <button onClick={prevStep} className="text-slate-400 hover:text-ensil-green mb-4 flex items-center gap-1 text-sm w-fit"><ArrowLeft size={16} /> Volver</button>
 
                         <div className="space-y-4 mb-8 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
                           {dependency === 'dependent' && (

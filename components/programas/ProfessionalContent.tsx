@@ -4,7 +4,7 @@ import React from 'react';
 // CONFIGURACIÓN DE IMAGEN PRINCIPAL (HERO)
 // ==========================================
 // SUSTITUYE el enlace entre comillas debajo por tu enlace de imagen para Jóvenes & Adultos (Profesional)
-const MAIN_IMAGE_URL = "/img/programas/pro.png";
+const MAIN_IMAGE_URL = "/img/programas/pro.webp";
 
 const ProfessionalContent: React.FC = () => {
     return (

@@ -75,7 +75,7 @@ const ProgramsHub: React.FC = () => {
       </div>
 
       {/* Accordion Container */}
-      <div className="w-full max-w-screen-2xl mx-auto px-4 md:px-8 h-[700px] md:h-[600px] lg:h-[700px] flex flex-col md:flex-row gap-4 md:gap-6 z-20 transition-all">
+      <div className="w-full max-w-screen-2xl mx-auto px-4 md:px-8 min-h-[500px] flex flex-col md:flex-row gap-4 md:gap-6 z-20 transition-all duration-700">
         {programs.map((program) => {
           const isActive = activeId === program.id;
 
@@ -128,13 +128,13 @@ const ProgramsHub: React.FC = () => {
               {/* EXPANDED CONTENT */}
               <div
                 className={`
-                                    absolute inset-0 w-full h-full overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]
-                                    ${isActive ? 'opacity-100 translate-y-0 z-20 delay-100' : 'opacity-0 translate-y-8 pointer-events-none z-0'}
+                                    w-full transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]
+                                    ${isActive ? 'opacity-100 translate-y-0 z-20 delay-100 relative h-full block' : 'opacity-0 translate-y-8 pointer-events-none z-0 absolute inset-0 overflow-hidden'}
                                 `}
               >
-                <div className="w-full h-full overflow-y-auto custom-scrollbar p-1">
+                <div className="w-full p-1 h-full flex flex-col">
                   {/* Wrapper to ensure content takes full width/height */}
-                  <div className="min-h-full min-w-[320px] md:min-w-[500px]">
+                  <div className="min-w-[280px] md:min-w-[500px] h-full">
                     {program.component}
                   </div>
                 </div>

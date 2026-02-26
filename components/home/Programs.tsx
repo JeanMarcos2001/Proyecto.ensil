@@ -40,7 +40,7 @@ const Programs: React.FC = () => {
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="font-display text-4xl md:text-5xl text-gray-900 font-bold leading-tight">
-            Eleva tu <span className="text-primary">Intelecto.</span><br />
+            Eleva tu <span className="text-ensil-green">Intelecto.</span><br />
             Domina el conocimiento.
           </h2>
           <p className="mt-6 text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed font-light">
@@ -113,10 +113,10 @@ const Programs: React.FC = () => {
             e.preventDefault();
             smoothScrollTo('promesa', 1200);
           }}
-          className="group flex flex-col items-center gap-2 text-gray-400 hover:text-primary transition-colors duration-300 cursor-pointer"
+          className="group flex flex-col items-center gap-2 text-gray-400 hover:text-ensil-green transition-colors duration-300 cursor-pointer"
         >
           <span className="text-xs font-bold uppercase tracking-widest">Seguir Bajando</span>
-          <div className="w-10 h-10 rounded-full border border-current flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
+          <div className="w-10 h-10 rounded-full border border-current flex items-center justify-center group-hover:bg-ensil-green group-hover:text-white transition-all">
             <ChevronDown size={20} />
           </div>
         </a>

@@ -34,12 +34,11 @@ const EsParaTiContent: React.FC = () => {
                 >
                     {/* YES Column */}
                     <div className="bg-white rounded-3xl shadow-xl border border-slate-100 relative overflow-hidden group hover:border-ensil-green/50 transition-all duration-300 flex flex-col">
-                        <div className="h-56 relative w-full overflow-hidden">
-                            <div className="absolute top-0 left-0 w-full h-2 bg-ensil-green z-20"></div>
-                            <img alt="Estudiante enfocada y exitosa" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCj8yDVcezQ1Lqlgi1JB0QB0tmwg1E8bF5GwskNZg3QHwG16NM6-ugPiv6Ub5j-lmnVOZdqSvpv-Z7QsQLmxSXv7w885PC-fG4qqHInQApZJ_rBtBfXCx73cAHpSg6sY3MqBLhwGCOF8roX0ndpTm7W3Ntbf_SNS0VRVT8Xi_zVDWbTloKlH15WqInZ8HHT9tujuigirLLJl4m9yKUJ1DX82J3DVY19PI_pT9ijTzXr8_zdmZ_pnXEBz-g_p0UTzgIzn6bafMLG4i8" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-white/90 to-transparent"></div>
+                        <div className="h-80 md:h-[400px] relative w-full overflow-hidden">
+                            <img alt="Estudiante enfocada y exitosa" className="w-full h-full object-cover object-[center_90%] group-hover:scale-105 transition-transform duration-700" src="/img/esparati/Alumno-_1_.webp" />
+                            <div className="absolute bottom-0 left-0 w-full h-[30%] bg-gradient-to-t from-white via-white/60 to-transparent z-10"></div>
                         </div>
-                        <div className="p-8 md:p-10 pt-2 flex-1">
+                        <div className="p-8 md:p-10 pt-2 flex-1 relative z-20">
                             <div className="flex items-center gap-4 mb-6">
                                 <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-ensil-green shrink-0">
                                     <span className="material-icons-round text-2xl">check_circle</span>
@@ -73,12 +72,11 @@ const EsParaTiContent: React.FC = () => {
 
                     {/* NO Column */}
                     <div className="bg-white rounded-3xl shadow-xl border border-slate-100 relative overflow-hidden group hover:border-red-500/50 transition-all duration-300 flex flex-col">
-                        <div className="h-56 relative w-full overflow-hidden">
-                            <div className="absolute top-0 left-0 w-full h-2 bg-red-500 z-20"></div>
-                            <img alt="Persona enfrentando un reto o dificultad" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale-[20%]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIPMo3kTtVAvGZccGNs1aamn3F2tbDQ9KUKzM4GGu9psj-xki1ubmC_8siZpIP0o0BYdvlQ1pWVwYOASm6kPUrgOZZWZJW5sluPTMs-rYfoTQ5nWw4yG2lavkz4zUhcLtAOh0IJ8jStSCwjpKAnBLxNx5vGw2amDufbp5qx35JkL1O8OcZzu37RICerZsaUexAbCCWREzI1UuTcmrUfdjTu1a2zQRuvZkrtuqQZfFQEHtbSDpTulqpKftlMCaiwV9R8Me7sK6M0K4" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-white/90 to-transparent"></div>
+                        <div className="h-80 md:h-[400px] relative w-full overflow-hidden">
+                            <img alt="Persona enfrentando un reto o dificultad" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale-[20%]" src="/img/esparati/Alumno-_2_.webp" />
+                            <div className="absolute bottom-0 left-0 w-full h-[30%] bg-gradient-to-t from-white via-white/60 to-transparent z-10"></div>
                         </div>
-                        <div className="p-8 md:p-10 pt-2 flex-1">
+                        <div className="p-8 md:p-10 pt-2 flex-1 relative z-20">
                             <div className="flex items-center gap-4 mb-6">
                                 <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-red-500 shrink-0">
                                     <span className="material-icons-round text-2xl">cancel</span>
