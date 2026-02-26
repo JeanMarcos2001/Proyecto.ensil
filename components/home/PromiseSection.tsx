@@ -47,14 +47,14 @@ const PromiseSection: React.FC = () => {
             />
             <img
               alt="Hombre latino profesional"
-              className="rounded-3xl object-cover w-full h-64 shadow-lg hover:scale-[1.02] transition-transform duration-500"
+              className="rounded-3xl object-cover w-full h-80 shadow-lg hover:scale-[1.02] transition-transform duration-500"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzneKTxUoUQSo6JLtaVigaa6STMLYtEqLs-VCWY3lCocWMCDWmI6YGZHdI6ty6gaNZwy3gYDB9M5EB_ntLyHmszkPBIaftoTd4Gvwn2CQGkSQkeywntC4OW_vyOUlWDItSA9zNVUIcPVh1CrXO-X6PVWo0-0zOvdKEPxbrICyjGUVQ41z7EHVTmxT3QblOxpLHxYKVolHfl2dZWXG-J0N7GT0KGhuf5YWQVWyXoI3vXTq445cZ80Ft9axXTa7aymewL49X4b2pjPg"
             />
           </div>
           <div className="space-y-4">
             <img
               alt="Adolescente latino sonriendo"
-              className="rounded-3xl object-cover w-full h-64 shadow-lg hover:scale-[1.02] transition-transform duration-500"
+              className="rounded-3xl object-cover w-full h-80 shadow-lg hover:scale-[1.02] transition-transform duration-500"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMAaVusTvFpywPEjL2ouYf7UAWwq_gCCIq7XahIGoS65IYC5R4lPX7veQX9rI32hc8F2tgBlIj3Va7W-y6JdTcHHiL30PYPlzeS1_rpS6iHByzu5RBQ-ThXcTXEt1-k5VDq3IUriqRqkSSitXTMnN4exC4oReJVou28VtGK0MeRt4BJjtZ5obPtaqSLoy9rmj3TlFgWC48506keC273EVg-_0Y4UqereeYLLvcKINDkYUsB0xjcpxv5rtQtEcQLe_f-l567EGK1xg"
             />
             <img

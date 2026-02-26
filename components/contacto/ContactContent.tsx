@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { User, Baby, ArrowRight, CheckCircle, ArrowLeft, MapPin, Loader2, Phone, Sparkles, ChevronLeft, ChevronRight, Clock, Calendar, AlertCircle, Plus, Trash2, RotateCcw, ChevronDown } from 'lucide-react';
+import { User, Baby, ArrowRight, CheckCircle, ArrowLeft, MapPin, Loader2, Phone, Sparkles, ChevronLeft, ChevronRight, Clock, Calendar, AlertCircle, Plus, Trash2, RotateCcw, ChevronDown, Briefcase, Users } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
 import { smoothScrollTo } from '../../utils/scroll';
 
@@ -379,7 +379,7 @@ const ContactContent: React.FC = () => {
 
 
           {/* Main Grid Layout - Video Left, Form Right */}
-          <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch min-h-[600px]">
+          <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8 lg:gap-12 items-stretch min-h-[600px]">
 
             {/* LEFT COLUMN: Split into Title Card and Video Card */}
             <div className="w-full h-full flex flex-col gap-4">
@@ -398,9 +398,9 @@ const ContactContent: React.FC = () => {
                     </div>
 
                     {/* Title */}
-                    <h1 className="font-fraunces text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] text-slate-900 tracking-tight m-0 mb-2">
-                      Transforma Tu Lectura <br />
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-700 via-emerald-600 to-green-700 drop-shadow-sm inline-block">
+                    <h1 className="font-fraunces text-3xl md:text-5xl lg:text-[3.25rem] font-bold leading-[1.1] text-slate-900 tracking-tight m-0 mb-2 py-1">
+                      Transforma Tu Lectura <br className="hidden md:block" />
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-700 via-emerald-600 to-green-700 drop-shadow-sm inline-block py-1">
                         En Tu Mayor Poder
                       </span>
                     </h1>
@@ -490,32 +490,30 @@ const ContactContent: React.FC = () => {
                     {/* STEP 1: TARGET SELECTION */}
                     {step === 1 && (
                       <div className="flex-1 flex flex-col justify-center animate-fade-in">
-                        <p className="text-slate-600 text-sm md:text-base mb-4 font-medium text-center">Nivel del estudiante:</p>
+                        <p className="text-slate-600 text-sm md:text-base mb-4 font-medium text-center">¿Para quién desea el programa?</p>
                         <div className="grid grid-cols-2 gap-3 mb-6">
                           <button
-                            onClick={() => { setTarget('me'); setTimeout(nextStep, 150); }}
-                            className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${target === 'me' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 relative top-0 hover:-translate-y-1'}`}
+                            onClick={() => setTarget('me')}
+                            className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${target === 'me' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 hover:-translate-y-1'}`}
                           >
                             <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${target === 'me' ? 'bg-ensil-green text-white shadow-lg' : 'bg-slate-100 text-slate-400'}`}>
                               <User size={24} />
                             </div>
                             <div>
-                              <h3 className={`font-bold text-sm md:text-base leading-tight ${target === 'me' ? 'text-ensil-green' : 'text-slate-700'}`}>Jóvenes & Adultos</h3>
-                              <p className={`text-[10px] md:text-xs mt-1 leading-tight ${target === 'me' ? 'text-ensil-green font-medium' : 'text-slate-400'}`}>Desarrollo profesional</p>
+                              <h3 className={`font-bold text-sm md:text-base leading-tight uppercase tracking-wide ${target === 'me' ? 'text-ensil-green' : 'text-slate-700'}`}>Para Mí</h3>
                             </div>
                             {target === 'me' && <CheckCircle className="text-ensil-green absolute top-3 right-3" size={18} />}
                           </button>
 
                           <button
-                            onClick={() => { setTarget('child'); setTimeout(nextStep, 150); }}
-                            className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${target === 'child' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 relative top-0 hover:-translate-y-1'}`}
+                            onClick={() => setTarget('child')}
+                            className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${target === 'child' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 hover:-translate-y-1'}`}
                           >
                             <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${target === 'child' ? 'bg-ensil-green text-white shadow-lg' : 'bg-slate-100 text-slate-400'}`}>
                               <Baby size={24} />
                             </div>
                             <div>
-                              <h3 className={`font-bold text-sm md:text-base leading-tight ${target === 'child' ? 'text-ensil-green' : 'text-slate-700'}`}>Pre-Kids & Kids</h3>
-                              <p className={`text-[10px] md:text-xs mt-1 leading-tight ${target === 'child' ? 'text-ensil-green font-medium' : 'text-slate-400'}`}>Potencial escolar</p>
+                              <h3 className={`font-bold text-sm md:text-base leading-tight uppercase tracking-wide ${target === 'child' ? 'text-ensil-green' : 'text-slate-700'}`}>Para Mi Hijo</h3>
                             </div>
                             {target === 'child' && <CheckCircle className="text-ensil-green absolute top-3 right-3" size={18} />}
                           </button>
@@ -531,24 +529,32 @@ const ContactContent: React.FC = () => {
                     {step === 2 && (
                       <div className="flex-1 flex flex-col justify-center animate-fade-in">
                         <button onClick={prevStep} className="text-slate-400 hover:text-green-600 mb-2 flex items-center gap-1 text-xs font-bold uppercase tracking-wider transition-colors w-fit bg-slate-50 px-3 py-1.5 rounded-lg hover:bg-green-50"><ArrowLeft size={14} /> Atrás</button>
-                        <p className="text-slate-600 text-sm md:text-base mb-4 font-medium text-center">Tipo de dependencia:</p>
+                        <p className="text-slate-600 text-sm md:text-base mb-4 font-medium text-center uppercase">Se considera usted:</p>
 
                         <div className="grid grid-cols-2 gap-3 mb-6">
                           <button
-                            onClick={() => { setDependency('independent'); setTimeout(nextStep, 150); }}
-                            className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${dependency === 'independent' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 relative top-0 hover:-translate-y-1'}`}
+                            onClick={() => setDependency('independent')}
+                            className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${dependency === 'independent' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 hover:-translate-y-1'}`}
                           >
-                            <h4 className={`font-bold text-sm md:text-base leading-tight ${dependency === 'independent' ? 'text-ensil-green' : 'text-slate-700'}`}>Independiente</h4>
-                            <p className={`text-[10px] md:text-xs leading-tight ${dependency === 'independent' ? 'text-ensil-green font-medium' : 'text-slate-400'}`}>Manejo mis propias finanzas.</p>
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${dependency === 'independent' ? 'bg-ensil-green text-white shadow-lg' : 'bg-slate-100 text-slate-400'}`}>
+                              <Briefcase size={24} />
+                            </div>
+                            <div>
+                              <h4 className={`font-bold text-[11px] md:text-sm leading-tight uppercase ${dependency === 'independent' ? 'text-ensil-green' : 'text-slate-700'}`}>Persona totalmente independiente</h4>
+                            </div>
                             {dependency === 'independent' && <CheckCircle className="text-ensil-green absolute top-3 right-3" size={18} />}
                           </button>
 
                           <button
-                            onClick={() => { setDependency('dependent'); setTimeout(nextStep, 150); }}
-                            className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${dependency === 'dependent' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 relative top-0 hover:-translate-y-1'}`}
+                            onClick={() => setDependency('dependent')}
+                            className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${dependency === 'dependent' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 hover:-translate-y-1'}`}
                           >
-                            <h4 className={`font-bold text-sm md:text-base leading-tight ${dependency === 'dependent' ? 'text-ensil-green' : 'text-slate-700'}`}>Dependiente</h4>
-                            <p className={`text-[10px] md:text-xs leading-tight ${dependency === 'dependent' ? 'text-ensil-green font-medium' : 'text-slate-400'}`}>Tutor o Apoderado a cargo.</p>
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${dependency === 'dependent' ? 'bg-ensil-green text-white shadow-lg' : 'bg-slate-100 text-slate-400'}`}>
+                              <Users size={24} />
+                            </div>
+                            <div>
+                              <h4 className={`font-bold text-[11px] md:text-sm leading-tight uppercase ${dependency === 'dependent' ? 'text-ensil-green' : 'text-slate-700'}`}>Aún dependo de un apoderado</h4>
+                            </div>
                             {dependency === 'dependent' && <CheckCircle className="text-ensil-green absolute top-3 right-3" size={18} />}
                           </button>
                         </div>
@@ -565,7 +571,7 @@ const ContactContent: React.FC = () => {
                       <div className="flex-1 flex flex-col animate-fade-in">
                         <button onClick={prevStep} className="text-slate-400 hover:text-ensil-green mb-4 flex items-center gap-1 text-sm w-fit"><ArrowLeft size={16} /> Volver</button>
 
-                        <div className="space-y-4 mb-8 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                        <div className="space-y-4 mb-4 max-h-[420px] overflow-y-auto px-2 pb-4 -mx-2 custom-scrollbar">
                           {dependency === 'dependent' && (
                             <>
                               <h4 className="font-bold text-slate-700 text-sm uppercase flex items-center gap-2 mt-2">
@@ -578,7 +584,7 @@ const ContactContent: React.FC = () => {
                                   placeholder="Nombre Completo Apoderado"
                                   value={formData.guardianName}
                                   onChange={handleInputChange}
-                                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
+                                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:border-green-400 focus:ring-4 focus:ring-green-400/20 text-slate-900 placeholder:text-slate-400 text-sm transition-all"
                                 />
                                 <input
                                   type="tel"
@@ -589,7 +595,7 @@ const ContactContent: React.FC = () => {
                                     const val = e.target.value.replace(/\D/g, '');
                                     if (val.length <= 9) handleInputChange({ ...e, target: { ...e.target, value: val, name: 'guardianPhone' } });
                                   }}
-                                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
+                                  className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:border-green-400 focus:ring-4 focus:ring-green-400/20 text-slate-900 placeholder:text-slate-400 text-sm transition-all"
                                 />
                               </div>
                               <div className="border-t border-slate-100 my-2"></div>
@@ -609,7 +615,7 @@ const ContactContent: React.FC = () => {
                               placeholder="Nombre Completo Alumno"
                               value={formData.studentName}
                               onChange={handleInputChange}
-                              className="md:col-span-2 w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
+                              className="md:col-span-2 w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:border-green-400 focus:ring-4 focus:ring-green-400/20 text-slate-900 placeholder:text-slate-400 text-sm transition-all"
                             />
                             <input
                               type="number"
@@ -617,7 +623,7 @@ const ContactContent: React.FC = () => {
                               placeholder="Edad"
                               value={formData.studentAge}
                               onChange={handleInputChange}
-                              className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
+                              className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:border-green-400 focus:ring-4 focus:ring-green-400/20 text-slate-900 placeholder:text-slate-400 text-sm transition-all"
                             />
                             {dependency === 'independent' && (
                               <input
@@ -629,7 +635,7 @@ const ContactContent: React.FC = () => {
                                   const val = e.target.value.replace(/\D/g, '');
                                   if (val.length <= 9) handleInputChange({ ...e, target: { ...e.target, value: val, name: 'studentPhone' } });
                                 }}
-                                className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm"
+                                className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 outline-none focus:border-green-400 focus:ring-4 focus:ring-green-400/20 text-slate-900 placeholder:text-slate-400 text-sm transition-all"
                               />
                             )}
                           </div>
@@ -655,14 +661,14 @@ const ContactContent: React.FC = () => {
                                       placeholder="Nombre Completo"
                                       value={student.name}
                                       onChange={(e) => updateExtraStudent(student.id, 'name', e.target.value)}
-                                      className="md:col-span-2 w-full bg-white border border-slate-300 rounded-lg py-2 px-3 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm font-medium"
+                                      className="md:col-span-2 w-full bg-white border border-slate-200 rounded-lg py-2 px-3 outline-none focus:border-green-400 focus:ring-4 focus:ring-green-400/20 text-slate-900 placeholder:text-slate-400 text-sm font-medium transition-all"
                                     />
                                     <input
                                       type="number"
                                       placeholder="Edad"
                                       value={student.age}
                                       onChange={(e) => updateExtraStudent(student.id, 'age', e.target.value)}
-                                      className="w-full bg-white border border-slate-300 rounded-lg py-2 px-3 outline-none focus:ring-2 focus:ring-green-500 text-slate-900 placeholder:text-slate-400 text-sm font-medium"
+                                      className="w-full bg-white border border-slate-200 rounded-lg py-2 px-3 outline-none focus:border-green-400 focus:ring-4 focus:ring-green-400/20 text-slate-900 placeholder:text-slate-400 text-sm font-medium transition-all"
                                     />
                                   </div>
                                 </div>
@@ -701,33 +707,63 @@ const ContactContent: React.FC = () => {
                                 ))}
                               </select>
 
-                              <div className="grid grid-cols-2 gap-3">
-                                {/* Simplified Date Picker Trigger */}
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {/* Enhanced Date Picker Trigger */}
                                 <div className="relative">
                                   <div className="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Fecha</div>
-                                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-2 h-48 overflow-hidden relative">
-                                    {/* Calendar Mini */}
-                                    <div className="flex justify-between items-center mb-2 px-1">
-                                      <button onClick={handlePrevMonth} className="text-slate-400 hover:text-slate-600"><ChevronLeft size={16} /></button>
-                                      <span className="text-xs font-bold text-slate-700">{MONTHS_ES[viewDate.getMonth()]}</span>
-                                      <button onClick={handleNextMonth} className="text-slate-400 hover:text-slate-600"><ChevronRight size={16} /></button>
+                                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 h-56 relative flex flex-col">
+                                    {/* Calendar Header */}
+                                    <div className="flex justify-between items-center mb-3 px-1">
+                                      <button onClick={handlePrevMonth} className="text-slate-400 hover:text-slate-600 transition-colors"><ChevronLeft size={16} /></button>
+                                      <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">{MONTHS_ES[viewDate.getMonth()]} {viewDate.getFullYear()}</span>
+                                      <button onClick={handleNextMonth} className="text-slate-400 hover:text-slate-600 transition-colors"><ChevronRight size={16} /></button>
                                     </div>
-                                    <div className="grid grid-cols-7 gap-1 text-center">
-                                      {calendarDays.slice(0, 28).map((day, idx) => ( // Limit rows for mini view
-                                        <div key={idx} className="flex justify-center">
-                                          {day && (
+
+                                    {/* Days Initials Row */}
+                                    <div className="grid grid-cols-7 gap-1 text-center mb-2">
+                                      {['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do'].map(d => (
+                                        <div key={d} className="text-[9px] font-bold text-slate-400">{d}</div>
+                                      ))}
+                                    </div>
+
+                                    {/* Calendar Grid - Show all days */}
+                                    <div className="grid grid-cols-7 gap-1 text-center flex-1">
+                                      {calendarDays.map((day, idx) => {
+                                        if (!day) return <div key={idx} />;
+
+                                        const dateOfCurrentLoop = new Date(viewDate.getFullYear(), viewDate.getMonth(), day);
+                                        const now = new Date();
+                                        now.setHours(0, 0, 0, 0); // normalize today
+
+                                        const isPast = dateOfCurrentLoop < now;
+                                        const isToday = dateOfCurrentLoop.getTime() === now.getTime();
+                                        const isSelected = selectedDateObj?.getDate() === day && selectedDateObj?.getMonth() === viewDate.getMonth();
+
+                                        let dayStyles = "w-7 h-7 text-[11px] rounded-full flex items-center justify-center transition-all mx-auto ";
+
+                                        if (isSelected) {
+                                          dayStyles += 'bg-green-600 text-white shadow-md font-bold';
+                                        } else if (isPast && !isToday) {
+                                          dayStyles += 'text-slate-300 cursor-not-allowed';
+                                        } else {
+                                          dayStyles += 'text-slate-600 hover:bg-green-100 hover:text-green-800 font-medium cursor-pointer';
+                                          if (isToday) {
+                                            dayStyles += ' ring-2 ring-inset ring-green-500 bg-green-50 text-green-700';
+                                          }
+                                        }
+
+                                        return (
+                                          <div key={idx} className="flex justify-center items-center">
                                             <button
+                                              disabled={isPast && !isToday}
                                               onClick={() => handleDayClick(day)}
-                                              className={`w-6 h-6 text-[10px] rounded-full flex items-center justify-center 
-                                                                                ${selectedDateObj?.getDate() === day && selectedDateObj?.getMonth() === viewDate.getMonth()
-                                                  ? 'bg-green-600 text-white'
-                                                  : 'text-slate-600 hover:bg-green-100'}`}
+                                              className={dayStyles}
                                             >
                                               {day}
                                             </button>
-                                          )}
-                                        </div>
-                                      ))}
+                                          </div>
+                                        );
+                                      })}
                                     </div>
                                   </div>
                                 </div>
@@ -735,7 +771,7 @@ const ContactContent: React.FC = () => {
                                 {/* Time Picker */}
                                 <div className="relative">
                                   <div className="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Hora</div>
-                                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-2 h-48 overflow-y-auto custom-scrollbar">
+                                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 h-56 overflow-y-auto custom-scrollbar">
                                     {availableHours.length > 0 ? (
                                       <div className="grid grid-cols-1 gap-1">
                                         {availableHours.map(hour => (

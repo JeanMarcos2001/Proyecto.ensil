@@ -65,6 +65,43 @@ const testimonialsData = [
   }
 ];
 
+// -- Componente para YouTube Interactivo --
+const InteractiveYouTubeItem: React.FC<{ url: string; index: number }> = ({ url, index }) => {
+  const [isPlaying, setIsPlaying] = React.useState(false);
+
+  return (
+    <div
+      key={`yt-${index}`}
+      className="h-64 md:h-72 aspect-video shrink-0 rounded-2xl overflow-hidden shadow-md bg-slate-100 flex items-center justify-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02] cursor-pointer relative"
+      onMouseEnter={() => setIsPlaying(true)}
+      onMouseLeave={() => setIsPlaying(false)}
+    >
+      {/* 
+        The iframe gets pointer-events-none when NOT playing so the mouse events 
+        trigger on the wrapper div. When playing, we allow pointer events 
+        so the user can click actual YT controls if needed.
+      */}
+      <iframe
+        className={`w-full h-full ${isPlaying ? 'pointer-events-auto' : 'pointer-events-none'}`}
+        src={`${url}?controls=1&mute=1&autoplay=${isPlaying ? 1 : 0}`}
+        title="Testimonio ENSIL"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      ></iframe>
+
+      {/* Capa visual para indicar reproducir cuando no está activo */}
+      {!isPlaying && (
+        <div className="absolute inset-0 bg-black/20 flex items-center justify-center pointer-events-none transition-opacity duration-300">
+          <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
+            <span className="material-icons-round text-white text-3xl">play_arrow</span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const ResultsContent: React.FC = () => {
   return (
     <div className="w-full bg-white text-slate-800 font-jakarta">
@@ -125,48 +162,73 @@ const ResultsContent: React.FC = () => {
 
         {/* Visual Evidence Section */}
         <div className="space-y-8">
-          <div className="flex flex-col md:flex-row justify-between items-end gap-4">
+          <div className="flex flex-col items-center justify-center gap-2 text-center">
             <div>
-              <h2 className="text-3xl font-bold text-slate-900">Evidencia Visual <span className="text-yellow-400 text-4xl">+</span></h2>
+              <h2 className="text-3xl font-bold text-slate-900">
+                Evidencia Visual <span className="text-yellow-400 text-4xl align-top leading-none">+</span>
+              </h2>
               <p className="text-slate-500 mt-2">Momentos reales de superación académica.</p>
             </div>
-            <button className="flex items-center gap-2 text-green-700 font-bold hover:gap-4 transition-all group">
+            <button className="flex items-center gap-2 text-green-700 font-bold hover:gap-4 transition-all group mt-2">
               Ver galería completa <span className="material-icons-round text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:h-[500px]">
-            <div className="md:col-span-2 md:row-span-2 relative rounded-3xl overflow-hidden group shadow-md cursor-pointer">
-              <img alt="Estudiantes estudiando" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMoHZgAFX7hGcNnRzZEYIgghFR9G4wTH-FPHH3vRl4KHVor37HCfjvZzkPUt1LibFpjNFMoBRZiAJq0RdLMiIv316xyRWsjEDHIzTgL9RrenDAkXHi2E0ObTyZUO0jvW9Im_LogQQK6cuUTMnkTGorRiW6-_o1RxjVd730yMECIxvPKt_2SztrslzIpR-9ZFgvmvki6QfpOS9aDKQ7-9VeL8x9UcGQ_peYd1UjL_OYbfcWiuR8RzaUJepnESrNbUikJNjMxYYQ2sM" />
-              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent">
-                <span className="bg-white/20 backdrop-blur-md text-white text-xs px-3 py-1 rounded-full mb-2 inline-block">Entrenamiento</span>
-                <p className="text-white font-semibold">Sesiones de práctica intensiva</p>
+          <div className="flex flex-col gap-[19px] relative mt-4">
+            {/* Left Fade */}
+            <div className="pointer-events-none absolute left-0 top-0 z-30 h-full w-24 md:w-40 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
+            {/* Right Fade */}
+            <div className="pointer-events-none absolute right-0 top-0 z-30 h-full w-24 md:w-40 bg-gradient-to-l from-white via-white/80 to-transparent"></div>
+
+            {/* Fila 1 (Horario / Izquierda) */}
+            <div className="relative w-full flex group/marquee1 hover:z-20 [clip-path:inset(-40px_0_-40px_0)]">
+              <div className="flex items-center animate-[marquee_43s_linear_infinite] hover:[animation-play-state:paused] gap-4 whitespace-nowrap px-4 py-1">
+                {/* Array duplicado para efecto bucle infinito, 10 imágenes */}
+                {[...Array(20)].map((_, i) => (
+                  <div key={`f1-${i}`} className="h-64 md:h-72 shrink-0 rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02] cursor-pointer">
+                    <img
+                      src={`/img/evidencia/fila1/img_${(i % 10) + 1}.svg`}
+                      alt={`Evidencia ${i}`}
+                      className="h-full w-auto object-cover"
+                    />
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div className="md:col-span-1 md:row-span-2 relative rounded-3xl overflow-hidden group shadow-md cursor-pointer">
-              <img alt="Graduación ENSIL" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9ebh22bTPg3mUlxBSlNUnx1VRadG99Tn4pOlyoHqUbwixz4pwLsYIzv_-Ifd0XGxaSwcCTPWdTdoTv5HLC02P0_0EoTWwT0TySF5TQ6HHP5uExL6WyEsiuHMa7OeWy1A4LcKxrq5UCAll7zmALJuCXEdJ0hUUgpX515uW6inOJfNaATdiMb9ujGNVDvjY2_YhKlLwNEcEN9BfPQ3yePWfUZl-wD3L25ABPn0fAhDCT8XoDmH3TpfSKHN3-7a__cgFLEw7z2ANkPA" />
-              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent">
-                <span className="bg-white/20 backdrop-blur-md text-white text-xs px-3 py-1 rounded-full mb-2 inline-block">Ceremonia</span>
-                <p className="text-white font-semibold">Graduación Promoción 2024</p>
+            {/* Fila 2 (Antihorario / Derecha) */}
+            <div className="relative w-full flex group/marquee2 hover:z-20 [clip-path:inset(-40px_0_-40px_0)]">
+              <div className="flex items-center animate-[marquee-reverse_43s_linear_infinite] hover:[animation-play-state:paused] gap-4 whitespace-nowrap px-4 py-1">
+                {[...Array(20)].map((_, i) => (
+                  <div key={`f2-${i}`} className="h-64 md:h-72 shrink-0 rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02] cursor-pointer">
+                    <img
+                      src={`/img/evidencia/fila2/img_${(i % 10) + 1}.svg`}
+                      alt={`Evidencia ${i}`}
+                      className="h-full w-auto object-cover"
+                    />
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div className="relative rounded-3xl overflow-hidden group shadow-md bg-slate-100 flex items-center justify-center">
-              <img alt="Cronómetro" className="w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYFRrrWrF8rGykIvzPTsJgR11UQ2DjhN1s12m73bRH2JPTscpO--rW-tuCukGR2rU8q6ONX3YkKftl_AEfEbi7l0HHsaCEAebCEdfdhzrTSVbWXFZderSgHwN2CEStuos-9PEHSHDtiMOzswBZSFzB2kzlbdv4bySc6sSGpst7xSvoMKoee2LhcuG_KFhy_s2oP7wWX6uNuM3x8PVCeFKg2ZxeQyYy4rjhQhowf9_3vmPtbC8_gKz_Xt4JVNuVDD7VhEaKpbPBE4k" />
-              <div className="absolute inset-0 flex flex-col items-center justify-center bg-green-800/20 backdrop-blur-[2px]">
-                <span className="material-icons-round text-white text-4xl drop-shadow-lg">timer</span>
-                <p className="text-white font-bold drop-shadow-md mt-2">Velocidad</p>
-              </div>
-            </div>
-
-            <div className="relative rounded-3xl overflow-hidden group shadow-md bg-white p-6 flex flex-col justify-between">
-              <div className="flex justify-between items-start">
-                <span className="material-icons-round text-green-700 bg-green-100 p-2 rounded-xl">emoji_events</span>
-              </div>
-              <div>
-                <p className="text-4xl font-bold text-slate-900">10x</p>
-                <p className="text-sm text-slate-500">Mejora promedio</p>
+            {/* Fila 3 (Horario / Izquierda con YouTube) */}
+            <div className="relative w-full flex group/marquee3 hover:z-20 [clip-path:inset(-40px_0_-40px_0)]">
+              <div className="flex items-center animate-[marquee_43s_linear_infinite] hover:[animation-play-state:paused] gap-4 whitespace-nowrap px-4 py-1">
+                {/* Array duplicado de iframes de YouTube representativos */}
+                {[
+                  "https://www.youtube.com/embed/Y_x-AZPvaOo",
+                  "https://www.youtube.com/embed/BeIr4iFnArI",
+                  "https://www.youtube.com/embed/Dfkfrbwpt9o",
+                  "https://www.youtube.com/embed/5cckHir36gc",
+                  "https://www.youtube.com/embed/QGCXskwkEgY",
+                  "https://www.youtube.com/embed/ykMy9KGW3ro",
+                  "https://www.youtube.com/embed/hOZtsPAlReo",
+                  "https://www.youtube.com/embed/Xk3ziFUknFs",
+                  "https://www.youtube.com/embed/N-ufQquFbyQ",
+                  "https://www.youtube.com/embed/fuED7auu5dY"
+                ].map((url, i) => (
+                  <InteractiveYouTubeItem key={`yt-${i}`} url={url} index={i} />
+                ))}
               </div>
             </div>
           </div>
@@ -175,16 +237,16 @@ const ResultsContent: React.FC = () => {
         {/* Transformation Stories */}
         <div className="space-y-8 py-8 overflow-hidden">
           <h2 className="text-3xl font-bold text-center text-slate-900">
-            Historias de transformación
+            Historias de transformación <span className="text-yellow-400 text-4xl align-top leading-none">+</span>
           </h2>
           {/* Marquee Container */}
           <div className="relative w-full overflow-hidden flex pt-6 pb-8 -mt-2 group/marquee">
             {/* Left Fade */}
-            <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-24 md:w-48 bg-gradient-to-r from-white to-transparent"></div>
+            <div className="pointer-events-none absolute left-0 top-0 z-30 h-full w-24 md:w-48 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
             {/* Right Fade */}
-            <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-24 md:w-48 bg-gradient-to-l from-white to-transparent"></div>
+            <div className="pointer-events-none absolute right-0 top-0 z-30 h-full w-24 md:w-48 bg-gradient-to-l from-white via-white/80 to-transparent"></div>
 
-            <div className="flex animate-marquee hover:[animation-play-state:paused] gap-6 whitespace-nowrap">
+            <div className="flex animate-[marquee_43s_linear_infinite] hover:[animation-play-state:paused] gap-6 whitespace-nowrap">
               {/* Double array to create seamless loop effect */}
               {[...testimonialsData, ...testimonialsData].map((testimonial, idx) => {
                 // Determine group color class based on program

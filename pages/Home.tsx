@@ -4,7 +4,6 @@ import Hero from '../components/home/Hero';
 import Programs from '../components/home/Programs';
 import PromiseSection from '../components/home/PromiseSection';
 import FAQ from '../components/home/FAQ';
-import Contact from '../components/home/Contact';
 import Footer from '../components/Footer';
 
 const Home: React.FC = () => {
@@ -24,7 +23,6 @@ const Home: React.FC = () => {
                I will leave the ID hook here if expansion is needed.
            */}
         </section>
-        <Contact />
       </main>
       <Footer />
     </div>
