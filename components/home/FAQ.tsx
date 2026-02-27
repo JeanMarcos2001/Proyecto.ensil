@@ -1,77 +1,122 @@
-import React, { useState } from 'react';
-import { ChevronDown, Plus } from 'lucide-react';
-import { FaqItem } from '../../types';
-
-const faqData: FaqItem[] = [
-  {
-    id: '1',
-    question: '¿El programa es para niños?',
-    answer: 'Sí, contamos con programas especializados (ENSIL Kids) diseñados pedagógicamente para niños desde los 7 años, enfocados en crear hábitos de lectura y mejorar el rendimiento escolar.'
-  },
-  {
-    id: '2',
-    question: '¿Dónde están ubicadas las sedes?',
-    answer: 'Tenemos 16 sedes en todo el Perú, incluyendo Lima (Miraflores, Los Olivos, San Borja), Arequipa, Trujillo, Cusco y Piura. También ofrecemos la modalidad 100% online en vivo.'
-  },
-  {
-    id: '3',
-    question: '¿Cuánto dura el programa?',
-    answer: 'El programa estándar tiene una duración de 6 meses, asistiendo a sesiones una vez por semana con práctica diaria en casa de 15 minutos mediante nuestra plataforma digital.'
-  },
-  {
-    id: '4',
-    question: '¿Qué equipo necesito?',
-    answer: 'Para la modalidad virtual, solo necesitas una computadora o tablet con conexión a internet. Nosotros te enviamos todo el material físico (libros de trabajo, guías) a tu domicilio.'
-  }
-];
+import React, { useState, useEffect } from 'react';
+import { Plus, Minus } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { FaqItem, localFaqs } from '../../data/faqData';
 
 const FAQ: React.FC = () => {
-  const [openId, setOpenId] = useState<string | null>('2'); // Default open for visual match
+  const [faqs, setFaqs] = useState<FaqItem[]>([]);
+  const [openIds, setOpenIds] = useState<Set<number>>(new Set());
+  const [loading, setLoading] = useState(true);
 
-  const toggleFAQ = (id: string) => {
-    setOpenId(openId === id ? null : id);
+  useEffect(() => {
+    // Simulate short network request
+    const loadData = async () => {
+      try {
+        const topFaqs = localFaqs.slice(0, 5);
+        setFaqs(topFaqs);
+        if (topFaqs.length > 0) {
+          setOpenIds(new Set([topFaqs[0].idFAQ]));
+        }
+      } catch (err) {
+        console.error('Error loading local FAQs:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadData();
+  }, []);
+
+  const toggleFAQ = (id: number) => {
+    setOpenIds(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
+  const midpoint = Math.ceil(faqs.length / 2);
+  const leftFaqs = faqs.slice(0, midpoint);
+  const rightFaqs = faqs.slice(midpoint);
+
+  const renderItem = (item: FaqItem) => {
+    const isOpen = openIds.has(item.idFAQ);
+    return (
+      <div
+        key={item.idFAQ}
+        onClick={() => toggleFAQ(item.idFAQ)}
+        className="bg-gray-50 rounded-2xl p-6 cursor-pointer transition-all duration-300 hover:bg-gray-100"
+      >
+        <div className="flex justify-between items-start gap-4">
+          <h3 className="text-gray-900 font-bold text-base md:text-lg leading-snug">
+            {item.PREGUNTA}
+          </h3>
+          <button className="text-gray-500 shrink-0 mt-0.5">
+            {isOpen ? <Minus size={20} className="text-ensil-green border border-ensil-green rounded-full p-0.5" /> : <Plus size={20} className="text-gray-500 hover:text-gray-800" />}
+          </button>
+        </div>
+        <div
+          className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0'
+            }`}
+        >
+          <div className="overflow-hidden">
+            <p className="text-gray-600 text-sm md:text-base leading-relaxed mt-2">
+              {item.RESPUESTA}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
-    <section id="faq" className="py-24 px-4 bg-white">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="font-display text-3xl md:text-4xl text-gray-900 font-bold mb-12 flex items-center gap-3">
-          Preguntas Frecuentes
-          <span className="text-accent text-5xl font-light">+</span>
-        </h2>
+    <section id="faq" className="py-24 px-4 bg-white font-jakarta">
+      <div className="max-w-screen-xl mx-auto">
 
-        <div className="space-y-4">
-          {faqData.map((item, index) => {
-            const isOpen = openId === item.id;
-            return (
-              <div
-                key={item.id}
-                onClick={() => toggleFAQ(item.id)}
-                className={`rounded-2xl p-6 cursor-pointer transition-all duration-300 border ${isOpen
-                    ? 'bg-ensil-green text-white shadow-lg border-ensil-green'
-                    : 'bg-gray-50 text-gray-900 hover:bg-white border-transparent hover:border-gray-200 shadow-sm'
-                  }`}
-              >
-                <div className="flex justify-between items-center">
-                  <h3 className={`text-lg font-bold ${isOpen ? 'text-white' : 'text-ensil-green'}`}>
-                    /0{index + 1} {item.question}
-                  </h3>
-                  <ChevronDown
-                    className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-white' : 'text-gray-400'}`}
-                  />
-                </div>
-                <div
-                  className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0'
-                    }`}
-                >
-                  <p className={`overflow-hidden ${isOpen ? 'text-white/90' : 'text-gray-600'}`}>
-                    {item.answer}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+          <div className="max-w-xl">
+            <div className="inline-flex py-1 px-3 rounded-full bg-green-50 border border-green-200 text-ensil-green text-xs font-bold tracking-wider uppercase mb-4">
+              / FAQS
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
+              Preguntas Frecuentes
+            </h2>
+            <p className="text-gray-500 text-lg">
+              Aquí tienes todo lo que necesitas saber para comenzar, gestionar tus horarios y resolver las dudas más comunes.
+            </p>
+          </div>
+          <Link
+            to="/faq"
+            className="shrink-0 bg-gradient-to-r from-ensil-green-800 to-ensil-green text-white font-bold py-3 px-8 rounded-full transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
+          >
+            Ver todas
+          </Link>
         </div>
+
+        {/* Loading State */}
+        {loading ? (
+          <div className="flex justify-center items-center py-20">
+            <div className="w-10 h-10 border-4 border-ensil-green/30 border-t-ensil-green rounded-full animate-spin"></div>
+          </div>
+        ) : (
+          /* Grid Section */
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-start">
+            {/* Left Column */}
+            <div className="flex flex-col gap-4 md:gap-6">
+              {leftFaqs.map(renderItem)}
+            </div>
+
+            {/* Right Column */}
+            <div className="flex flex-col gap-4 md:gap-6">
+              {rightFaqs.map(renderItem)}
+            </div>
+          </div>
+        )}
+
       </div>
     </section>
   );

@@ -161,6 +161,14 @@ const ResultsContent: React.FC = () => {
     ? [...demoImages, ...demoImages, ...demoImages, ...demoImages]
     : [];
 
+  // Calculate dynamic speed: e.g. 6 seconds per unique image so it maintains
+  // a constant visual velocity regardless of how many images you upload.
+  // The total duration applies to the entire duplicated track crossing the screen.
+  // We multiply the base time by the total number of items sliding by.
+  const dynamicDuration = loopingDemoImages.length > 0
+    ? `${loopingDemoImages.length * 5}s`
+    : '43s';
+
   return (
     <div className="w-full bg-white text-slate-800 font-jakarta">
       <main className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 space-y-16">
@@ -236,7 +244,10 @@ const ResultsContent: React.FC = () => {
 
           {/* Fila 1 (Horario / Izquierda - Supabase Dynamic) */}
           <div className="relative w-full flex group/marquee1 hover:z-20 [clip-path:inset(-40px_0_-40px_0)]">
-            <div className="flex items-center animate-[marquee_43s_linear_infinite] hover:[animation-play-state:paused] gap-4 whitespace-nowrap px-4 py-1">
+            <div
+              className="flex items-center animate-[marquee_1s_linear_infinite] hover:[animation-play-state:paused] gap-4 whitespace-nowrap px-4 py-1"
+              style={{ animationDuration: dynamicDuration }}
+            >
               {isLoadingDemo ? (
                 // Skeleton loading state
                 [...Array(10)].map((_, i) => (
