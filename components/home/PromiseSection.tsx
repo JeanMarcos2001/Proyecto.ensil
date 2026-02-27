@@ -38,28 +38,31 @@ const PromiseSection: React.FC = () => {
         </div>
 
         {/* Image Grid */}
-        <div className="order-1 lg:order-2 grid grid-cols-2 gap-4">
-          <div className="space-y-4 mt-8">
+        <div className="order-1 lg:order-2 grid grid-cols-2 gap-4 md:gap-6 mt-8 lg:mt-0">
+          {/* Left Column (Shifted Down) */}
+          <div className="space-y-4 md:space-y-6 mt-12 md:mt-24">
             <img
               alt="Joven latina universitaria"
-              className="rounded-3xl object-cover w-full h-48 shadow-lg hover:scale-[1.02] transition-transform duration-500"
+              className="rounded-3xl object-cover w-full h-[180px] md:h-[260px] shadow-lg hover:scale-[1.02] transition-transform duration-500"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5d0pNNvi20roYA1zlo_MeusQnYn5Dj3PCZGUBCqy0K5U7Ikwk4ygOIgbfrpXrbLi5wtDICg-ZmFAQFSLoL6BEJa2DHK5HboxHrSAPWU4NC1j48eT_tOGOspbHB3ZqmN-jA_J7jYYYT-fBwb5_QK4X3shAZTeXVZrxBL67-Flmc4TBzmL6KOYu9D8jCAleAbx4sIKRFNQQUIn9a1UXP7aQ24YEi-1iOLJLv1u1rEIunPPm6OePVA4wqVVWOqFLkbvA6So7omHdUck"
             />
             <img
               alt="Hombre latino profesional"
-              className="rounded-3xl object-cover w-full h-80 shadow-lg hover:scale-[1.02] transition-transform duration-500"
+              className="rounded-3xl md:rounded-[2.5rem] object-cover w-full h-[280px] md:h-[460px] shadow-lg hover:scale-[1.02] transition-transform duration-500"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzneKTxUoUQSo6JLtaVigaa6STMLYtEqLs-VCWY3lCocWMCDWmI6YGZHdI6ty6gaNZwy3gYDB9M5EB_ntLyHmszkPBIaftoTd4Gvwn2CQGkSQkeywntC4OW_vyOUlWDItSA9zNVUIcPVh1CrXO-X6PVWo0-0zOvdKEPxbrICyjGUVQ41z7EHVTmxT3QblOxpLHxYKVolHfl2dZWXG-J0N7GT0KGhuf5YWQVWyXoI3vXTq445cZ80Ft9axXTa7aymewL49X4b2pjPg"
             />
           </div>
-          <div className="space-y-4">
+
+          {/* Right Column (Starts Higher) */}
+          <div className="space-y-4 md:space-y-6">
             <img
               alt="Adolescente latino sonriendo"
-              className="rounded-3xl object-cover w-full h-80 shadow-lg hover:scale-[1.02] transition-transform duration-500"
+              className="rounded-3xl md:rounded-[3rem] object-cover w-full h-[320px] md:h-[500px] shadow-lg hover:scale-[1.02] transition-transform duration-500"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMAaVusTvFpywPEjL2ouYf7UAWwq_gCCIq7XahIGoS65IYC5R4lPX7veQX9rI32hc8F2tgBlIj3Va7W-y6JdTcHHiL30PYPlzeS1_rpS6iHByzu5RBQ-ThXcTXEt1-k5VDq3IUriqRqkSSitXTMnN4exC4oReJVou28VtGK0MeRt4BJjtZ5obPtaqSLoy9rmj3TlFgWC48506keC273EVg-_0Y4UqereeYLLvcKINDkYUsB0xjcpxv5rtQtEcQLe_f-l567EGK1xg"
             />
             <img
               alt="Mujer latina tomando notas"
-              className="rounded-3xl object-cover w-full h-48 shadow-lg hover:scale-[1.02] transition-transform duration-500"
+              className="rounded-3xl object-cover w-full h-[160px] md:h-[220px] shadow-lg hover:scale-[1.02] transition-transform duration-500"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXn7QOH2Jt6tGaGoVBDbpGC-1y37r7-gRMRXG012yUH2IRtVxnHyPeDlFyCEf6FKzlnj0QJu-LeFZMmuijOE7aABoCDZt87UBtILWmn-T6aLgHyUmu6gacIGvkHb3RYh4De-iku5ggk3zKEXVOxH9rTLRrfnXFfkdKvv5qCSdMgFtXMbLJDqvwnh59AvYyTS2e8PbW7My7OHc_tccXZ-YNVPTxS04epxVYnCL0V_tDEbrasVty_ABf4Tx-7wkd52V1gpGjZq2CacM"
             />
           </div>

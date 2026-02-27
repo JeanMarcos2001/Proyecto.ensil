@@ -1,4 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { createClient } from '@supabase/supabase-js';
+
+// --- Supabase Client for Demostraciones ---
+const supabaseDemoUrl = 'https://jtrugvxgztnxbhwjtiou.supabase.co';
+const supabaseDemoKey = 'sb_publishable_embxlHUxh_7_A1OriNUTTQ_uxid3RZh';
+const supabaseDemo = createClient(supabaseDemoUrl, supabaseDemoKey);
 
 const testimonialsData = [
   {
@@ -72,7 +78,7 @@ const InteractiveYouTubeItem: React.FC<{ url: string; index: number }> = ({ url,
   return (
     <div
       key={`yt-${index}`}
-      className="h-64 md:h-72 aspect-video shrink-0 rounded-2xl overflow-hidden shadow-md bg-slate-100 flex items-center justify-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02] cursor-pointer relative"
+      className="h-[384px] md:h-[432px] aspect-video shrink-0 rounded-2xl overflow-hidden shadow-md bg-slate-100 flex items-center justify-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02] cursor-pointer relative"
       onMouseEnter={() => setIsPlaying(true)}
       onMouseLeave={() => setIsPlaying(false)}
     >
@@ -103,6 +109,58 @@ const InteractiveYouTubeItem: React.FC<{ url: string; index: number }> = ({ url,
 };
 
 const ResultsContent: React.FC = () => {
+  const [demoImages, setDemoImages] = useState<string[]>([]);
+  const [isLoadingDemo, setIsLoadingDemo] = useState(true);
+
+  useEffect(() => {
+    const fetchDemoImages = async () => {
+      try {
+        setIsLoadingDemo(true);
+        // Fetch files from the 'Demostraciones' bucket
+        const { data, error } = await supabaseDemo
+          .storage
+          .from('Demostraciones')
+          .list('', {
+            limit: 100,
+            offset: 0,
+            sortBy: { column: 'name', order: 'asc' },
+          });
+
+        if (error) {
+          console.error('Error fetching Demo images:', error);
+          return;
+        }
+
+        if (data) {
+          // Filter out empty folders or non-image files if necessary, then get public URLs
+          const validFiles = data.filter(file => file.name && file.name !== '.emptyFolderPlaceholder');
+
+          const imageUrls = validFiles.map(file => {
+            const { data: { publicUrl } } = supabaseDemo
+              .storage
+              .from('Demostraciones')
+              .getPublicUrl(file.name);
+            return publicUrl;
+          });
+
+          setDemoImages(imageUrls);
+        }
+      } catch (err) {
+        console.error('Unexpected error fetching Demo images:', err);
+      } finally {
+        setIsLoadingDemo(false);
+      }
+    };
+
+    fetchDemoImages();
+  }, []);
+
+  // To ensure the marquee has enough items to scroll infinitely without snapping,
+  // we duplicate the array a few times.
+  const loopingDemoImages = demoImages.length > 0
+    ? [...demoImages, ...demoImages, ...demoImages, ...demoImages]
+    : [];
+
   return (
     <div className="w-full bg-white text-slate-800 font-jakarta">
       <main className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 space-y-16">
@@ -159,9 +217,11 @@ const ResultsContent: React.FC = () => {
             <p className="text-xs text-slate-400 mt-2">Metodología comprobada</p>
           </div>
         </div>
+      </main>
 
-        {/* Visual Evidence Section */}
-        <div className="space-y-8">
+      {/* Visual Evidence Section (Full Width / Edge to Edge) */}
+      <div className="w-full pb-12 overflow-hidden">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
           <div className="flex flex-col items-center justify-center gap-2 text-center">
             <div>
               <h2 className="text-3xl font-bold text-slate-900">
@@ -169,71 +229,80 @@ const ResultsContent: React.FC = () => {
               </h2>
               <p className="text-slate-500 mt-2">Momentos reales de superación académica.</p>
             </div>
-            <button className="flex items-center gap-2 text-green-700 font-bold hover:gap-4 transition-all group mt-2">
-              Ver galería completa <span className="material-icons-round text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
-            </button>
-          </div>
-
-          <div className="flex flex-col gap-[19px] relative mt-4">
-            {/* Left Fade */}
-            <div className="pointer-events-none absolute left-0 top-0 z-30 h-full w-24 md:w-40 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
-            {/* Right Fade */}
-            <div className="pointer-events-none absolute right-0 top-0 z-30 h-full w-24 md:w-40 bg-gradient-to-l from-white via-white/80 to-transparent"></div>
-
-            {/* Fila 1 (Horario / Izquierda) */}
-            <div className="relative w-full flex group/marquee1 hover:z-20 [clip-path:inset(-40px_0_-40px_0)]">
-              <div className="flex items-center animate-[marquee_43s_linear_infinite] hover:[animation-play-state:paused] gap-4 whitespace-nowrap px-4 py-1">
-                {/* Array duplicado para efecto bucle infinito, 10 imágenes */}
-                {[...Array(20)].map((_, i) => (
-                  <div key={`f1-${i}`} className="h-64 md:h-72 shrink-0 rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02] cursor-pointer">
-                    <img
-                      src={`/img/evidencia/fila1/img_${(i % 10) + 1}.svg`}
-                      alt={`Evidencia ${i}`}
-                      className="h-full w-auto object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Fila 2 (Antihorario / Derecha) */}
-            <div className="relative w-full flex group/marquee2 hover:z-20 [clip-path:inset(-40px_0_-40px_0)]">
-              <div className="flex items-center animate-[marquee-reverse_43s_linear_infinite] hover:[animation-play-state:paused] gap-4 whitespace-nowrap px-4 py-1">
-                {[...Array(20)].map((_, i) => (
-                  <div key={`f2-${i}`} className="h-64 md:h-72 shrink-0 rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02] cursor-pointer">
-                    <img
-                      src={`/img/evidencia/fila2/img_${(i % 10) + 1}.svg`}
-                      alt={`Evidencia ${i}`}
-                      className="h-full w-auto object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Fila 3 (Horario / Izquierda con YouTube) */}
-            <div className="relative w-full flex group/marquee3 hover:z-20 [clip-path:inset(-40px_0_-40px_0)]">
-              <div className="flex items-center animate-[marquee_43s_linear_infinite] hover:[animation-play-state:paused] gap-4 whitespace-nowrap px-4 py-1">
-                {/* Array duplicado de iframes de YouTube representativos */}
-                {[
-                  "https://www.youtube.com/embed/Y_x-AZPvaOo",
-                  "https://www.youtube.com/embed/BeIr4iFnArI",
-                  "https://www.youtube.com/embed/Dfkfrbwpt9o",
-                  "https://www.youtube.com/embed/5cckHir36gc",
-                  "https://www.youtube.com/embed/QGCXskwkEgY",
-                  "https://www.youtube.com/embed/ykMy9KGW3ro",
-                  "https://www.youtube.com/embed/hOZtsPAlReo",
-                  "https://www.youtube.com/embed/Xk3ziFUknFs",
-                  "https://www.youtube.com/embed/N-ufQquFbyQ",
-                  "https://www.youtube.com/embed/fuED7auu5dY"
-                ].map((url, i) => (
-                  <InteractiveYouTubeItem key={`yt-${i}`} url={url} index={i} />
-                ))}
-              </div>
-            </div>
           </div>
         </div>
 
+        <div className="flex flex-col gap-[19px] relative mt-4 w-full">
+
+          {/* Fila 1 (Horario / Izquierda - Supabase Dynamic) */}
+          <div className="relative w-full flex group/marquee1 hover:z-20 [clip-path:inset(-40px_0_-40px_0)]">
+            <div className="flex items-center animate-[marquee_43s_linear_infinite] hover:[animation-play-state:paused] gap-4 whitespace-nowrap px-4 py-1">
+              {isLoadingDemo ? (
+                // Skeleton loading state
+                [...Array(10)].map((_, i) => (
+                  <div key={`skel-${i}`} className="h-[384px] md:h-[432px] w-[600px] shrink-0 rounded-2xl bg-slate-100 animate-pulse flex items-center justify-center">
+                    <span className="material-icons-round text-slate-300 text-4xl">image</span>
+                  </div>
+                ))
+              ) : loopingDemoImages.length > 0 ? (
+                // Dynamic Images from Supabase
+                loopingDemoImages.map((url, i) => (
+                  <div key={`f1-sb-${i}`} className="h-[384px] md:h-[432px] shrink-0 rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02] cursor-pointer bg-slate-50">
+                    <img
+                      src={url}
+                      alt={`Evidencia Demostración ${i}`}
+                      className="h-full w-auto object-cover max-w-none"
+                    />
+                  </div>
+                ))
+              ) : (
+                // Fallback if no images found
+                <div className="h-[384px] md:h-[432px] w-full flex items-center justify-center text-slate-400">
+                  No hay imágenes disponibles en esta carpeta.
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Fila 2 (Antihorario / Derecha) */}
+          <div className="relative w-full flex group/marquee2 hover:z-20 [clip-path:inset(-40px_0_-40px_0)]">
+            <div className="flex items-center animate-[marquee-reverse_43s_linear_infinite] hover:[animation-play-state:paused] gap-4 whitespace-nowrap px-4 py-1">
+              {[...Array(20)].map((_, i) => (
+                <div key={`f2-${i}`} className="h-[384px] md:h-[432px] shrink-0 rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02] cursor-pointer">
+                  <img
+                    src={`/img/evidencia/fila2/img_${(i % 10) + 1}.svg`}
+                    alt={`Evidencia ${i}`}
+                    className="h-full w-auto object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Fila 3 (Horario / Izquierda con YouTube) */}
+          <div className="relative w-full flex group/marquee3 hover:z-20 [clip-path:inset(-40px_0_-40px_0)]">
+            <div className="flex items-center animate-[marquee_43s_linear_infinite] hover:[animation-play-state:paused] gap-4 whitespace-nowrap px-4 py-1">
+              {/* Array duplicado de iframes de YouTube representativos */}
+              {[
+                "https://www.youtube.com/embed/Y_x-AZPvaOo",
+                "https://www.youtube.com/embed/BeIr4iFnArI",
+                "https://www.youtube.com/embed/Dfkfrbwpt9o",
+                "https://www.youtube.com/embed/5cckHir36gc",
+                "https://www.youtube.com/embed/QGCXskwkEgY",
+                "https://www.youtube.com/embed/ykMy9KGW3ro",
+                "https://www.youtube.com/embed/hOZtsPAlReo",
+                "https://www.youtube.com/embed/Xk3ziFUknFs",
+                "https://www.youtube.com/embed/N-ufQquFbyQ",
+                "https://www.youtube.com/embed/fuED7auu5dY"
+              ].map((url, i) => (
+                <InteractiveYouTubeItem key={`yt-${i}`} url={url} index={i} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <main className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-16">
         {/* Transformation Stories */}
         <div className="space-y-8 py-8 overflow-hidden">
           <h2 className="text-3xl font-bold text-center text-slate-900">
@@ -242,9 +311,9 @@ const ResultsContent: React.FC = () => {
           {/* Marquee Container */}
           <div className="relative w-full overflow-hidden flex pt-6 pb-8 -mt-2 group/marquee">
             {/* Left Fade */}
-            <div className="pointer-events-none absolute left-0 top-0 z-30 h-full w-24 md:w-48 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
+            <div className="pointer-events-none absolute left-0 top-0 z-30 h-full w-16 md:w-32 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
             {/* Right Fade */}
-            <div className="pointer-events-none absolute right-0 top-0 z-30 h-full w-24 md:w-48 bg-gradient-to-l from-white via-white/80 to-transparent"></div>
+            <div className="pointer-events-none absolute right-0 top-0 z-30 h-full w-16 md:w-32 bg-gradient-to-l from-white via-white/80 to-transparent"></div>
 
             <div className="flex animate-[marquee_43s_linear_infinite] hover:[animation-play-state:paused] gap-6 whitespace-nowrap">
               {/* Double array to create seamless loop effect */}
@@ -398,7 +467,6 @@ const ResultsContent: React.FC = () => {
             </div>
           </div>
         </div>
-
       </main>
     </div>
   );

@@ -379,7 +379,7 @@ const ContactContent: React.FC = () => {
 
 
           {/* Main Grid Layout - Video Left, Form Right */}
-          <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8 lg:gap-12 items-stretch min-h-[600px]">
+          <div className="w-full max-w-[85rem] mx-auto grid grid-cols-1 lg:grid-cols-[1.15fr_0.9fr] gap-8 lg:gap-12 items-stretch min-h-[600px] lg:h-[680px]">
 
             {/* LEFT COLUMN: Split into Title Card and Video Card */}
             <div className="w-full h-full flex flex-col gap-4">
@@ -491,31 +491,31 @@ const ContactContent: React.FC = () => {
                     {step === 1 && (
                       <div className="flex-1 flex flex-col justify-center animate-fade-in">
                         <p className="text-slate-600 text-sm md:text-base mb-4 font-medium text-center">¿Para quién desea el programa?</p>
-                        <div className="grid grid-cols-2 gap-3 mb-6">
+                        <div className="flex flex-col sm:flex-row gap-4 md:gap-6 mb-8 w-full max-w-2xl mx-auto">
                           <button
                             onClick={() => setTarget('me')}
-                            className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${target === 'me' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 hover:-translate-y-1'}`}
+                            className={`p-6 md:px-8 md:py-10 rounded-[2rem] border-2 transition-all duration-300 flex flex-col items-center justify-center gap-5 text-center min-h-[140px] w-full ${target === 'me' ? 'border-green-500 bg-green-50 shadow-lg transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 hover:-translate-y-1'}`}
                           >
-                            <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${target === 'me' ? 'bg-ensil-green text-white shadow-lg' : 'bg-slate-100 text-slate-400'}`}>
-                              <User size={24} />
+                            <div className={`w-16 h-16 rounded-full flex items-center justify-center shrink-0 transition-colors ${target === 'me' ? 'bg-ensil-green text-white shadow-md' : 'bg-slate-100 text-slate-400'}`}>
+                              <User size={32} />
                             </div>
-                            <div>
-                              <h3 className={`font-bold text-sm md:text-base leading-tight uppercase tracking-wide ${target === 'me' ? 'text-ensil-green' : 'text-slate-700'}`}>Para Mí</h3>
+                            <div className="mt-1">
+                              <h3 className={`font-bold text-base md:text-lg leading-tight uppercase tracking-wide ${target === 'me' ? 'text-ensil-green' : 'text-slate-700'}`}>Para Mí</h3>
                             </div>
-                            {target === 'me' && <CheckCircle className="text-ensil-green absolute top-3 right-3" size={18} />}
+                            {target === 'me' && <CheckCircle className="text-ensil-green absolute top-5 right-5" size={22} />}
                           </button>
 
                           <button
                             onClick={() => setTarget('child')}
-                            className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${target === 'child' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 hover:-translate-y-1'}`}
+                            className={`p-6 md:px-8 md:py-10 rounded-[2rem] border-2 transition-all duration-300 flex flex-col items-center justify-center gap-5 text-center min-h-[140px] w-full ${target === 'child' ? 'border-green-500 bg-green-50 shadow-lg transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 hover:-translate-y-1'}`}
                           >
-                            <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${target === 'child' ? 'bg-ensil-green text-white shadow-lg' : 'bg-slate-100 text-slate-400'}`}>
-                              <Baby size={24} />
+                            <div className={`w-16 h-16 rounded-full flex items-center justify-center shrink-0 transition-colors ${target === 'child' ? 'bg-ensil-green text-white shadow-md' : 'bg-slate-100 text-slate-400'}`}>
+                              <Baby size={32} />
                             </div>
-                            <div>
-                              <h3 className={`font-bold text-sm md:text-base leading-tight uppercase tracking-wide ${target === 'child' ? 'text-ensil-green' : 'text-slate-700'}`}>Para Mi Hijo</h3>
+                            <div className="mt-1">
+                              <h3 className={`font-bold text-base md:text-lg leading-tight uppercase tracking-wide ${target === 'child' ? 'text-ensil-green' : 'text-slate-700'}`}>Para Mi Hijo</h3>
                             </div>
-                            {target === 'child' && <CheckCircle className="text-ensil-green absolute top-3 right-3" size={18} />}
+                            {target === 'child' && <CheckCircle className="text-ensil-green absolute top-5 right-5" size={22} />}
                           </button>
                         </div>
                         <button onClick={nextStep} className="w-full bg-gradient-to-r from-emerald-500 to-green-700 hover:from-emerald-400 hover:to-green-600 text-white font-bold py-4 rounded-full flex items-center justify-center gap-2 transition-all shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] hover:-translate-y-0.5">
@@ -531,31 +531,31 @@ const ContactContent: React.FC = () => {
                         <button onClick={prevStep} className="text-slate-400 hover:text-green-600 mb-2 flex items-center gap-1 text-xs font-bold uppercase tracking-wider transition-colors w-fit bg-slate-50 px-3 py-1.5 rounded-lg hover:bg-green-50"><ArrowLeft size={14} /> Atrás</button>
                         <p className="text-slate-600 text-sm md:text-base mb-4 font-medium text-center uppercase">Se considera usted:</p>
 
-                        <div className="grid grid-cols-2 gap-3 mb-6">
+                        <div className="flex flex-col sm:flex-row gap-4 md:gap-6 mb-8 w-full max-w-2xl mx-auto">
                           <button
                             onClick={() => setDependency('independent')}
-                            className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${dependency === 'independent' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 hover:-translate-y-1'}`}
+                            className={`p-6 md:px-8 md:py-10 rounded-[2rem] border-2 transition-all duration-300 flex flex-col items-center justify-center gap-5 text-center min-h-[140px] w-full ${dependency === 'independent' ? 'border-green-500 bg-green-50 shadow-lg transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 hover:-translate-y-1'}`}
                           >
-                            <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${dependency === 'independent' ? 'bg-ensil-green text-white shadow-lg' : 'bg-slate-100 text-slate-400'}`}>
-                              <Briefcase size={24} />
+                            <div className={`w-16 h-16 rounded-full flex items-center justify-center shrink-0 transition-colors ${dependency === 'independent' ? 'bg-ensil-green text-white shadow-md' : 'bg-slate-100 text-slate-400'}`}>
+                              <Briefcase size={32} />
                             </div>
-                            <div>
-                              <h4 className={`font-bold text-[11px] md:text-sm leading-tight uppercase ${dependency === 'independent' ? 'text-ensil-green' : 'text-slate-700'}`}>Persona totalmente independiente</h4>
+                            <div className="mt-1">
+                              <h4 className={`font-bold text-sm md:text-base leading-tight uppercase px-2 ${dependency === 'independent' ? 'text-ensil-green' : 'text-slate-700'}`}>Persona totalmente independiente</h4>
                             </div>
-                            {dependency === 'independent' && <CheckCircle className="text-ensil-green absolute top-3 right-3" size={18} />}
+                            {dependency === 'independent' && <CheckCircle className="text-ensil-green absolute top-5 right-5" size={22} />}
                           </button>
 
                           <button
                             onClick={() => setDependency('dependent')}
-                            className={`p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center aspect-square ${dependency === 'dependent' ? 'border-green-500 bg-green-50 shadow-md transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 hover:-translate-y-1'}`}
+                            className={`p-6 md:px-8 md:py-10 rounded-[2rem] border-2 transition-all duration-300 flex flex-col items-center justify-center gap-5 text-center min-h-[140px] w-full ${dependency === 'dependent' ? 'border-green-500 bg-green-50 shadow-lg transform scale-[1.02]' : 'border-slate-100 bg-white hover:border-green-200 hover:bg-slate-50 hover:-translate-y-1'}`}
                           >
-                            <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 transition-colors ${dependency === 'dependent' ? 'bg-ensil-green text-white shadow-lg' : 'bg-slate-100 text-slate-400'}`}>
-                              <Users size={24} />
+                            <div className={`w-16 h-16 rounded-full flex items-center justify-center shrink-0 transition-colors ${dependency === 'dependent' ? 'bg-ensil-green text-white shadow-md' : 'bg-slate-100 text-slate-400'}`}>
+                              <Users size={32} />
                             </div>
-                            <div>
-                              <h4 className={`font-bold text-[11px] md:text-sm leading-tight uppercase ${dependency === 'dependent' ? 'text-ensil-green' : 'text-slate-700'}`}>Aún dependo de un apoderado</h4>
+                            <div className="mt-1">
+                              <h4 className={`font-bold text-sm md:text-base leading-tight uppercase px-2 ${dependency === 'dependent' ? 'text-ensil-green' : 'text-slate-700'}`}>Aún dependo de un apoderado</h4>
                             </div>
-                            {dependency === 'dependent' && <CheckCircle className="text-ensil-green absolute top-3 right-3" size={18} />}
+                            {dependency === 'dependent' && <CheckCircle className="text-ensil-green absolute top-5 right-5" size={22} />}
                           </button>
                         </div>
 
@@ -711,7 +711,7 @@ const ContactContent: React.FC = () => {
                                 {/* Enhanced Date Picker Trigger */}
                                 <div className="relative">
                                   <div className="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Fecha</div>
-                                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 h-56 relative flex flex-col">
+                                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 min-h-[290px] relative flex flex-col">
                                     {/* Calendar Header */}
                                     <div className="flex justify-between items-center mb-3 px-1">
                                       <button onClick={handlePrevMonth} className="text-slate-400 hover:text-slate-600 transition-colors"><ChevronLeft size={16} /></button>
@@ -739,7 +739,7 @@ const ContactContent: React.FC = () => {
                                         const isToday = dateOfCurrentLoop.getTime() === now.getTime();
                                         const isSelected = selectedDateObj?.getDate() === day && selectedDateObj?.getMonth() === viewDate.getMonth();
 
-                                        let dayStyles = "w-7 h-7 text-[11px] rounded-full flex items-center justify-center transition-all mx-auto ";
+                                        let dayStyles = "w-7 h-7 shrink-0 aspect-square text-[11px] rounded-full flex items-center justify-center transition-all mx-auto ";
 
                                         if (isSelected) {
                                           dayStyles += 'bg-green-600 text-white shadow-md font-bold';
@@ -753,7 +753,7 @@ const ContactContent: React.FC = () => {
                                         }
 
                                         return (
-                                          <div key={idx} className="flex justify-center items-center">
+                                          <div key={idx} className="flex justify-center items-center py-0.5">
                                             <button
                                               disabled={isPast && !isToday}
                                               onClick={() => handleDayClick(day)}
@@ -771,7 +771,7 @@ const ContactContent: React.FC = () => {
                                 {/* Time Picker */}
                                 <div className="relative">
                                   <div className="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Hora</div>
-                                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 h-56 overflow-y-auto custom-scrollbar">
+                                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 h-[290px] overflow-y-auto custom-scrollbar">
                                     {availableHours.length > 0 ? (
                                       <div className="grid grid-cols-1 gap-1">
                                         {availableHours.map(hour => (
