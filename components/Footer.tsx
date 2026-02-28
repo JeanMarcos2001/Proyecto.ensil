@@ -96,6 +96,7 @@ const Footer: React.FC<FooterProps> = ({ variant = 'light', showCta = true }) =>
                 <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/resultados">Resultados</Link></li>
                 <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/sedes">Sedes</Link></li>
                 <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/es-para-ti">Es para ti</Link></li>
+                <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/faq">Preguntas Frecuentes</Link></li>
               </ul>
             </div>
 

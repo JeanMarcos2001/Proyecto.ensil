@@ -1,14 +1,15 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
+import { smoothScrollTo } from '../../utils/scroll';
 
 const PromiseSection: React.FC = () => {
   const { ref: sectionRef, isVisible } = useScrollReveal(0.2);
   return (
-    <section id="promesa" className="py-24 px-4 bg-white overflow-hidden">
+    <section id="promesa" className="min-h-screen py-24 px-4 bg-white flex flex-col justify-center relative overflow-hidden">
       <div
         ref={sectionRef as React.RefObject<HTMLDivElement>}
-        className={`max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center transition-all duration-1000 ease-out transform
+        className={`w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center transition-all duration-1000 ease-out transform
           ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-24'}
         `}
       >
@@ -67,6 +68,22 @@ const PromiseSection: React.FC = () => {
             />
           </div>
         </div>
+      </div>
+
+      {/* Scroll Down Button */}
+      <div className="absolute bottom-8 left-0 right-0 flex justify-center z-20">
+        <a
+          href="#faq"
+          onClick={(e) => {
+            e.preventDefault();
+            smoothScrollTo('faq', 1200);
+          }}
+          className="group flex flex-col items-center justify-center cursor-pointer"
+        >
+          <div className="w-10 h-10 rounded-full border border-gray-400 text-gray-400 flex items-center justify-center group-hover:bg-gray-400 group-hover:border-gray-400 group-hover:text-white transition-all duration-300 bg-white/80 backdrop-blur-sm shadow-sm">
+            <ChevronDown size={20} />
+          </div>
+        </a>
       </div>
     </section>
   );

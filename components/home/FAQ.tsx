@@ -1,7 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Minus } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { FaqItem, localFaqs } from '../../data/faqData';
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = 'https://jtrugvxgztnxbhwjtiou.supabase.co';
+const supabaseKey = 'sb_publishable_embxlHUxh_7_A1OriNUTTQ_uxid3RZh';
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+interface FaqItem {
+  idFAQ: number;
+  PREGUNTA: string;
+  RESPUESTA: string;
+  idCategoria?: number;
+  ORDEN: number;
+  categoriaFAQ?: {
+    nombreCategoria: string;
+  };
+}
 
 const FAQ: React.FC = () => {
   const [faqs, setFaqs] = useState<FaqItem[]>([]);
@@ -9,21 +24,29 @@ const FAQ: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate short network request
-    const loadData = async () => {
+    const fetchFaqs = async () => {
       try {
-        const topFaqs = localFaqs.slice(0, 5);
-        setFaqs(topFaqs);
-        if (topFaqs.length > 0) {
-          setOpenIds(new Set([topFaqs[0].idFAQ]));
+        const { data, error } = await supabase
+          .from('faq')
+          .select('*, categoriaFAQ(nombreCategoria)')
+          .order('ORDEN', { ascending: true })
+          .limit(5);
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          setFaqs(data as FaqItem[]);
+          setOpenIds(new Set([data[0].idFAQ]));
+        } else {
+          console.warn("No FAQs found or tables missing in this Supabase project.");
         }
       } catch (err) {
-        console.error('Error loading local FAQs:', err);
+        console.error('Error fetching FAQs:', err);
       } finally {
         setLoading(false);
       }
     };
-    loadData();
+    fetchFaqs();
   }, []);
 
   const toggleFAQ = (id: number) => {
@@ -93,7 +116,7 @@ const FAQ: React.FC = () => {
             to="/faq"
             className="shrink-0 bg-gradient-to-r from-ensil-green-800 to-ensil-green text-white font-bold py-3 px-8 rounded-full transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
           >
-            Ver todas
+            Leer más
           </Link>
         </div>
 

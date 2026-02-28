@@ -14,12 +14,24 @@ const navItems: NavItem[] = [
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
 
   // Close mobile menu on route change
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location]);
+
+  // Handle scroll detection
+  useEffect(() => {
+    const handleScroll = () => {
+      // 95% de la altura de la pantalla (Hero section)
+      setIsScrolled(window.scrollY > window.innerHeight * 0.95);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const isActive = (href: string) => {
     if (href === '/' && location.pathname === '/') return true;
@@ -35,11 +47,18 @@ const Navbar: React.FC = () => {
       <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between">
 
         {/* Logo (Left) */}
-        <Link to="/" className="flex items-center flex-shrink-0 z-20">
+        <Link to="/" className="flex items-center flex-shrink-0 z-20 relative h-10 md:h-11 w-[120px] md:w-[130px]">
+          {/* White Logo (Visible at top) */}
+          <img
+            src="/img/LOGO_ENSIL-19.png"
+            alt="ENSIL PERÚ"
+            className={`absolute inset-0 h-full w-full object-contain object-left transition-opacity duration-300 ${isScrolled ? 'opacity-0' : 'opacity-100'}`}
+          />
+          {/* Colored Logo (Visible when scrolled) */}
           <img
             src="/img/LOGO_ENSIL.webp"
             alt="ENSIL PERÚ"
-            className="h-10 md:h-11 w-auto object-contain"
+            className={`absolute inset-0 h-full w-full object-contain object-left transition-opacity duration-300 ${isScrolled ? 'opacity-100' : 'opacity-0'}`}
           />
         </Link>
 

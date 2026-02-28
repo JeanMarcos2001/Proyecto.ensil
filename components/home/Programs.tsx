@@ -106,17 +106,16 @@ const Programs: React.FC = () => {
       </div>
 
       {/* Scroll Down Button */}
-      <div className="flex justify-center mt-12 md:mt-16 animate-bounce">
+      <div className="flex justify-center mt-12 md:mt-16">
         <a
           href="#promesa"
           onClick={(e) => {
             e.preventDefault();
             smoothScrollTo('promesa', 1200);
           }}
-          className="group flex flex-col items-center gap-2 text-gray-400 hover:text-ensil-green transition-colors duration-300 cursor-pointer"
+          className="group flex flex-col items-center justify-center cursor-pointer"
         >
-          <span className="text-xs font-bold uppercase tracking-widest">Seguir Bajando</span>
-          <div className="w-10 h-10 rounded-full border border-current flex items-center justify-center group-hover:bg-ensil-green group-hover:text-white transition-all">
+          <div className="w-10 h-10 rounded-full border border-gray-400 text-gray-400 flex items-center justify-center group-hover:bg-gray-400 group-hover:border-gray-400 group-hover:text-white transition-all duration-300 shadow-sm">
             <ChevronDown size={20} />
           </div>
         </a>

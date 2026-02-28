@@ -2,7 +2,22 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { ChevronDown, Search, LayoutGrid, HelpCircle, Users, Clock, BookOpen, MapPin, Phone } from 'lucide-react';
-import { FaqItem, localFaqs } from '../data/faqData';
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = 'https://jtrugvxgztnxbhwjtiou.supabase.co';
+const supabaseKey = 'sb_publishable_embxlHUxh_7_A1OriNUTTQ_uxid3RZh';
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+interface FaqItem {
+    idFAQ: number;
+    PREGUNTA: string;
+    RESPUESTA: string;
+    idCategoria?: number;
+    ORDEN: number;
+    categoriaFAQ?: {
+        nombreCategoria: string;
+    };
+}
 
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {
     'Sobre el programa y resultados': <LayoutGrid size={18} />,
@@ -22,21 +37,30 @@ const FaqPage: React.FC = () => {
     const [activeCategory, setActiveCategory] = useState<string>('');
 
     useEffect(() => {
-        const loadData = async () => {
+        const fetchFaqs = async () => {
             try {
-                setFaqs(localFaqs);
-                // Set first category as active by default
-                if (localFaqs.length > 0) {
-                    const firstCat = localFaqs[0].categoriaFAQ?.nombreCategoria;
+                const { data, error } = await supabase
+                    .from('faq')
+                    .select('*, categoriaFAQ(nombreCategoria)')
+                    .order('ORDEN', { ascending: true });
+
+                if (error) throw error;
+
+                if (data && data.length > 0) {
+                    setFaqs(data as FaqItem[]);
+                    // Set first category as active by default
+                    const firstCat = (data[0] as FaqItem).categoriaFAQ?.nombreCategoria;
                     if (firstCat) setActiveCategory(firstCat);
+                } else {
+                    console.warn("No FAQs found or tables missing in this Supabase project.");
                 }
             } catch (err) {
-                console.error('Error loading local FAQs:', err);
+                console.error('Error fetching FAQs:', err);
             } finally {
                 setLoading(false);
             }
         };
-        loadData();
+        fetchFaqs();
     }, []);
 
     const toggleFAQ = (id: number) => {
