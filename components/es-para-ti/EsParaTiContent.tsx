@@ -118,7 +118,7 @@ const EsParaTiContent: React.FC = () => {
                                 <span className="text-xs font-bold text-ensil-green uppercase tracking-wide font-jakarta">Evaluación Previa</span>
                             </div>
                             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight font-fraunces">
-                                TU NIVEL SE DEFINE POR DIAGNÓSTICO, <span className="text-ensil-green italic">NO POR EDAD</span>
+                                TU NIVEL SE DEFINE POR DIAGNÓSTICO, <br className="hidden md:block" /> <span className="text-ensil-green italic">NO POR EDAD</span>
                             </h2>
                             <p className="text-slate-600 mb-8 text-lg font-jakarta">
                                 En ENSIL, no agrupamos a los estudiantes por grado escolar, sino por capacidad cognitiva actual. Realizamos una evaluación exhaustiva de velocidad, comprensión y retención para diseñar tu ruta personalizada.

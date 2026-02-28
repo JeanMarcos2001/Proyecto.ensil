@@ -71,6 +71,137 @@ const testimonialsData = [
   }
 ];
 
+// -- Componente para Marquesina Arrastrable e Infinita --
+interface DraggableMarqueeProps {
+  children: React.ReactNode;
+  speed?: number; // Pixels per frame (approx 60fps)
+  direction?: 'left' | 'right';
+}
+
+const DraggableMarquee: React.FC<DraggableMarqueeProps> = ({ children, speed = 1, direction = 'left' }) => {
+  const scrollerRef = React.useRef<HTMLDivElement>(null);
+  const innerRef = React.useRef<HTMLDivElement>(null);
+
+  // State for dragging
+  const [isDragging, setIsDragging] = React.useState(false);
+  const [startX, setStartX] = React.useState(0);
+  const [scrollLeft, setScrollLeft] = React.useState(0);
+  const [isHovered, setIsHovered] = React.useState(false);
+
+  // Animation ref
+  const requestRef = React.useRef<number>();
+
+  const animate = React.useCallback(() => {
+    if (!scrollerRef.current || isDragging || isHovered) {
+      if (!isDragging && !isHovered) {
+        requestRef.current = requestAnimationFrame(animate);
+      }
+      return;
+    }
+
+    const scroller = scrollerRef.current;
+    const inner = innerRef.current;
+
+    // Half of the inner width is one full set of children
+    const halfWidth = inner.scrollWidth / 2;
+
+    if (direction === 'left') {
+      scroller.scrollLeft += speed;
+      // Loop back if we've scrolled past the first half
+      if (scroller.scrollLeft >= halfWidth) {
+        scroller.scrollLeft -= halfWidth;
+      }
+    } else {
+      scroller.scrollLeft -= speed;
+      // Loop forward if we hit the left edge
+      if (scroller.scrollLeft <= 0) {
+        scroller.scrollLeft += halfWidth;
+      }
+    }
+
+    requestRef.current = requestAnimationFrame(animate);
+  }, [isDragging, isHovered, speed, direction]);
+
+  React.useEffect(() => {
+    requestRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (requestRef.current) cancelAnimationFrame(requestRef.current);
+    };
+  }, [animate]);
+
+  // To handle the initial position for right-directed marquees, so they don't start at 0 and immediately jump
+  React.useEffect(() => {
+    const initScroll = () => {
+      if (direction === 'right' && scrollerRef.current && innerRef.current) {
+        scrollerRef.current.scrollLeft = innerRef.current.scrollWidth / 2;
+      }
+    };
+    initScroll();
+    const timeoutId = setTimeout(initScroll, 100);
+    return () => clearTimeout(timeoutId);
+  }, [direction]);
+
+  const onDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+    setIsDragging(true);
+    const pageX = 'touches' in e ? e.touches[0].pageX : (e as React.MouseEvent).pageX;
+    setStartX(pageX - (scrollerRef.current?.offsetLeft || 0));
+    setScrollLeft(scrollerRef.current?.scrollLeft || 0);
+  };
+
+  const onDragEnd = () => {
+    setIsDragging(false);
+  };
+
+  const onDragMove = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!isDragging || !scrollerRef.current) return;
+    e.preventDefault(); // Prevent text selection/scrolling while dragging
+    const pageX = 'touches' in e ? e.touches[0].pageX : (e as React.MouseEvent).pageX;
+    const x = pageX - (scrollerRef.current.offsetLeft || 0);
+    const walk = (x - startX) * 2; // The multiplier changes drag sensitivity
+
+    let newScrollLeft = scrollLeft - walk;
+    const halfWidth = innerRef.current.scrollWidth / 2;
+
+    // Manual infinite wrapping logic during drag
+    if (newScrollLeft >= halfWidth) {
+      newScrollLeft -= halfWidth;
+      setStartX(pageX); // Reset start anchor to avoid jumping next frame
+      setScrollLeft(newScrollLeft);
+    } else if (newScrollLeft <= 0) {
+      newScrollLeft += halfWidth;
+      setStartX(pageX); // Reset start anchor
+      setScrollLeft(newScrollLeft);
+    }
+
+    scrollerRef.current.scrollLeft = newScrollLeft;
+  };
+
+  return (
+    <div
+      ref={scrollerRef}
+      className={`w-full overflow-x-hidden overflow-y-visible cursor-grab active:cursor-grabbing py-12 -my-12 ${isDragging ? 'select-none pointer-events-auto' : ''}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => { setIsHovered(false); onDragEnd(); }}
+      onMouseDown={onDragStart}
+      onMouseUp={onDragEnd}
+      onMouseMove={onDragMove}
+      onTouchStart={onDragStart}
+      onTouchEnd={onDragEnd}
+      onTouchMove={onDragMove}
+      style={{ scrollBehavior: 'auto', msOverflowStyle: 'none', scrollbarWidth: 'none' }}
+    >
+      <div
+        ref={innerRef}
+        className="flex gap-4 w-max items-center"
+      >
+        {/* Render children twice for seamless looping */}
+        {children}
+        {children}
+      </div>
+    </div>
+  );
+};
+
 // -- Componente para YouTube Interactivo --
 const InteractiveYouTubeItem: React.FC<{ url: string; index: number }> = ({ url, index }) => {
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -228,26 +359,21 @@ const ResultsContent: React.FC = () => {
       </main>
 
       {/* Visual Evidence Section (Full Width / Edge to Edge) */}
-      <div className="w-full pb-12 overflow-hidden">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
-          <div className="flex flex-col items-center justify-center gap-2 text-center">
-            <div>
-              <h2 className="text-3xl font-bold text-slate-900">
-                Evidencia Visual <span className="text-yellow-400 text-4xl align-top leading-none">+</span>
-              </h2>
-              <p className="text-slate-500 mt-2">Momentos reales de superación académica.</p>
-            </div>
+      <div className="w-full pb-12 pt-8 overflow-hidden">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+          <div className="flex flex-col items-center justify-center text-center">
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900">
+              Evidencia Visual
+            </h2>
+            <p className="text-slate-500 mt-1 text-lg">Momentos reales de superación académica.</p>
           </div>
         </div>
 
         <div className="flex flex-col gap-[19px] relative mt-4 w-full">
 
           {/* Fila 1 (Horario / Izquierda - Supabase Dynamic) */}
-          <div className="relative w-full flex group/marquee1 hover:z-20 [clip-path:inset(-40px_0_-40px_0)]">
-            <div
-              className="flex items-center animate-[marquee_1s_linear_infinite] hover:[animation-play-state:paused] gap-4 whitespace-nowrap px-4 py-1"
-              style={{ animationDuration: dynamicDuration }}
-            >
+          <div className="relative w-full group/marquee1 hover:z-20 [clip-path:inset(-40px_0_-40px_0)]">
+            <DraggableMarquee speed={1} direction="left">
               {isLoadingDemo ? (
                 // Skeleton loading state
                 [...Array(10)].map((_, i) => (
@@ -257,12 +383,12 @@ const ResultsContent: React.FC = () => {
                 ))
               ) : loopingDemoImages.length > 0 ? (
                 // Dynamic Images from Supabase
-                loopingDemoImages.map((url, i) => (
+                loopingDemoImages.slice(0, loopingDemoImages.length / 4).map((url, i) => (
                   <div key={`f1-sb-${i}`} className="h-[384px] md:h-[432px] shrink-0 rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02] cursor-pointer bg-slate-50">
                     <img
                       src={url}
                       alt={`Evidencia Demostración ${i}`}
-                      className="h-full w-auto object-cover max-w-none"
+                      className="h-full w-auto object-cover max-w-none pointer-events-none"
                     />
                   </div>
                 ))
@@ -272,63 +398,60 @@ const ResultsContent: React.FC = () => {
                   No hay imágenes disponibles en esta carpeta.
                 </div>
               )}
-            </div>
+            </DraggableMarquee>
           </div>
 
           {/* Fila 2 (Antihorario / Derecha) */}
-          <div className="relative w-full flex group/marquee2 hover:z-20 [clip-path:inset(-40px_0_-40px_0)]">
-            <div className="flex items-center animate-[marquee-reverse_43s_linear_infinite] hover:[animation-play-state:paused] gap-4 whitespace-nowrap px-4 py-1">
-              {[...Array(20)].map((_, i) => (
+          <div className="relative w-full group/marquee2 hover:z-20 [clip-path:inset(-40px_0_-40px_0)]">
+            <DraggableMarquee speed={0.8} direction="right">
+              {[...Array(10)].map((_, i) => (
                 <div key={`f2-${i}`} className="h-[384px] md:h-[432px] shrink-0 rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02] cursor-pointer">
                   <img
                     src={`/img/evidencia/fila2/img_${(i % 10) + 1}.svg`}
                     alt={`Evidencia ${i}`}
-                    className="h-full w-auto object-cover"
+                    className="h-full w-auto object-cover pointer-events-none"
                   />
                 </div>
               ))}
-            </div>
+            </DraggableMarquee>
           </div>
 
           {/* Fila 3 (Horario / Izquierda con YouTube) */}
-          <div className="relative w-full flex group/marquee3 hover:z-20 [clip-path:inset(-40px_0_-40px_0)]">
-            <div className="flex items-center animate-[marquee_43s_linear_infinite] hover:[animation-play-state:paused] gap-4 whitespace-nowrap px-4 py-1">
+          <div className="relative w-full group/marquee3 hover:z-20 [clip-path:inset(-40px_0_-40px_0)]">
+            <DraggableMarquee speed={1} direction="left">
               {/* Array duplicado de iframes de YouTube representativos */}
               {[
                 "https://www.youtube.com/embed/Y_x-AZPvaOo",
                 "https://www.youtube.com/embed/BeIr4iFnArI",
                 "https://www.youtube.com/embed/Dfkfrbwpt9o",
                 "https://www.youtube.com/embed/5cckHir36gc",
-                "https://www.youtube.com/embed/QGCXskwkEgY",
-                "https://www.youtube.com/embed/ykMy9KGW3ro",
-                "https://www.youtube.com/embed/hOZtsPAlReo",
-                "https://www.youtube.com/embed/Xk3ziFUknFs",
-                "https://www.youtube.com/embed/N-ufQquFbyQ",
-                "https://www.youtube.com/embed/fuED7auu5dY"
+                "https://www.youtube.com/embed/QGCXskwkEgY"
               ].map((url, i) => (
                 <InteractiveYouTubeItem key={`yt-${i}`} url={url} index={i} />
               ))}
-            </div>
+            </DraggableMarquee>
           </div>
         </div>
       </div>
 
-      <main className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-16">
+      <main className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-20">
         {/* Transformation Stories */}
-        <div className="space-y-8 py-8 overflow-hidden">
-          <h2 className="text-3xl font-bold text-center text-slate-900">
-            Historias de transformación <span className="text-yellow-400 text-4xl align-top leading-none">+</span>
-          </h2>
+        <div className="pt-10 overflow-hidden">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-900">
+              Historias de transformación
+            </h2>
+            <p className="text-slate-500 mt-1 text-lg">Conoce la experiencia de nuestros estudiantes.</p>
+          </div>
           {/* Marquee Container */}
-          <div className="relative w-full overflow-hidden flex pt-6 pb-8 -mt-2 group/marquee">
+          <div className="relative w-full overflow-hidden pt-6 pb-8 -mt-2 group/marquee">
             {/* Left Fade */}
             <div className="pointer-events-none absolute left-0 top-0 z-30 h-full w-16 md:w-32 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
             {/* Right Fade */}
             <div className="pointer-events-none absolute right-0 top-0 z-30 h-full w-16 md:w-32 bg-gradient-to-l from-white via-white/80 to-transparent"></div>
 
-            <div className="flex animate-[marquee_43s_linear_infinite] hover:[animation-play-state:paused] gap-6 whitespace-nowrap">
-              {/* Double array to create seamless loop effect */}
-              {[...testimonialsData, ...testimonialsData].map((testimonial, idx) => {
+            <DraggableMarquee speed={1} direction="left">
+              {testimonialsData.map((testimonial, idx) => {
                 // Determine group color class based on program
                 let groupHoverColor = "";
                 let programBadgeBg = "bg-green-100 text-green-700";
@@ -347,11 +470,11 @@ const ResultsContent: React.FC = () => {
                 return (
                   <div
                     key={`${testimonial.id}-${idx}`}
-                    className={`min-w-[320px] max-w-[350px] whitespace-normal bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 relative group transition-all duration-300 hover:-translate-y-4 hover:shadow-xl ${groupHoverColor}`}
+                    className={`min-w-[320px] max-w-[350px] whitespace-normal bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 relative group transition-all duration-300 hover:-translate-y-4 hover:shadow-xl select-none ${groupHoverColor}`}
                   >
                     <span className="absolute top-8 right-8 text-6xl text-slate-100 font-serif leading-none group-hover:text-white/20 transition-colors">”</span>
                     <div className="flex items-center gap-4 mb-4">
-                      <img alt={testimonial.name} className={`w-14 h-14 rounded-full object-cover ring-2 ring-slate-100 ring-offset-2 group-hover:ring-white/50 transition-colors`} src={testimonial.image} />
+                      <img alt={testimonial.name} className={`w-14 h-14 rounded-full object-cover ring-2 ring-slate-100 ring-offset-2 group-hover:ring-white/50 transition-colors`} src={testimonial.image} draggable={false} />
                       <div>
                         <h4 className="font-bold text-slate-900 group-hover:text-white transition-colors">{testimonial.name}</h4>
                         <p className="text-xs text-slate-500 group-hover:text-white/80 transition-colors uppercase tracking-wide">{testimonial.occupation}</p>
@@ -381,7 +504,7 @@ const ResultsContent: React.FC = () => {
                   </div>
                 );
               })}
-            </div>
+            </DraggableMarquee>
           </div>
         </div>
 
