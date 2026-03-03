@@ -127,7 +127,7 @@ const FaqPage: React.FC = () => {
         <div className="w-full relative min-h-screen bg-gray-50/50 font-jakarta">
             <Navbar />
 
-            <main className="pt-32 pb-24 px-4 min-h-screen flex flex-col">
+            <main className="pt-24 md:pt-32 pb-16 md:pb-24 px-4 min-h-screen flex flex-col">
                 <div className="max-w-6xl mx-auto w-full">
 
                     {/* Header */}
@@ -163,7 +163,7 @@ const FaqPage: React.FC = () => {
 
                             {/* Sidebar Categories (Hide if searching) */}
                             {!searchTerm && (
-                                <div className="w-full lg:w-72 shrink-0 bg-white p-4 rounded-3xl border border-slate-100 shadow-sm sticky top-28">
+                                <div className="w-full lg:w-72 shrink-0 bg-white p-4 rounded-3xl border border-slate-100 shadow-sm relative lg:sticky top-28">
                                     <nav className="flex flex-col gap-1">
                                         {categories.map(category => (
                                             <button

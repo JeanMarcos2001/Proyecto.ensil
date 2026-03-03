@@ -36,9 +36,9 @@ const Programs: React.FC = () => {
   ];
 
   return (
-    <section id="programa" className="min-h-screen py-24 px-4 bg-white flex flex-col justify-center relative">
+    <section id="programa" className="min-h-screen py-16 md:py-24 px-4 bg-white flex flex-col justify-center relative">
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12 md:mb-16">
           <h2 className="font-display text-4xl md:text-5xl text-gray-900 font-bold leading-tight">
             Eleva tu <span className="text-ensil-green">Intelecto.</span><br />
             Domina el conocimiento.

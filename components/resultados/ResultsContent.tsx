@@ -209,7 +209,7 @@ const InteractiveYouTubeItem: React.FC<{ url: string; index: number }> = ({ url,
   return (
     <div
       key={`yt-${index}`}
-      className="h-[384px] md:h-[432px] aspect-video shrink-0 rounded-2xl overflow-hidden shadow-md bg-slate-100 flex items-center justify-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02] cursor-pointer relative"
+      className="h-[220px] md:h-[432px] aspect-video shrink-0 rounded-2xl overflow-hidden shadow-md bg-slate-100 flex items-center justify-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02] cursor-pointer relative"
       onMouseEnter={() => setIsPlaying(true)}
       onMouseLeave={() => setIsPlaying(false)}
     >
@@ -377,14 +377,14 @@ const ResultsContent: React.FC = () => {
               {isLoadingDemo ? (
                 // Skeleton loading state
                 [...Array(10)].map((_, i) => (
-                  <div key={`skel-${i}`} className="h-[384px] md:h-[432px] w-[600px] shrink-0 rounded-2xl bg-slate-100 animate-pulse flex items-center justify-center">
+                  <div key={`skel-${i}`} className="h-[220px] md:h-[432px] w-[320px] md:w-[600px] shrink-0 rounded-2xl bg-slate-100 animate-pulse flex items-center justify-center">
                     <span className="material-icons-round text-slate-300 text-4xl">image</span>
                   </div>
                 ))
               ) : loopingDemoImages.length > 0 ? (
                 // Dynamic Images from Supabase
                 loopingDemoImages.slice(0, loopingDemoImages.length / 4).map((url, i) => (
-                  <div key={`f1-sb-${i}`} className="h-[384px] md:h-[432px] shrink-0 rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02] cursor-pointer bg-slate-50">
+                  <div key={`f1-sb-${i}`} className="h-[220px] md:h-[432px] shrink-0 rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02] cursor-pointer bg-slate-50">
                     <img
                       src={url}
                       alt={`Evidencia Demostración ${i}`}
@@ -394,7 +394,7 @@ const ResultsContent: React.FC = () => {
                 ))
               ) : (
                 // Fallback if no images found
-                <div className="h-[384px] md:h-[432px] w-full flex items-center justify-center text-slate-400">
+                <div className="h-[220px] md:h-[432px] w-full flex items-center justify-center text-slate-400">
                   No hay imágenes disponibles en esta carpeta.
                 </div>
               )}
@@ -405,7 +405,7 @@ const ResultsContent: React.FC = () => {
           <div className="relative w-full group/marquee2 hover:z-20 [clip-path:inset(-40px_0_-40px_0)]">
             <DraggableMarquee speed={0.8} direction="right">
               {[...Array(10)].map((_, i) => (
-                <div key={`f2-${i}`} className="h-[384px] md:h-[432px] shrink-0 rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02] cursor-pointer">
+                <div key={`f2-${i}`} className="h-[220px] md:h-[432px] shrink-0 rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02] cursor-pointer">
                   <img
                     src={`/img/evidencia/fila2/img_${(i % 10) + 1}.svg`}
                     alt={`Evidencia ${i}`}

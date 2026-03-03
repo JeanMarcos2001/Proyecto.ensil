@@ -414,7 +414,7 @@ const ContactContent: React.FC = () => {
               </div>
 
               {/* BLOCK 2: Video Card - Fills remaining height */}
-              <div className="relative group w-full flex-1 min-h-[0px] flex flex-col">
+              <div className="relative group w-full flex-1 min-h-[280px] lg:min-h-[0px] flex flex-col">
                 <div className="absolute -inset-[2px] bg-gradient-to-r from-lime-400 via-green-500 to-lime-400 rounded-[2.2rem] opacity-75 blur-sm group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-gradient-xy"></div>
                 <div className="relative h-full w-full rounded-[2rem] bg-white p-[2px] overflow-hidden flex flex-col">
                   <div className="absolute inset-[-100%] bg-[conic-gradient(from_90deg_at_50%_50%,#f1f5f9_0%,#84cc16_50%,#f1f5f9_100%)] animate-spin-slow opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>

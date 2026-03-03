@@ -96,7 +96,7 @@ const FAQ: React.FC = () => {
   };
 
   return (
-    <section id="faq" className="py-24 px-4 bg-white font-jakarta">
+    <section id="faq" className="py-16 md:py-24 px-4 bg-white font-jakarta">
       <div className="max-w-screen-xl mx-auto">
 
         {/* Header Section */}

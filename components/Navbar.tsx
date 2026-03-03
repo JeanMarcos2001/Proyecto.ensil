@@ -48,17 +48,11 @@ const Navbar: React.FC = () => {
 
         {/* Logo (Left) */}
         <Link to="/" className="flex items-center flex-shrink-0 z-20 relative h-10 md:h-11 w-[120px] md:w-[130px]">
-          {/* White Logo (Visible at top) */}
-          <img
-            src="/img/LOGO_ENSIL-19.png"
-            alt="ENSIL PERÚ"
-            className={`absolute inset-0 h-full w-full object-contain object-left transition-opacity duration-300 ${isScrolled ? 'opacity-0' : 'opacity-100'}`}
-          />
-          {/* Colored Logo (Visible when scrolled) */}
+          {/* Colored Logo (Always Visible) */}
           <img
             src="/img/LOGO_ENSIL.webp"
             alt="ENSIL PERÚ"
-            className={`absolute inset-0 h-full w-full object-contain object-left transition-opacity duration-300 ${isScrolled ? 'opacity-100' : 'opacity-0'}`}
+            className="absolute inset-0 h-full w-full object-contain object-left"
           />
         </Link>
 
