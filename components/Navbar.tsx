@@ -102,32 +102,57 @@ const Navbar: React.FC = () => {
         </button>
       </div>
 
-      {/* Mobile Menu Dropdown */}
-      {isMobileMenuOpen && (
-        <div className="absolute top-16 left-4 right-4 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl p-4 flex flex-col gap-2 lg:hidden z-40 border border-gray-100">
-          {navItems.map((item) => (
-            <Link
-              key={item.label}
-              to={item.href}
-              onClick={(e) => {
-                setIsMobileMenuOpen(false);
-                if (isActive(item.href)) {
-                  e.preventDefault();
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-              }}
-              className={`text-center py-2.5 px-4 rounded-xl text-sm font-medium transition-all ${item.isButton
-                ? 'bg-primary text-white font-bold mt-1'
-                : isActive(item.href)
-                  ? 'bg-gray-100 text-gray-900 font-semibold'
-                  : 'text-gray-600 hover:bg-gray-50'
-                }`}
+      {/* Mobile Menu Slide-in Drawer */}
+      <div
+        className={`fixed inset-0 z-50 lg:hidden transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+      >
+        {/* Dark Backdrop Overlay */}
+        <div
+          className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+          onClick={() => setIsMobileMenuOpen(false)}
+        ></div>
+
+        {/* Drawer Panel */}
+        <div
+          className={`absolute top-0 right-0 h-full w-[80%] max-w-sm bg-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-out ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        >
+          {/* Drawer Header with Close Button */}
+          <div className="flex items-center justify-between p-5 border-b border-gray-100">
+            <span className="font-fraunces font-bold text-lg text-slate-800">Menú</span>
+            <button
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="p-2 rounded-full hover:bg-gray-100 text-gray-500 transition-colors"
             >
-              {item.label}
-            </Link>
-          ))}
+              <X size={24} />
+            </button>
+          </div>
+
+          {/* Drawer Links */}
+          <div className="flex flex-col p-4 gap-2 overflow-y-auto">
+            {navItems.map((item) => (
+              <Link
+                key={item.label}
+                to={item.href}
+                onClick={(e) => {
+                  setIsMobileMenuOpen(false);
+                  if (isActive(item.href)) {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                }}
+                className={`py-3.5 px-4 rounded-xl text-sm font-medium transition-all ${item.isButton
+                  ? 'bg-ensil-green text-white font-bold mt-4 text-center shadow-md'
+                  : isActive(item.href)
+                    ? 'bg-green-50 text-ensil-green font-bold'
+                    : 'text-gray-600 hover:bg-gray-50'
+                  }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 };
