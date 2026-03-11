@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { NavItem } from '../types';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Phone, Facebook, Instagram, Youtube } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+
+// Custom TikTok SVG Icon
+const TikTok = ({ size = 24, className = "" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+  </svg>
+);
 
 const navItems: NavItem[] = [
   { label: 'Inicio', href: '/' },
@@ -15,6 +22,8 @@ const navItems: NavItem[] = [
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isNavVisible, setIsNavVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const location = useLocation();
 
   // Close mobile menu on route change
@@ -22,16 +31,44 @@ const Navbar: React.FC = () => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
-  // Handle scroll detection
+  // Handle scroll detection and direction (Hide on scroll down, show on scroll up)
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      // 95% de la altura de la pantalla (Hero section)
-      setIsScrolled(window.scrollY > window.innerHeight * 0.95);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+
+          // Determine if we passed the hero section (95vh)
+          setIsScrolled(currentScrollY > window.innerHeight * 0.95);
+
+          // Determine scroll direction to hide/show navbar
+          if (currentScrollY > 50) { // Only start hiding after scrolling past the very top
+            if (currentScrollY > lastScrollY) {
+              // Scrolling down
+              setIsNavVisible(false);
+              // Also close mobile menu if open when scrolling down
+              if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+            } else {
+              // Scrolling up
+              setIsNavVisible(true);
+            }
+          } else {
+            // At the top
+            setIsNavVisible(true);
+          }
+
+          setLastScrollY(currentScrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [lastScrollY, isMobileMenuOpen]);
 
   const isActive = (href: string) => {
     if (href === '/' && location.pathname === '/') return true;
@@ -43,68 +80,103 @@ const Navbar: React.FC = () => {
   const ctaButton = navItems.find(item => item.isButton);
 
   return (
-    <nav className="fixed top-0 w-full z-50 py-3">
-      <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between">
+    <>
+      <header
+        className={`fixed top-0 w-full z-[100] flex flex-col transition-transform duration-300 ease-in-out ${isNavVisible || isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
+          } ${isScrolled ? 'bg-white/90 backdrop-blur-md shadow-sm' : ''}`}
+      >
+        {/* Top Contact Bar */}
+        <div className="w-full bg-green-900 border-b border-white/10 hidden md:block">
+          <div className="w-[95%] mx-auto flex items-center justify-between py-2 px-0">
+            {/* Left: Phone */}
+            <a href="tel:+51960508686" className="flex items-center gap-2 text-white/90 hover:text-white transition-colors text-xs font-semibold tracking-wide">
+              <Phone size={14} className="text-green-400" />
+              +51 960 508 686
+            </a>
 
-        {/* Logo (Left) */}
-        <Link to="/" className="flex items-center flex-shrink-0 z-20 relative h-10 md:h-11 w-[120px] md:w-[130px]">
-          {/* Colored Logo (Always Visible) */}
-          <img
-            src="/img/LOGO_ENSIL.webp"
-            alt="ENSIL PERÚ"
-            className="absolute inset-0 h-full w-full object-contain object-left"
-          />
-        </Link>
+            {/* Right: Socials */}
+            <div className="flex items-center gap-4">
+              <a href="https://www.facebook.com/profile.php?id=61557499991606" target="_blank" rel="noopener noreferrer" className="text-white hover:text-green-400 transition-colors">
+                <Facebook size={14} className="fill-current" />
+              </a>
+              <a href="#" className="text-white hover:text-green-400 transition-colors">
+                <TikTok size={14} />
+              </a>
+              <a href="#" className="text-white hover:text-green-400 transition-colors">
+                <Instagram size={14} />
+              </a>
+              <a href="https://www.youtube.com/@EnsilLecturaIntegral" target="_blank" rel="noopener noreferrer" className="text-white hover:text-green-400 transition-colors">
+                <Youtube size={14} />
+              </a>
+            </div>
+          </div>
+        </div>
 
-        {/* Desktop Nav — Pill Container */}
-        <div className="hidden lg:flex items-center bg-white/80 backdrop-blur-md border border-gray-200/70 rounded-full shadow-sm px-1.5 py-1.5 gap-0.5">
-          {navLinks.map((item) => (
-            <Link
-              key={item.label}
-              to={item.href}
-              onClick={(e) => {
-                if (isActive(item.href)) {
-                  e.preventDefault();
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-              }}
-              className={`relative px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${isActive(item.href)
-                ? 'bg-white text-gray-900 shadow-sm font-semibold'
-                : 'text-gray-500 hover:text-gray-800 hover:bg-white/60'
-                }`}
-            >
-              {isActive(item.href) && (
-                <span className="absolute left-2.5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary inline-block" />
+        {/* Main Navigation */}
+        <div className="w-full py-3">
+          <div className="w-[95%] mx-auto flex items-center justify-between">
+
+            {/* Left Side: Logo & Navigation */}
+            <div className="flex items-center gap-10">
+              {/* Logo */}
+              <Link to="/" className="flex items-center flex-shrink-0 z-20 relative h-10 md:h-11 w-[120px] md:w-[130px]">
+                {/* Colored Logo (Always Visible) */}
+                <img
+                  src="/img/LOGO_ENSIL.webp"
+                  alt="ENSIL PERÚ"
+                  className="absolute inset-0 h-full w-full object-contain object-left"
+                />
+              </Link>
+
+              {/* Desktop Nav — Clean Left-Aligned Menu */}
+              <div className="hidden lg:flex items-center gap-8 z-20">
+                {navLinks.map((item) => (
+                  <Link
+                    key={item.label}
+                    to={item.href}
+                    onClick={(e) => {
+                      if (isActive(item.href)) {
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }
+                    }}
+                    className={`text-[15px] font-medium transition-colors duration-300 hover:text-ensil-green-800 ${isActive(item.href)
+                      ? 'text-ensil-green-900 font-bold'
+                      : 'text-slate-800'
+                      }`}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* CTA Button (Right) */}
+            <div className="hidden lg:block z-20">
+              {ctaButton && (
+                <Link
+                  to={ctaButton.href}
+                  className="text-[15px] font-bold text-slate-900 hover:text-ensil-green-800 transition-colors duration-300"
+                >
+                  {ctaButton.label}
+                </Link>
               )}
-              <span className={isActive(item.href) ? 'pl-3' : ''}>{item.label}</span>
-            </Link>
-          ))}
-        </div>
+            </div>
 
-        {/* CTA Button (Right) */}
-        <div className="hidden lg:block z-20">
-          {ctaButton && (
-            <Link
-              to={ctaButton.href}
-              className="bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 px-5 py-2 rounded-full text-sm font-semibold transition-all hover:shadow-md shadow-sm"
+            {/* Mobile Menu Toggle */}
+            <button
+              className="lg:hidden text-gray-700 z-20 bg-white/80 backdrop-blur-md border border-gray-200 rounded-full p-2 shadow-sm"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              {ctaButton.label}
-            </Link>
-          )}
+              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
         </div>
-
-        {/* Mobile Menu Toggle */}
-        <button
-          className="lg:hidden text-gray-700 z-20 bg-white/80 backdrop-blur-md border border-gray-200 rounded-full p-2 shadow-sm"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
-      </div>
+      </header>
 
       {/* Mobile Menu Slide-in Drawer */}
       <div
-        className={`fixed inset-0 z-50 lg:hidden transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed inset-0 z-[110] lg:hidden transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
       >
         {/* Dark Backdrop Overlay */}
         <div
@@ -153,7 +225,7 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       </div>
-    </nav>
+    </>
   );
 };
 

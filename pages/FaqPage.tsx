@@ -35,6 +35,7 @@ const FaqPage: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [activeCategory, setActiveCategory] = useState<string>('');
+    const [mobileOpenCategory, setMobileOpenCategory] = useState<string>('');
 
     useEffect(() => {
         const fetchFaqs = async () => {
@@ -131,7 +132,7 @@ const FaqPage: React.FC = () => {
                 <div className="max-w-6xl mx-auto w-full">
 
                     {/* Header */}
-                    <div className="text-center mb-12 md:mb-16">
+                    <div className="text-center mb-6 md:mb-16">
                         <span className="inline-block py-1 px-3 rounded-full bg-green-100 text-ensil-green text-xs font-bold uppercase tracking-wider mb-4">
                             CENTRO DE AYUDA
                         </span>
@@ -159,65 +160,123 @@ const FaqPage: React.FC = () => {
                             <div className="w-10 h-10 border-4 border-ensil-green/30 border-t-ensil-green rounded-full animate-spin"></div>
                         </div>
                     ) : (
-                        <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start">
-
-                            {/* Sidebar Categories (Hide if searching) */}
-                            {!searchTerm && (
-                                <div className="w-full lg:w-72 shrink-0 bg-white p-4 rounded-3xl border border-slate-100 shadow-sm relative lg:sticky top-28">
-                                    <nav className="flex flex-col gap-1">
-                                        {categories.map(category => (
-                                            <button
-                                                key={category}
-                                                onClick={() => setActiveCategory(category)}
-                                                className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all text-left ${activeCategory === category
-                                                    ? 'bg-green-50 text-ensil-green shadow-sm shadow-green-100/50'
-                                                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
-                                                    }`}
-                                            >
-                                                <span className={`${activeCategory === category ? 'text-ensil-green' : 'text-slate-400'}`}>
-                                                    {CATEGORY_ICONS[category] || <HelpCircle size={18} />}
-                                                </span>
-                                                {category}
-                                            </button>
-                                        ))}
-                                    </nav>
-                                </div>
-                            )}
-
-                            {/* Main FAQ Content */}
-                            <div className="flex-1 w-full bg-white rounded-3xl border border-slate-100 shadow-sm p-6 md:p-10">
-                                {!searchTerm && (
-                                    <h2 className="text-2xl font-bold text-slate-900 mb-8 pb-4 border-b border-sidebar-border/50 flex items-center gap-3">
-                                        <span className="text-ensil-green bg-green-50 p-2 rounded-xl">
-                                            {CATEGORY_ICONS[activeCategory] || <HelpCircle size={24} />}
-                                        </span>
-                                        {activeCategory}
-                                    </h2>
-                                )}
-
-                                {searchTerm && (
-                                    <h2 className="text-lg font-medium text-slate-500 mb-6">
-                                        Resultados para: <span className="text-slate-900 font-bold">"{searchTerm}"</span>
-                                    </h2>
-                                )}
-
-                                <div className="flex flex-col">
-                                    {filteredFaqs.length > 0 ? (
-                                        filteredFaqs.map(renderItem)
-                                    ) : (
-                                        <div className="text-center py-16">
-                                            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-50 text-slate-300 mb-4">
-                                                <Search size={32} />
+                        <>
+                            {/* Mobile Layout (Accordion style categories) */}
+                            <div className="flex flex-col lg:hidden gap-3 w-full">
+                                {!searchTerm ? (
+                                    categories.map(category => {
+                                        const isCatOpen = mobileOpenCategory === category;
+                                        const catFaqs = faqs.filter(faq => faq.categoriaFAQ?.nombreCategoria === category);
+                                        return (
+                                            <div key={category} className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
+                                                <button
+                                                    onClick={() => setMobileOpenCategory(isCatOpen ? '' : category)}
+                                                    className={`w-full flex items-center justify-between p-4 transition-colors ${isCatOpen ? 'bg-green-50/50' : 'hover:bg-slate-50'}`}
+                                                >
+                                                    <div className="flex items-center gap-3">
+                                                        <span className={`${isCatOpen ? 'text-ensil-green' : 'text-slate-400'}`}>
+                                                            {CATEGORY_ICONS[category] || <HelpCircle size={18} />}
+                                                        </span>
+                                                        <span className={`text-sm md:text-base font-bold text-left ${isCatOpen ? 'text-ensil-green' : 'text-slate-700'}`}>
+                                                            {category}
+                                                        </span>
+                                                    </div>
+                                                    <ChevronDown size={20} className={`text-slate-400 transition-transform duration-300 ${isCatOpen ? 'rotate-180 text-ensil-green' : ''}`} />
+                                                </button>
+                                                <div className={`grid transition-all duration-300 ease-in-out ${isCatOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                                                    <div className="overflow-hidden">
+                                                        <div className="px-5 pb-4 flex flex-col">
+                                                            {catFaqs.map(renderItem)}
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <p className="text-lg text-slate-500">
-                                                No encontramos respuestas exactas. Intenta con otra palabra clave.
-                                            </p>
+                                        );
+                                    })
+                                ) : (
+                                    <div className="w-full bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
+                                        <h2 className="text-base font-medium text-slate-500 mb-6">
+                                            Resultados para: <span className="text-slate-900 font-bold">"{searchTerm}"</span>
+                                        </h2>
+                                        <div className="flex flex-col">
+                                            {filteredFaqs.length > 0 ? (
+                                                filteredFaqs.map(renderItem)
+                                            ) : (
+                                                <div className="text-center py-10">
+                                                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-50 text-slate-300 mb-3">
+                                                        <Search size={24} />
+                                                    </div>
+                                                    <p className="text-base text-slate-500">
+                                                        No encontramos respuestas exactas.
+                                                    </p>
+                                                </div>
+                                            )}
                                         </div>
-                                    )}
-                                </div>
+                                    </div>
+                                )}
                             </div>
 
-                        </div>
+                            {/* Desktop Layout (Sidebar + Content) */}
+                            <div className="hidden lg:flex flex-row gap-16 items-start">
+
+                                {/* Sidebar Categories (Hide if searching) */}
+                                {!searchTerm && (
+                                    <div className="w-72 shrink-0 bg-white p-4 rounded-3xl border border-slate-100 shadow-sm sticky top-36">
+                                        <nav className="flex flex-col gap-1">
+                                            {categories.map(category => (
+                                                <button
+                                                    key={category}
+                                                    onClick={() => setActiveCategory(category)}
+                                                    className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all text-left ${activeCategory === category
+                                                        ? 'bg-green-50 text-ensil-green shadow-sm shadow-green-100/50'
+                                                        : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
+                                                        }`}
+                                                >
+                                                    <span className={`${activeCategory === category ? 'text-ensil-green' : 'text-slate-400'}`}>
+                                                        {CATEGORY_ICONS[category] || <HelpCircle size={18} />}
+                                                    </span>
+                                                    {category}
+                                                </button>
+                                            ))}
+                                        </nav>
+                                    </div>
+                                )}
+
+                                {/* Main FAQ Content */}
+                                <div className="flex-1 w-full bg-white rounded-3xl border border-slate-100 shadow-sm p-10">
+                                    {!searchTerm && (
+                                        <h2 className="text-2xl font-bold text-slate-900 mb-8 pb-4 border-b border-sidebar-border/50 flex items-center gap-3">
+                                            <span className="text-ensil-green bg-green-50 p-2 rounded-xl">
+                                                {CATEGORY_ICONS[activeCategory] || <HelpCircle size={24} />}
+                                            </span>
+                                            {activeCategory}
+                                        </h2>
+                                    )}
+
+                                    {searchTerm && (
+                                        <h2 className="text-lg font-medium text-slate-500 mb-6">
+                                            Resultados para: <span className="text-slate-900 font-bold">"{searchTerm}"</span>
+                                        </h2>
+                                    )}
+
+                                    <div className="flex flex-col">
+                                        {filteredFaqs.length > 0 ? (
+                                            filteredFaqs.map(renderItem)
+                                        ) : (
+                                            <div className="text-center py-16">
+                                                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-50 text-slate-300 mb-4">
+                                                    <Search size={32} />
+                                                </div>
+                                                <p className="text-lg text-slate-500">
+                                                    No encontramos respuestas exactas. Intenta con otra palabra clave.
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </>
                     )}
                 </div>
             </main>
