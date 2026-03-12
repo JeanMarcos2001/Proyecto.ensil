@@ -148,10 +148,10 @@ const Hero: React.FC = () => {
         </div>
 
         <a
-          href="#programa"
+          href="#problemas"
           onClick={(e) => {
             e.preventDefault();
-            smoothScrollTo('programa', 1200);
+            smoothScrollTo('problemas', 1200);
           }}
           className="order-6 inline-flex flex-col items-start text-slate-600 hover:text-slate-900 transition-colors group cursor-pointer w-fit mb-10 md:mb-0"
         >

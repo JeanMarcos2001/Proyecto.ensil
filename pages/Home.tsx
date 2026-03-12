@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import Hero from '../components/home/Hero';
+import ProblemsSection from '../components/home/ProblemsSection';
 import Programs from '../components/home/Programs';
 import PromiseSection from '../components/home/PromiseSection';
 import FAQ from '../components/home/FAQ';
@@ -12,7 +13,9 @@ const Home: React.FC = () => {
       <Navbar />
       <main>
         <Hero />
+        <ProblemsSection />
         <Programs />
+
         <PromiseSection />
         <FAQ />
         <section id="sedes">
