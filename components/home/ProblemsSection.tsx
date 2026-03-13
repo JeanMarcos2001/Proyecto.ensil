@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, BookOpen, Clock, BrainCircuit, Lightbulb, CheckCircle2 } from 'lucide-react';
+import { ArrowDown, BookOpen, Clock, BrainCircuit, Lightbulb, CheckCircle2 } from 'lucide-react';
 import { smoothScrollTo } from '../../utils/scroll';
 
 // Hook for scroll-based entrance animation
@@ -136,7 +136,7 @@ const ProblemsSection = () => {
               <img src="/img/sec1.2/img2.png" alt="Solución integral" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
             </div>
             {/* CTA Card gets specific sizing below the overall 260px block height size so the button fits compactly within the column */}
-            <div className="bg-gradient-to-br from-[#d4f870] to-[#bde24c] border border-[#c4eb4e] rounded-3xl p-4 shadow-sm flex flex-col justify-start relative overflow-hidden group hover:-translate-y-3 hover:shadow-xl hover:shadow-[#c4eb4e]/30 transition-all duration-300 min-h-[200px] h-auto shrink-0">
+            <div className="bg-gradient-to-br from-[#d4f870] to-[#bde24c] border border-[#c4eb4e] rounded-3xl p-4 shadow-sm flex flex-col justify-start relative overflow-hidden group hover:-translate-y-3 hover:shadow-xl hover:shadow-[#c4eb4e]/30 transition-all duration-300 min-h-[188px] h-auto shrink-0">
               <div className="absolute -top-4 -right-4 p-4 opacity-5">
                 <CheckCircle2 size={50} className="text-ensil-green" />
               </div>
@@ -148,17 +148,19 @@ const ProblemsSection = () => {
                 Descubre una metodología integral diseñada para desarrollar seguridad, velocidad, comprensión y retención lectora.
               </p>
             </div>
-            <div className="flex-none shrink-0 h-[40px]">
+            <div className="flex-none shrink-0 h-[52px]">
               <a
                 href="#programa"
                 onClick={(e) => {
                   e.preventDefault();
                   smoothScrollTo('programa', 1200);
                 }}
-                className="w-full h-full bg-ensil-green hover:bg-[#1a3f18] text-white rounded-full font-medium flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg hover:shadow-ensil-green/30 hover:-translate-y-1 text-sm duration-300"
+                className="w-full h-full bg-ensil-green hover:bg-[#1a3f18] text-white rounded-full font-medium flex items-center justify-center gap-3 transition-all shadow-md hover:shadow-lg hover:shadow-ensil-green/30 hover:-translate-y-1 text-sm duration-300 pr-2 pl-4"
               >
-                Conocer la metodología
-                <ArrowRight size={16} />
+                Descubre cómo
+                <span className="bg-white text-ensil-green rounded-full p-1.5 flex items-center justify-center ml-1">
+                  <ArrowDown size={18} strokeWidth={2.5} />
+                </span>
               </a>
             </div>
           </div>
@@ -252,10 +254,12 @@ const ProblemsSection = () => {
                   e.preventDefault();
                   smoothScrollTo('programa', 1200);
                 }}
-                className="w-full inline-flex py-3.5 px-6 bg-[#1a3f18] hover:bg-[#112a10] text-[#d4f870] rounded-full font-medium items-center justify-center gap-2 transition-colors shadow-md hover:shadow-lg text-sm"
+                className="w-full h-[52px] inline-flex pr-2 pl-6 bg-[#1a3f18] hover:bg-[#112a10] text-[#d4f870] rounded-full font-medium items-center justify-center gap-3 transition-colors shadow-md hover:shadow-lg text-sm"
               >
-                Conocer la metodología
-                <ArrowRight size={18} />
+                Descubre cómo
+                <span className="bg-white text-[#1a3f18] rounded-full p-1.5 flex items-center justify-center ml-1">
+                  <ArrowDown size={18} strokeWidth={2.5} />
+                </span>
               </a>
             </div>
           </div>
