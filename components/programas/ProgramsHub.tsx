@@ -43,11 +43,7 @@ const ProgramsHub: React.FC = () => {
   return (
     <div className="w-full min-h-screen bg-white font-jakarta flex flex-col items-center pt-8 pb-12 md:pt-16 md:pb-24 relative overflow-hidden">
 
-      {/* Background Decor */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-emerald-50/50 rounded-full blur-[80px]"></div>
-        <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-50/50 rounded-full blur-[80px]"></div>
-      </div>
+
 
       {/* Header Text - Improved Typography */}
       <div className="text-center max-w-4xl px-4 mb-16 z-10 relative">
@@ -64,7 +60,7 @@ const ProgramsHub: React.FC = () => {
         {programs.map((program) => (
           <div
             key={program.id}
-            className={`w-full overflow-hidden rounded-[2.5rem] border ${program.color} ${program.borderColor} shadow-sm`}
+            className="w-full relative bg-transparent"
           >
             {/* Component Content (Continuous display) */}
             <div className="w-full h-full">

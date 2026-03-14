@@ -9,12 +9,11 @@ const MAIN_IMAGE_URL = "/img/programas/prekids.webp";
 const PreKidsContent: React.FC = () => {
     return (
         <div className="w-full font-jakarta text-slate-800 min-h-full pb-12 bg-white">
-            {/* UNIFORM HERO SECTION: Increased height by 50% */}
-            {/* UNIFORM HERO SECTION: Standardized height across all cards */}
-            <div className="relative w-full h-[500px] md:h-[600px] overflow-hidden rounded-3xl shadow-sm group bg-slate-100 mx-auto mt-2 max-w-[98%]">
+            {/* UNIFORM HERO SECTION: Height scales with image */}
+            <div className="relative w-full overflow-hidden rounded-3xl shadow-sm group bg-slate-100 mx-auto mt-2 max-w-[98%] text-left">
                 <img
                     alt="Pre Kids Jugando"
-                    className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    className="block w-full h-auto object-cover object-center transition-transform duration-700 group-hover:scale-105"
                     src={MAIN_IMAGE_URL}
                 />
                 {/* Gradient Overlay Uniform */}

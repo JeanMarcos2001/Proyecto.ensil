@@ -6,6 +6,7 @@ import Programs from '../components/home/Programs';
 import PromiseSection from '../components/home/PromiseSection';
 import FAQ from '../components/home/FAQ';
 import Footer from '../components/Footer';
+import LevelsSection from '../components/home/LevelsSection';
 
 const Home: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const Home: React.FC = () => {
       <main>
         <Hero />
         <ProblemsSection />
+        <LevelsSection />
         <Programs />
 
         <PromiseSection />

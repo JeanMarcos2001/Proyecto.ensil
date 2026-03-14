@@ -264,8 +264,8 @@ const SedesContent: React.FC = () => {
 
         {/* Predictive Search */}
         <div className="max-w-2xl mx-auto mb-16 relative">
-          <div className="relative group">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+          <div className="relative group transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-green-900/10 rounded-full">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
               <Search className="text-slate-400 group-focus-within:text-ensil-green transition-colors" size={24} />
             </div>
             <input
@@ -276,7 +276,7 @@ const SedesContent: React.FC = () => {
                 setCurrentPage(1); // Reset page on search
               }}
               placeholder="Escribe tu departamento de residencia..."
-              className="block w-full pl-12 pr-4 py-4 bg-white border-0 ring-1 ring-slate-200 rounded-2xl text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-ensil-green shadow-soft text-lg transition-all"
+              className="block w-full pl-12 pr-4 py-4 bg-white border-0 ring-1 ring-slate-200 rounded-full text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-ensil-green shadow-soft text-lg transition-all"
             />
             {searchTerm && filteredSedes.length === 0 && (
               <div className="absolute top-full mt-2 w-full bg-white rounded-xl shadow-lg p-4 text-center text-slate-500 text-sm z-20">
@@ -292,10 +292,10 @@ const SedesContent: React.FC = () => {
             <div
               key={sede.id}
               onMouseLeave={() => setExpandedId(null)}
-              className={`group relative bg-gradient-to-br from-green-600 to-green-800 rounded-3xl overflow-hidden shadow-card hover:shadow-2xl hover:shadow-green-900/20 transition-all duration-500 flex flex-col text-white p-3 ${expandedId === sede.id ? 'ring-2 ring-yellow-400 z-10 scale-[1.02]' : 'z-0'}`}
+              className={`group relative bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-slate-200 transition-all duration-500 flex flex-col p-3 border border-slate-100 ${expandedId === sede.id ? 'ring-2 ring-ensil-green z-10 scale-[1.02]' : 'z-0'}`}
             >
               {/* Card Image Floating Style */}
-              <div className="relative h-56 rounded-2xl shadow-[0_8px_20px_rgba(0,0,0,0.3)] overflow-hidden shrink-0">
+              <div className="relative h-56 rounded-2xl shadow-sm overflow-hidden shrink-0">
                 <img
                   alt={`Sede ${sede.filial}`}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
@@ -312,45 +312,46 @@ const SedesContent: React.FC = () => {
                     <span className="text-white text-[10px] font-bold uppercase tracking-wider">{sede.departamento}</span>
                   </div>
                 </div>
-
-                <button
-                  onClick={() => toggleExpand(sede.id)}
-                  className={`absolute bottom-3 right-3 bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full p-2 hover:bg-white hover:text-ensil-green transition-all duration-300 z-10 shadow-lg ${expandedId === sede.id ? 'rotate-180 bg-white text-ensil-green' : ''}`}
-                >
-                  <ChevronDown size={20} />
-                </button>
               </div>
 
               {/* Card Content */}
-              <div className="px-2 pt-4 pb-2 flex flex-col justify-start gap-1 relative z-10">
-                <div className="flex items-start gap-3 mb-1">
-                  <div className="mt-1 bg-white/10 p-2 rounded-lg border border-white/10 shadow-sm">
-                    <MapPin className="text-yellow-400" size={18} />
+              <div className="px-2 pt-5 pb-2 flex flex-col justify-start gap-1 relative z-10">
+                <div className="flex items-start justify-between gap-3 mb-1 w-full">
+                  <div className="flex flex-row items-start gap-3">
+                    <div className="mt-1">
+                      <MapPin className="text-ensil-green" size={24} />
+                    </div>
+                    <div>
+                      <p className="font-bold text-slate-900 text-lg tracking-wide leading-tight">Filial {sede.filial}</p>
+                      <p className="text-sm text-slate-600 leading-snug mt-1">{sede.direccion}</p>
+                      <span className="text-xs text-slate-400 mt-0.5 block uppercase tracking-wider font-semibold">{sede.distrito}, {sede.provincia}</span>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-bold text-white text-lg tracking-wide leading-tight">Filial {sede.filial}</p>
-                    <p className="text-xs text-green-100/90 leading-snug mt-1">{sede.direccion}</p>
-                    <span className="text-[10px] text-green-300/80 mt-0.5 block uppercase tracking-wider font-semibold">{sede.distrito}, {sede.provincia}</span>
-                  </div>
+                  <button
+                    onClick={() => toggleExpand(sede.id)}
+                    className={`mt-1 bg-white border-2 border-green-800 text-green-800 rounded-full p-2 hover:border-lime-500 hover:text-lime-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-green-900/10 transition-all duration-300 z-10 shrink-0 ${expandedId === sede.id ? 'rotate-180 bg-green-50' : ''}`}
+                  >
+                    <ChevronDown size={22} className="stroke-[2.5]" />
+                  </button>
                 </div>
 
                 {/* Expandable Content */}
                 <div
-                  className={`transition-all duration-500 ease-in-out overflow-hidden ${expandedId === sede.id ? 'max-h-[500px] opacity-100 mt-2 pt-3 border-t border-white/10' : 'max-h-0 opacity-0 mt-0 pt-0 border-none'}`}
+                  className={`transition-all duration-500 ease-in-out overflow-hidden ${expandedId === sede.id ? 'max-h-[500px] opacity-100 mt-4 pt-4 border-t border-slate-100' : 'max-h-0 opacity-0 mt-0 pt-0 border-transparent'}`}
                 >
-                  <div className="space-y-3 mb-4">
-                    <div className="text-xs text-green-50 bg-black/20 p-3 rounded-xl border border-white/10 shadow-inner">
-                      <span className="block font-bold text-[10px] text-yellow-400 uppercase tracking-wider mb-1">Referencia</span>
+                  <div className="space-y-4 mb-5">
+                    <div className="text-sm text-slate-600 bg-slate-50 p-3.5 rounded-xl border border-slate-100 shadow-inner">
+                      <span className="block font-bold text-[11px] text-ensil-green uppercase tracking-wider mb-1.5">Referencia</span>
                       {sede.referencia}
                     </div>
-                    <div className="text-xs text-white flex flex-col gap-2">
-                      <span className="block font-bold text-[10px] text-yellow-400 uppercase tracking-wider">Contacto</span>
-                      <div className="flex items-center gap-3">
-                        <Phone size={14} className="text-green-300" />
+                    <div className="text-sm flex flex-col gap-2.5">
+                      <span className="block font-bold text-[11px] text-ensil-green uppercase tracking-wider mb-0.5">Contacto</span>
+                      <div className="flex items-center gap-3 text-slate-700">
+                        <Phone size={16} className="text-green-600" />
                         <span className="font-medium tracking-wide">{sede.fijo}</span>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <Smartphone size={14} className="text-green-300" />
+                      <div className="flex items-center gap-3 text-slate-700">
+                        <Smartphone size={16} className="text-green-600" />
                         <span className="font-medium tracking-wide">{sede.movil}</span>
                       </div>
                     </div>
@@ -359,7 +360,7 @@ const SedesContent: React.FC = () => {
                     href={`https://wa.me/51${sede.movil.replace(/\s/g, '').replace(/-/g, '')}?text=Hola, deseo información sobre la sede ${sede.filial}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full bg-gradient-to-r from-emerald-400 to-green-600 hover:from-emerald-300 hover:to-green-500 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(52,211,153,0.4)] hover:shadow-[0_0_30px_rgba(52,211,153,0.6)] transform active:scale-95 group/btn text-sm"
+                    className="w-full bg-ensil-green hover:bg-green-600 text-white font-bold py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-[0_4px_14px_rgba(4,120,87,0.3)] hover:shadow-[0_6px_20px_rgba(4,120,87,0.4)] hover:-translate-y-0.5 transform active:scale-95 group/btn text-sm"
                   >
                     <MessageCircle size={18} className="group-hover/btn:animate-bounce" />
                     Iniciar conversación

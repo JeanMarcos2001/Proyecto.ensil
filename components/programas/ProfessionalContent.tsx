@@ -9,12 +9,11 @@ const MAIN_IMAGE_URL = "/img/programas/pro.webp";
 const ProfessionalContent: React.FC = () => {
     return (
         <div className="w-full bg-white text-slate-800 font-jakarta min-h-full pb-12">
-            {/* UNIFORM HERO SECTION: Increased height by 50% */}
-            {/* UNIFORM HERO SECTION: Standardized height across all cards */}
-            <header className="relative w-full h-[400px] md:h-[600px] overflow-hidden rounded-3xl shadow-sm group bg-slate-900 mx-auto mt-2 max-w-[98%]">
+            {/* UNIFORM HERO SECTION: Height scales with image */}
+            <header className="relative w-full overflow-hidden rounded-3xl shadow-sm group bg-slate-900 mx-auto mt-2 max-w-[98%] text-left">
                 <img
                     alt="Profesional Lectura"
-                    className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    className="block w-full h-auto object-cover object-center transition-transform duration-700 group-hover:scale-105"
                     src={MAIN_IMAGE_URL}
                 />
                 {/* Gradient Overlay Uniform */}

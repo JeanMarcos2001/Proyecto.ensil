@@ -37,7 +37,7 @@ const ProblemsSection = () => {
   const animClasses = `transition-all duration-1000 ease-out transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'}`;
 
   return (
-    <section id="problemas" className="py-12 md:py-16 bg-white overflow-hidden">
+    <section id="problemas" className="pt-8 pb-6 md:pt-10 md:pb-8 bg-white overflow-hidden">
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
 
         {/* Header content */}
@@ -150,10 +150,10 @@ const ProblemsSection = () => {
             </div>
             <div className="flex-none shrink-0 h-[52px]">
               <a
-                href="#programa"
+                href="#niveles"
                 onClick={(e) => {
                   e.preventDefault();
-                  smoothScrollTo('programa', 1200);
+                  smoothScrollTo('niveles', 1200);
                 }}
                 className="w-full h-full bg-ensil-green hover:bg-[#1a3f18] text-white rounded-full font-medium flex items-center justify-center gap-3 transition-all shadow-md hover:shadow-lg hover:shadow-ensil-green/30 hover:-translate-y-1 text-sm duration-300 pr-2 pl-4"
               >
@@ -249,10 +249,10 @@ const ProblemsSection = () => {
                 Descubre una metodología integral diseñada para desarrollar seguridad, velocidad, comprensión y retención lectora.
               </p>
               <a
-                href="#programa"
+                href="#niveles"
                 onClick={(e) => {
                   e.preventDefault();
-                  smoothScrollTo('programa', 1200);
+                  smoothScrollTo('niveles', 1200);
                 }}
                 className="w-full h-[52px] inline-flex pr-2 pl-6 bg-[#1a3f18] hover:bg-[#112a10] text-[#d4f870] rounded-full font-medium items-center justify-center gap-3 transition-colors shadow-md hover:shadow-lg text-sm"
               >

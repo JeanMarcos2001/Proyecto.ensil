@@ -242,6 +242,7 @@ const InteractiveYouTubeItem: React.FC<{ url: string; index: number }> = ({ url,
 const ResultsContent: React.FC = () => {
   const [demoImages, setDemoImages] = useState<string[]>([]);
   const [isLoadingDemo, setIsLoadingDemo] = useState(true);
+  const [isStatsVisible, setIsStatsVisible] = useState(false);
 
   useEffect(() => {
     const fetchDemoImages = async () => {
@@ -284,6 +285,10 @@ const ResultsContent: React.FC = () => {
     };
 
     fetchDemoImages();
+    
+    // Trigger entrance animation shortly after mount
+    const timer = setTimeout(() => setIsStatsVisible(true), 100);
+    return () => clearTimeout(timer);
   }, []);
 
   // To ensure the marquee has enough items to scroll infinitely without snapping,
@@ -326,7 +331,7 @@ const ResultsContent: React.FC = () => {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-green-800 p-8 rounded-3xl text-white relative overflow-hidden group hover:shadow-xl transition-shadow duration-300">
+          <div className={`bg-green-800 p-8 rounded-3xl text-white relative overflow-hidden group hover:shadow-xl transition-all duration-700 ease-out transform ${isStatsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
             <div className="absolute top-0 right-0 p-4 opacity-20">
               <span className="material-icons-round text-6xl">school</span>
             </div>
@@ -335,21 +340,21 @@ const ResultsContent: React.FC = () => {
             <div className="mt-4 text-xs bg-white/20 inline-block px-3 py-1 rounded-full backdrop-blur-sm">Líderes en Perú</div>
           </div>
 
-          <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 relative overflow-hidden hover:shadow-lg transition-shadow duration-300">
+          <div className={`bg-white p-8 rounded-3xl shadow-sm border border-slate-100 relative overflow-hidden hover:shadow-lg transition-all duration-700 delay-150 ease-out transform ${isStatsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
             <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-green-50 rounded-full"></div>
             <h3 className="text-5xl font-bold text-slate-900 mb-2">95<span className="text-green-700 text-3xl align-top">%</span></h3>
             <p className="font-medium text-slate-600">Aprueban sus módulos</p>
             <p className="text-xs text-slate-400 mt-2">En el primer intento</p>
           </div>
 
-          <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 relative overflow-hidden hover:shadow-lg transition-shadow duration-300">
+          <div className={`bg-white p-8 rounded-3xl shadow-sm border border-slate-100 relative overflow-hidden hover:shadow-lg transition-all duration-700 delay-300 ease-out transform ${isStatsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
             <span className="material-icons-round text-green-700 text-3xl mb-2">location_on</span>
             <h3 className="text-5xl font-bold text-slate-900 mb-2">16</h3>
             <p className="font-medium text-slate-600">Sedes Nacionales</p>
             <p className="text-xs text-slate-400 mt-2">Presencia en todo el país</p>
           </div>
 
-          <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 relative overflow-hidden hover:shadow-lg transition-shadow duration-300">
+          <div className={`bg-white p-8 rounded-3xl shadow-sm border border-slate-100 relative overflow-hidden hover:shadow-lg transition-all duration-700 delay-500 ease-out transform ${isStatsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
             <span className="material-icons-round text-green-700 text-3xl mb-2">history</span>
             <h3 className="text-5xl font-bold text-slate-900 mb-2">20<span className="text-green-700 text-3xl align-top">+</span></h3>
             <p className="font-medium text-slate-600">Años de Experiencia</p>

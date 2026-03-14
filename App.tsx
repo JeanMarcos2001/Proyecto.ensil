@@ -13,7 +13,7 @@ const App: React.FC = () => {
   return (
     <HashRouter>
       <ScrollToTop />
-      <div className="min-h-screen bg-background-light">
+      <div className="min-h-screen bg-white">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/programas" element={<ProgramsPage />} />
