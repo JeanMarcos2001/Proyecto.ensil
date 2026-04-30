@@ -46,9 +46,6 @@ const ProblemsSection = () => {
             Miles de <span className="text-ensil-green">estudiantes</span> leen,<br />
             pocos son lo que <span className="text-ensil-green">comprenden</span>.
           </h2>
-          <p className="mt-6 text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed font-light">
-            Nuestro programa integral fortalece la seguridad, la velocidad, la comprensión y la retención lectora, ayudando a escolares, preuniversitarios y profesionales a convertir la lectura en una herramienta de alto rendimiento.
-          </p>
         </div>
 
         {/* Desktop 5-Column Alternating Layout */}

@@ -876,9 +876,9 @@ const ContactContent: React.FC = () => {
               <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-white/10">
                 <span className="material-icons-round text-3xl text-ensil-gold">speed</span>
               </div>
-              <h3 className="font-fraunces text-2xl text-slate-900 font-semibold mb-3">Lectura Veloz</h3>
+              <h3 className="font-fraunces text-2xl text-slate-900 font-semibold mb-3">Lectura Integral</h3>
               <p className="text-slate-600 leading-relaxed text-sm">
-                Multiplica tu velocidad de lectura por 10, manteniendo una comprensión superior al 90% mediante técnicas oculares avanzadas.
+                Multiplica tu velocidad de lectura por 20, manteniendo una comprensión superior al 99% mediante técnicas, estrategias y métodos avanzados de lectura.
               </p>
             </div>
             <div className="group bg-gradient-to-br from-ensil-gold/20 to-yellow-600/20 backdrop-blur-md p-8 rounded-3xl border border-ensil-gold/30 hover:border-ensil-gold/50 transition-all duration-300 transform md:-translate-y-4 shadow-lg shadow-ensil-gold/10">
@@ -896,7 +896,7 @@ const ContactContent: React.FC = () => {
               </div>
               <h3 className="font-fraunces text-2xl text-slate-900 font-semibold mb-3">Gestión del Tiempo</h3>
               <p className="text-slate-600 leading-relaxed text-sm">
-                Integra la lectura eficiente en tu rutina diaria para optimizar tu productividad y alcanzar tus metas más rápido.
+                Con lectura integral en tu rutina diaria optimizaras tu productividad y alcanzar tus metas académicas, profesionales y laborales será sencillo de lograr.
               </p>
             </div>
           </div>
@@ -917,19 +917,19 @@ const ContactContent: React.FC = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-lg">
-              <p className="font-fraunces text-6xl font-bold text-ensil-green mb-2">10x</p>
+              <p className="font-fraunces text-6xl font-bold text-ensil-green mb-2">20x</p>
               <div className="h-1 w-12 bg-ensil-gold mb-4"></div>
               <p className="text-slate-900 font-medium">Aumento en Velocidad de Lectura</p>
               <p className="text-sm text-slate-500 mt-2">Promedio logrado en 6 meses.</p>
             </div>
-            <div className="bg-slate-900 p-8 rounded-2xl border border-slate-800 shadow-xl">
-              <p className="font-fraunces text-6xl font-bold text-ensil-gold mb-2">95%</p>
+            <div className="bg-green-900 p-8 rounded-2xl border border-slate-800 shadow-xl">
+              <p className="font-fraunces text-6xl font-bold text-ensil-gold mb-2">99%</p>
               <div className="h-1 w-12 bg-white/20 mb-4"></div>
               <p className="text-white font-medium">Tasa de Comprensión Promedio</p>
               <p className="text-sm text-slate-400 mt-2">Retención superior garantizada.</p>
             </div>
             <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-lg">
-              <p className="font-fraunces text-6xl font-bold text-ensil-green mb-2">+25k</p>
+              <p className="font-fraunces text-6xl font-bold text-ensil-green mb-2">+12k</p>
               <div className="h-1 w-12 bg-ensil-gold mb-4"></div>
               <p className="text-slate-900 font-medium">Alumnos Graduados con Éxito</p>
               <p className="text-sm text-slate-500 mt-2">Una comunidad en crecimiento.</p>
@@ -1037,20 +1037,26 @@ const ContactContent: React.FC = () => {
       {/* Final CTA Section */}
       < section className="py-20 px-6" >
         <div className="max-w-7xl mx-auto">
-          <div className="bg-gradient-to-r from-ensil-gold to-yellow-600 rounded-[2.5rem] p-12 md:p-20 text-center text-white relative overflow-hidden shadow-2xl border border-white/20">
+          <div
+            className="rounded-[1.5rem] p-18 md:p-20 text-center text-white relative overflow-hidden shadow-2xl border border-white/20 bg-cover bg-center"
+            style={{ backgroundImage: "linear-gradient(rgba(22, 101, 52, 0.8), rgba(3, 107, 43, 0.8)), url('/img/bg-contacto-final.webp')" }}
+          >
             <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay"></div>
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
             <div className="relative z-10 max-w-4xl mx-auto">
-              <h2 className="font-fraunces text-4xl md:text-6xl font-bold mb-6 text-white drop-shadow-md">
-                ¡Tu futuro está a solo una <br /><span className="italic text-green-900">decisión de cambiar!</span>
+              <h2 className="font-fraunces text-2xl md:text-6xl font-bold mb-6 text-white drop-shadow-md">
+                ¡Tu futuro está a solo una <br /><span className="italic text-yellow-300">decisión de cambiar!</span>
               </h2>
-              <p className="text-lg text-white/90 mb-10 max-w-2xl mx-auto font-light">
-                No esperes más para darte a ti mismo o a tu ser querido la herramienta más poderosa: el conocimiento.
+              <p className="text-lg text-white/90 mb-10 max-w-xl mx-auto font-light">
+                No esperes más para darte a ti mismo o a tu ser querido la herramienta más poderosa.
               </p>
-              <a href="#agenda-form" className="bg-white text-ensil-gold hover:bg-green-900 hover:text-white font-bold py-4 px-10 rounded-full transition-all duration-300 shadow-xl text-lg hover:-translate-y-1 inline-flex items-center gap-2 group">
-                Agendar mi Entrevista Ahora
+              <button
+                onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className="bg-white text-green-800 hover:bg-green-100 hover:text-green-900 font-bold py-4 px-10 rounded-full transition-all duration-300 shadow-xl text-lg hover:-translate-y-1 inline-flex items-center gap-4 group cursor-pointer border-none"
+              >
+                Ir a agendar una entrevista
                 <span className="material-icons-round group-hover:translate-x-1 transition-transform">arrow_forward</span>
-              </a>
+              </button>
             </div>
           </div>
         </div>
