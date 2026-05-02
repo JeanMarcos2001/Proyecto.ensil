@@ -12,62 +12,66 @@ const testimonialsData = [
     name: "María Lopez",
     occupation: "CEO & Fundadora",
     program: "Profesional",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBlJh0XUqP0W69pDTc94PkWGfySOiVFvw0EYF5npgO3gAxYVWAS-VGbIz-GzpQ5WIimk86i6ZbHdB16ptKfxOaGkYstk8-gOt2YdkOdXJGWck5lax9RsBOOAisEYupvedapkT7OaLQI9RHbkxhpSlAR3cWgtlelVyZvhOjoFOGUA7eoUemzJ0NUveHg9EEBFyIy19zgNz-FxKJPyp9vZ8WzH5CkN0xMWWbWnL-s0Np1AaNW0aavmba-VzRKLxGjIN__0KhZ7O4M4mQ",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800",
     text: "Pensé que leer rápido significaba perder comprensión, pero ENSIL me demostró lo contrario. Ahora leo un libro por semana manteniendo el 100% de retención en mis proyectos.",
     speed: "1,200 ppm",
-    comprehension: "100%"
+    comprehension: "100%",
+    cardColor: "bg-[#dcfb41]"
   },
   {
     id: 2,
     name: "Carlos Ruiz",
     occupation: "Estudiante de Derecho",
     program: "Profesional",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDycFLhDTVXG4J_ypj_TYcy0HBGQTQlC1LYBFdxbkZBVFOB0iNj5hTPJsKObnqAfdhOSJlM8OAVZeZ_h7xh59eJNnONADNXtTH4kz5vh4SkRBuqJhoEpW8xaTrXsFeS9zLPbPa6JENq0vEgvMWDjyYLB3zZJWHCzCNqMuLvPmv-rcMkRzypUtz_4m5sJUVX_rr-odRRqujtyXfEITw6fPEVpHWCRWpJVpKImTu3wq4MC5QH4AkVIDawuwtWqXYgoWRSMGIX4TlfRGI",
+    image: "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&q=80&w=800",
     text: "La carga de lectura en mi carrera era abrumadora. ENSIL no solo me ahorró tiempo, sino que me dio la confianza para destacar en mis exámenes y prepararme mejor.",
     speed: "2,400 ppm",
-    comprehension: "100%"
+    comprehension: "100%",
+    cardColor: "bg-[#f5f2eb]"
   },
   {
     id: 3,
     name: "Lucía Vargas",
     occupation: "Estudiante de Primaria",
     program: "Kids",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDMAaVusTvFpywPEjL2ouYf7UAWwq_gCCIq7XahIGoS65IYC5R4lPX7veQX9rI32hc8F2tgBlIj3Va7W-y6JdTcHHiL30PYPlzeS1_rpS6iHByzu5RBQ-ThXcTXEt1-k5VDq3IUriqRqkSSitXTMnN4exC4oReJVou28VtGK0MeRt4BJjtZ5obPtaqSLoy9rmj3TlFgWC48506keC273EVg-_0Y4UqereeYLLvcKINDkYUsB0xjcpxv5rtQtEcQLe_f-l567EGK1xg",
+    image: "https://images.unsplash.com/photo-1595453001851-4045f22ebfc4?auto=format&fit=crop&q=80&w=800",
     text: "Antes me aburría mucho leer cuentos largos. Ahora leo más rápido que mis compañeros y entiendo todo lo que leo. ¡Me encantan los libros de aventuras!",
     speed: "650 ppm",
-    comprehension: "100%"
+    comprehension: "100%",
+    cardColor: "bg-[#e5d4ff]"
   },
   {
     id: 4,
     name: "Mateo Silva",
     occupation: "Nivel Inicial",
     program: "PreKids",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCl2aD8-y3aI3JtC3X-oVvR3NfM3Y5G5K8P_A1z3aI3JtC3X-oVvR3NfM3Y5G5K8P_A1z3aI3JtC3X-oVvR3NfM",
-    // Note: fallback placeholder for child not currently in images
+    image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&q=80&w=800",
     text: "Mi hijo Mateo tenía problemas de concentración. Desde que empezó en PreKids, su agilidad mental ha mejorado muchísimo. Está feliz y motivado.",
     speed: "Iniciado",
-    comprehension: "95%"
+    comprehension: "95%",
+    cardColor: "bg-[#ffdfb3]"
   },
   {
     id: 5,
     name: "Ana Torres",
     occupation: "Médico Cirujano",
     program: "Profesional",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAqwBCeE1hZspmnimeKcqfC8kK260mvIqAN2aVGSDSWFi_dq1bzq7dtvodBqkhEtLg20shaSpzg63zqLrP2bWVR1TbTnFYjk13R86rw0Lz9JLzbACsWKoSmuiE56bfpcsQzGZfoX5QuRZlWCa9rOXmQDb6TSyy-a6-AiiDtVvV4eOnTa_Qw0_QcM45IP1l3QbzqUMeB_-VtlKzNNHqxcXW1OsBRQlSeQ07KeG5BEY4p0xb1c30vxStFdLc8ZE-XHntWwKPrXep4Cco",
+    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=800",
     text: "Actualizarme con artículos médicos me tomaba madrugadas enteras. Con ENSIL, mi velocidad de procesamiento de textos técnicos es otro nivel. Un antes y un después.",
     speed: "1,850 ppm",
-    comprehension: "100%"
+    comprehension: "100%",
+    cardColor: "bg-[#b3f2ff]"
   },
   {
     id: 6,
     name: "Sofía Medina",
     occupation: "Estudiante Secundaria",
     program: "Kids",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuABU4O0L-_l1R9R-qV8E_Z-bL900uS7b-f2sA1z3aI3JtC3X-oVvR3NfM3Y5G5K8P_A1z3aI3JtC3X-oVvR3NfM",
-    // Note: fallback placeholder for teen
+    image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800",
     text: "Las tareas del colegio se me acumulaban muy rápido. Ahora termino de leer los textos de historia y literatura en minutos. He subido mis notas increíblemente.",
     speed: "900 ppm",
-    comprehension: "100%"
+    comprehension: "100%",
+    cardColor: "bg-[#f5f2eb]"
   }
 ];
 
@@ -457,53 +461,40 @@ const ResultsContent: React.FC = () => {
 
             <DraggableMarquee speed={1} direction="left">
               {testimonialsData.map((testimonial, idx) => {
-                // Determine group color class based on program
-                let groupHoverColor = "";
-                let programBadgeBg = "bg-green-100 text-green-700";
-
-                if (testimonial.program === "Profesional") {
-                  groupHoverColor = "hover:bg-blue-600";
-                  programBadgeBg = "bg-blue-100 text-blue-700";
-                } else if (testimonial.program === "Kids") {
-                  groupHoverColor = "hover:bg-red-500";
-                  programBadgeBg = "bg-red-100 text-red-700";
-                } else if (testimonial.program === "PreKids") {
-                  groupHoverColor = "hover:bg-orange-500";
-                  programBadgeBg = "bg-orange-100 text-orange-700";
-                }
-
                 return (
                   <div
                     key={`${testimonial.id}-${idx}`}
-                    className={`min-w-[320px] max-w-[350px] whitespace-normal bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 relative group transition-all duration-300 hover:-translate-y-4 hover:shadow-xl select-none ${groupHoverColor}`}
+                    className={`flex flex-col min-w-[340px] max-w-[360px] whitespace-normal rounded-[2rem] overflow-hidden shadow-sm relative group transition-all duration-300 hover:-translate-y-4 hover:shadow-xl select-none ${testimonial.cardColor || 'bg-[#f5f2eb]'}`}
                   >
-                    <span className="absolute top-8 right-8 text-6xl text-slate-100 font-serif leading-none group-hover:text-white/20 transition-colors">”</span>
-                    <div className="flex items-center gap-4 mb-4">
-                      <img alt={testimonial.name} className={`w-14 h-14 rounded-full object-cover ring-2 ring-slate-100 ring-offset-2 group-hover:ring-white/50 transition-colors`} src={testimonial.image} draggable={false} />
-                      <div>
-                        <h4 className="font-bold text-slate-900 group-hover:text-white transition-colors">{testimonial.name}</h4>
-                        <p className="text-xs text-slate-500 group-hover:text-white/80 transition-colors uppercase tracking-wide">{testimonial.occupation}</p>
+                    <div className="p-6 pb-6 flex-1 flex flex-col">
+                      <div className="flex items-start justify-between mb-6">
+                        <div className="flex flex-wrap gap-2">
+                          <span className="bg-white text-slate-900 text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
+                            {testimonial.program}
+                          </span>
+                          <span className="bg-white text-slate-900 text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
+                            {testimonial.speed}
+                          </span>
+                        </div>
+                        <div className="w-8 h-8 bg-black/5 rounded-full flex items-center justify-center shrink-0">
+                          <span className="text-slate-700 text-2xl font-serif leading-none mt-2">”</span>
+                        </div>
                       </div>
+                      
+                      <h3 className="text-3xl font-display font-bold tracking-tight mb-3 text-slate-900 leading-tight">
+                        {testimonial.name.split(' ')[0]}<br/>{testimonial.name.split(' ')[1]}
+                      </h3>
+                      <p className="text-slate-800 font-medium text-sm leading-relaxed line-clamp-4 min-h-[80px]">
+                        "{testimonial.text}"
+                      </p>
                     </div>
-
-                    <div className="mb-4">
-                      <span className={`inline-block px-2 py-1 text-[10px] font-bold uppercase rounded-full transition-colors group-hover:bg-white/20 group-hover:text-white ${programBadgeBg}`}>
-                        Programa {testimonial.program}
-                      </span>
-                    </div>
-
-                    <p className="text-slate-600 mb-6 relative z-10 text-sm group-hover:text-white transition-colors line-clamp-4">
-                      "{testimonial.text}"
-                    </p>
-                    <div className="bg-slate-50 p-4 rounded-2xl flex items-center justify-between group-hover:bg-white/10 transition-colors border border-transparent group-hover:border-white/10">
-                      <div>
-                        <p className="text-xs text-slate-500 group-hover:text-white/70 transition-colors">Vel. final</p>
-                        <p className="text-lg font-bold text-slate-900 group-hover:text-white transition-colors">{testimonial.speed}</p>
-                      </div>
-                      <div className="h-8 w-px bg-slate-200 group-hover:bg-white/20 transition-colors"></div>
-                      <div>
-                        <p className="text-xs text-slate-500 group-hover:text-white/70 transition-colors">Comprensión</p>
-                        <p className="text-lg font-bold text-slate-900 group-hover:text-white transition-colors">{testimonial.comprehension}</p>
+                    
+                    <div className="relative h-[240px] w-full mt-auto overflow-hidden rounded-t-[2rem]">
+                      <img src={testimonial.image} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" draggable={false} alt={testimonial.name} />
+                      <div className="absolute bottom-4 left-4 z-10">
+                        <div className="bg-white/30 backdrop-blur-md border border-white/40 text-white hover:bg-white/40 transition-colors cursor-pointer px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 shadow-sm">
+                          {testimonial.occupation} <span className="material-icons-round text-[16px]">arrow_forward</span>
+                        </div>
                       </div>
                     </div>
                   </div>

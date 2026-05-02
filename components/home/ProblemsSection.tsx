@@ -41,10 +41,10 @@ const ProblemsSection = () => {
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
 
         {/* Header content */}
-        <div className={`text-center mb-10 md:mb-12 transition-all duration-1000 ease-out ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}>
+        <div className={`text-center mb-10 md:mb-14 transition-all duration-1000 ease-out ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}>
           <h2 className="font-display text-4xl md:text-5xl text-gray-900 font-bold leading-tight">
             Miles de <span className="text-ensil-green">estudiantes</span> leen,<br />
-            pocos son lo que <span className="text-ensil-green">comprenden</span>.
+            pocos son los que <span className="text-ensil-green">comprenden</span>.
           </h2>
         </div>
 

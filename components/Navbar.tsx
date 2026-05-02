@@ -40,8 +40,8 @@ const Navbar: React.FC = () => {
         window.requestAnimationFrame(() => {
           const currentScrollY = window.scrollY;
 
-          // Determine if we passed the hero section (95vh)
-          setIsScrolled(currentScrollY > window.innerHeight * 0.95);
+          // Set scrolled state if we are not at the very top
+          setIsScrolled(currentScrollY > 50);
 
           // Determine scroll direction to hide/show navbar
           if (currentScrollY > 50) { // Only start hiding after scrolling past the very top

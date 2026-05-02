@@ -67,8 +67,8 @@ const Hero: React.FC = () => {
 
       <div className="relative z-10 w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 text-left flex flex-col md:block mt-8 md:mt-20">
         <h1 className="order-1 font-display mb-4 md:mb-6 leading-tight md:leading-[1.1] max-w-4xl text-ensil-green-900">
-          <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold bg-gradient-to-r from-ensil-green-900 via-ensil-green-800 to-ensil-green-700 bg-clip-text text-transparent mb-1 md:mb-2">
-            Transforma Tu Lectura en
+          <span className="tracking-[0.00em] block text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-regular bg-gradient-to-r from-ensil-green-900 via-ensil-green-700 to-ensil-green-600 bg-clip-text text-transparent mb-1 md:mb-0">
+            Transforma la lectura en
           </span>
           <span
             ref={textRef}
@@ -78,13 +78,13 @@ const Hero: React.FC = () => {
             className="block relative cursor-default select-none text-4xl sm:text-5xl md:text-6xl lg:text-7xl 2xl:text-8xl font-black"
           >
             {/* Base Text (Dark Gradient) */}
-            <span className="bg-gradient-to-r from-ensil-green-800 via-ensil-green to-ensil-green-700 bg-clip-text text-transparent relative z-10 w-full block">
-              Tu Mayor Superpoder
+            <span className="tracking-[0.00em] leading-[0.9] bg-gradient-to-r from-ensil-green-800 via-ensil-green to-ensil-green-700 bg-clip-text text-transparent relative z-10 w-full block">
+              tu mayor superpoder
             </span>
 
             {/* Spotlight Overlay (Vibrant Multi-tone Gradient) */}
             <span
-              className="absolute top-0 left-0 bg-gradient-to-r from-lime-400 via-emerald-400 to-green-500 bg-clip-text text-transparent z-20 pointer-events-none w-full block"
+              className="tracking-[0.00em] leading-[0.9] absolute top-0 left-0 bg-gradient-to-r from-lime-400 via-emerald-400 to-green-500 bg-clip-text text-transparent z-20 pointer-events-none w-full block"
               style={{
                 opacity: isHovered ? 1 : 0,
                 maskImage: `radial-gradient(150px circle at ${mousePosition.x}px ${mousePosition.y}px, black, transparent)`,
@@ -92,12 +92,12 @@ const Hero: React.FC = () => {
                 transition: 'opacity 0.2s ease',
               }}
             >
-              Tu Mayor Superpoder
+              tu mayor superpoder
             </span>
           </span>
         </h1>
 
-        <p className="order-2 text-slate-700 text-lg md:text-xl max-w-2xl mb-8 md:mb-12 font-medium">
+        <p className="order-2 text-slate-700 text-lg md:text-xl max-w-2xl mb-8 md:mb-12 font-regular">
           Desbloquea el potencial oculto de tu mente. Aprende a absorber conocimiento a una velocidad que nunca creíste posible.
         </p>
 
@@ -155,8 +155,8 @@ const Hero: React.FC = () => {
           }}
           className="order-6 inline-flex flex-col items-start text-slate-600 hover:text-slate-900 transition-colors group cursor-pointer w-fit mb-10 md:mb-0"
         >
-          <span className="text-xs font-bold tracking-[0.2em] uppercase mb-2">DESCUBRE</span>
-          <ChevronDown className="w-8 h-8 animate-bounce text-ensil-green group-hover:text-green-800" />
+          <span className="text-xs font-bold tracking-[0.02em] uppercase mb-2">DESCUBRE</span>
+          <ChevronDown className="w-8 h-8 animate-bounce text-ensil-green group-hover:text-green-600" />
         </a>
       </div>
     </section>
