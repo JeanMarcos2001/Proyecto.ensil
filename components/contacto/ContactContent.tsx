@@ -4,8 +4,8 @@ import { createClient } from '@supabase/supabase-js';
 import { smoothScrollTo } from '../../utils/scroll';
 
 // --- 1. CREDENCIALES DE CONEXIÓN ---
-const supabaseUrl = 'https://fmbtcgilsicvvsltmzms.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZtYnRjZ2lsc2ljdnZzbHRtem1zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwMTkxODIsImV4cCI6MjA4MTU5NTE4Mn0.pd3CmAATwdtP4beaRWM6ufWyrdu8ywZ4JPAnsf7DX6c';
+const supabaseUrl = 'https://jtrugvxgztnxbhwjtiou.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp0cnVndnhnenRueGJod2p0aW91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxNDQxMTksImV4cCI6MjA4NzcyMDExOX0.Kw-SMk8ABVNfFEeYoN8oDgbpDv7Uk_cDN23IccH7zoM';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // --- TIPOS ---
@@ -435,7 +435,7 @@ const ContactContent: React.FC = () => {
                       playsInline
                       onEnded={handleVideoEnd}
                     >
-                      <source src="https://fmbtcgilsicvvsltmzms.supabase.co/storage/v1/object/public/Videos/LandingVideo.webm" type="video/webm" />
+                      <source src="https://jtrugvxgztnxbhwjtiou.supabase.co/storage/v1/object/public/Videos/LandingVideo.webm" type="video/webm" />
                     </video>
 
                     {/* Replay Overlay */}

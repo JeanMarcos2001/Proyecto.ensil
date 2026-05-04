@@ -1,79 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
-// --- Supabase Client for Demostraciones ---
-const supabaseDemoUrl = 'https://jtrugvxgztnxbhwjtiou.supabase.co';
-const supabaseDemoKey = 'sb_publishable_embxlHUxh_7_A1OriNUTTQ_uxid3RZh';
-const supabaseDemo = createClient(supabaseDemoUrl, supabaseDemoKey);
+// --- Supabase Client (proyecto Dashboard-EnsilWeb) ---
+const SUPABASE_URL = 'https://jtrugvxgztnxbhwjtiou.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp0cnVndnhnenRueGJod2p0aW91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxNDQxMTksImV4cCI6MjA4NzcyMDExOX0.Kw-SMk8ABVNfFEeYoN8oDgbpDv7Uk_cDN23IccH7zoM';
+const supabaseDemo = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const testimonialsData = [
-  {
-    id: 1,
-    name: "María Lopez",
-    occupation: "CEO & Fundadora",
-    program: "Profesional",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800",
-    text: "Pensé que leer rápido significaba perder comprensión, pero ENSIL me demostró lo contrario. Ahora leo un libro por semana manteniendo el 100% de retención en mis proyectos.",
-    speed: "1,200 ppm",
-    comprehension: "100%",
-    cardColor: "bg-[#dcfb41]"
-  },
-  {
-    id: 2,
-    name: "Carlos Ruiz",
-    occupation: "Estudiante de Derecho",
-    program: "Profesional",
-    image: "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&q=80&w=800",
-    text: "La carga de lectura en mi carrera era abrumadora. ENSIL no solo me ahorró tiempo, sino que me dio la confianza para destacar en mis exámenes y prepararme mejor.",
-    speed: "2,400 ppm",
-    comprehension: "100%",
-    cardColor: "bg-[#f5f2eb]"
-  },
-  {
-    id: 3,
-    name: "Lucía Vargas",
-    occupation: "Estudiante de Primaria",
-    program: "Kids",
-    image: "https://images.unsplash.com/photo-1595453001851-4045f22ebfc4?auto=format&fit=crop&q=80&w=800",
-    text: "Antes me aburría mucho leer cuentos largos. Ahora leo más rápido que mis compañeros y entiendo todo lo que leo. ¡Me encantan los libros de aventuras!",
-    speed: "650 ppm",
-    comprehension: "100%",
-    cardColor: "bg-[#e5d4ff]"
-  },
-  {
-    id: 4,
-    name: "Mateo Silva",
-    occupation: "Nivel Inicial",
-    program: "PreKids",
-    image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&q=80&w=800",
-    text: "Mi hijo Mateo tenía problemas de concentración. Desde que empezó en PreKids, su agilidad mental ha mejorado muchísimo. Está feliz y motivado.",
-    speed: "Iniciado",
-    comprehension: "95%",
-    cardColor: "bg-[#ffdfb3]"
-  },
-  {
-    id: 5,
-    name: "Ana Torres",
-    occupation: "Médico Cirujano",
-    program: "Profesional",
-    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=800",
-    text: "Actualizarme con artículos médicos me tomaba madrugadas enteras. Con ENSIL, mi velocidad de procesamiento de textos técnicos es otro nivel. Un antes y un después.",
-    speed: "1,850 ppm",
-    comprehension: "100%",
-    cardColor: "bg-[#b3f2ff]"
-  },
-  {
-    id: 6,
-    name: "Sofía Medina",
-    occupation: "Estudiante Secundaria",
-    program: "Kids",
-    image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=800",
-    text: "Las tareas del colegio se me acumulaban muy rápido. Ahora termino de leer los textos de historia y literatura en minutos. He subido mis notas increíblemente.",
-    speed: "900 ppm",
-    comprehension: "100%",
-    cardColor: "bg-[#f5f2eb]"
-  }
-];
+// --- Tipo para las historias que vienen de Supabase ---
+interface Historia {
+  id: number;
+  nombre_alumno: string;
+  programa: string;
+  narracion: string;
+  palabras_por_min: string;
+  foto_path: string | null;
+  foto_url: string | null;
+  foto_position: string | null;  // e.g. "40% 20%" → CSS object-position
+  foto_scale: number | null;     // zoom factor, e.g. 1.3
+  clase_css: string;
+  orden: number;
+}
 
 // -- Componente para Marquesina Arrastrable e Infinita --
 interface DraggableMarqueeProps {
@@ -246,39 +192,29 @@ const InteractiveYouTubeItem: React.FC<{ url: string; index: number }> = ({ url,
 const ResultsContent: React.FC = () => {
   const [demoImages, setDemoImages] = useState<string[]>([]);
   const [isLoadingDemo, setIsLoadingDemo] = useState(true);
+  const [historias, setHistorias] = useState<Historia[]>([]);
+  const [isLoadingHistorias, setIsLoadingHistorias] = useState(true);
   const [isStatsVisible, setIsStatsVisible] = useState(false);
 
   useEffect(() => {
+    // --- Fetch imágenes del bucket Demostraciones ---
     const fetchDemoImages = async () => {
       try {
         setIsLoadingDemo(true);
-        // Fetch files from the 'Demostraciones' bucket
         const { data, error } = await supabaseDemo
           .storage
           .from('Demostraciones')
-          .list('', {
-            limit: 100,
-            offset: 0,
-            sortBy: { column: 'name', order: 'asc' },
-          });
+          .list('', { limit: 100, offset: 0, sortBy: { column: 'name', order: 'asc' } });
 
-        if (error) {
-          console.error('Error fetching Demo images:', error);
-          return;
-        }
+        if (error) { console.error('Error fetching Demo images:', error); return; }
 
         if (data) {
-          // Filter out empty folders or non-image files if necessary, then get public URLs
           const validFiles = data.filter(file => file.name && file.name !== '.emptyFolderPlaceholder');
-
           const imageUrls = validFiles.map(file => {
-            const { data: { publicUrl } } = supabaseDemo
-              .storage
-              .from('Demostraciones')
-              .getPublicUrl(file.name);
+            const { data: { publicUrl } } = supabaseDemo.storage
+              .from('Demostraciones').getPublicUrl(file.name);
             return publicUrl;
           });
-
           setDemoImages(imageUrls);
         }
       } catch (err) {
@@ -288,23 +224,77 @@ const ResultsContent: React.FC = () => {
       }
     };
 
+    // --- Fetch historias de transformación desde la BD ---
+    const fetchHistorias = async () => {
+      try {
+        setIsLoadingHistorias(true);
+        const { data, error } = await supabaseDemo
+          .from('historias_transformacion')
+          .select(`
+            id, nombre_alumno, programa, narracion,
+            palabras_por_min, foto_path, foto_position, foto_scale, orden,
+            colores_corporativos ( clase_css )
+          `)
+          .eq('activo', true)
+          .order('orden', { ascending: true });
+
+        if (error) { console.error('Error fetching historias:', error); return; }
+
+        if (data) {
+          const mapped: Historia[] = data.map((h: any) => {
+            // Construir la URL de la foto de forma robusta,
+            // manejando los distintos formatos que puede tener foto_path:
+            //   A) URL completa: "https://jtrugvxgztnxbhwjtiou.supabase.co/storage/v1/..."
+            //   B) Solo nombre:  "maria.webp"
+            //   C) Con ruta:     "historias/maria.webp"
+            let foto_url: string | null = null;
+            if (h.foto_path) {
+              if (h.foto_path.startsWith('http')) {
+                // Caso A: ya es una URL completa, usarla directamente
+                foto_url = h.foto_path;
+              } else {
+                // Casos B y C: construir la URL pública del bucket
+                const cleanPath = h.foto_path.startsWith('/') ? h.foto_path.slice(1) : h.foto_path;
+                foto_url = `${SUPABASE_URL}/storage/v1/object/public/Testimonios/${cleanPath}`;
+              }
+            }
+            // DEBUG TEMPORAL — ver en consola del navegador (F12 → Console)
+            console.log(`[ENSIL Historias] id=${h.id} | foto_path="${h.foto_path}" | foto_url="${foto_url}"`);
+            return {
+              id: h.id,
+              nombre_alumno: h.nombre_alumno,
+              programa: h.programa,
+              narracion: h.narracion,
+              palabras_por_min: h.palabras_por_min,
+              foto_path: h.foto_path,
+              foto_url,
+              foto_position: h.foto_position ?? '50% 50%',
+              foto_scale: h.foto_scale ?? 1.0,
+              clase_css: h.colores_corporativos?.clase_css || 'bg-[#f5f2eb]',
+              orden: h.orden,
+            };
+          });
+          setHistorias(mapped);
+        }
+      } catch (err) {
+        console.error('Unexpected error fetching historias:', err);
+      } finally {
+        setIsLoadingHistorias(false);
+      }
+    };
+
     fetchDemoImages();
-    
-    // Trigger entrance animation shortly after mount
+    fetchHistorias();
+
     const timer = setTimeout(() => setIsStatsVisible(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
-  // To ensure the marquee has enough items to scroll infinitely without snapping,
-  // we duplicate the array a few times.
+  // Duplicar para el loop infinito
   const loopingDemoImages = demoImages.length > 0
     ? [...demoImages, ...demoImages, ...demoImages, ...demoImages]
     : [];
 
-  // Calculate dynamic speed: e.g. 6 seconds per unique image so it maintains
-  // a constant visual velocity regardless of how many images you upload.
-  // The total duration applies to the entire duplicated track crossing the screen.
-  // We multiply the base time by the total number of items sliding by.
   const dynamicDuration = loopingDemoImages.length > 0
     ? `${loopingDemoImages.length * 5}s`
     : '43s';
@@ -460,46 +450,82 @@ const ResultsContent: React.FC = () => {
             <div className="pointer-events-none absolute right-0 top-0 z-30 h-full w-16 md:w-32 bg-gradient-to-l from-white via-white/80 to-transparent"></div>
 
             <DraggableMarquee speed={1} direction="left">
-              {testimonialsData.map((testimonial, idx) => {
-                return (
+              {isLoadingHistorias ? (
+                // Skeleton mientras carga
+                [...Array(4)].map((_, i) => (
+                  <div key={`skel-hist-${i}`} className="flex flex-col min-w-[340px] max-w-[360px] rounded-[2rem] overflow-hidden bg-slate-100 animate-pulse h-[460px] shrink-0" />
+                ))
+              ) : historias.length > 0 ? (
+                historias.map((h, idx) => (
                   <div
-                    key={`${testimonial.id}-${idx}`}
-                    className={`flex flex-col min-w-[340px] max-w-[360px] whitespace-normal rounded-[2rem] overflow-hidden shadow-sm relative group transition-all duration-300 hover:-translate-y-4 hover:shadow-xl select-none ${testimonial.cardColor || 'bg-[#f5f2eb]'}`}
+                    key={`hist-${h.id}-${idx}`}
+                    className={`flex flex-col min-w-[340px] max-w-[360px] whitespace-normal rounded-[2rem] overflow-hidden shadow-sm relative group transition-all duration-300 hover:-translate-y-4 hover:shadow-xl select-none ${h.clase_css}`}
                   >
                     <div className="p-6 pb-6 flex-1 flex flex-col">
                       <div className="flex items-start justify-between mb-6">
                         <div className="flex flex-wrap gap-2">
                           <span className="bg-white text-slate-900 text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
-                            {testimonial.program}
+                            {h.programa}
                           </span>
                           <span className="bg-white text-slate-900 text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
-                            {testimonial.speed}
+                            {h.palabras_por_min}
                           </span>
                         </div>
                         <div className="w-8 h-8 bg-black/5 rounded-full flex items-center justify-center shrink-0">
-                          <span className="text-slate-700 text-2xl font-serif leading-none mt-2">”</span>
+                          <span className="text-slate-700 text-2xl font-serif leading-none mt-2">“</span>
                         </div>
                       </div>
-                      
+
                       <h3 className="text-3xl font-display font-bold tracking-tight mb-3 text-slate-900 leading-tight">
-                        {testimonial.name.split(' ')[0]}<br/>{testimonial.name.split(' ')[1]}
+                        {h.nombre_alumno.split(' ')[0]}<br />{h.nombre_alumno.split(' ').slice(1).join(' ')}
                       </h3>
                       <p className="text-slate-800 font-medium text-sm leading-relaxed line-clamp-4 min-h-[80px]">
-                        "{testimonial.text}"
+                        “{h.narracion}”
                       </p>
                     </div>
-                    
+
                     <div className="relative h-[240px] w-full mt-auto overflow-hidden rounded-t-[2rem]">
-                      <img src={testimonial.image} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" draggable={false} alt={testimonial.name} />
+                      {/* Wrapper: maneja el zoom al hacer hover sobre la card (group-hover) */}
+                      <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-105">
+                        {h.foto_url ? (
+                          <img
+                            src={h.foto_url}
+                            className="w-full h-full"
+                            draggable={false}
+                            alt=""
+                            style={{
+                              objectFit: 'cover',
+                              objectPosition: h.foto_position ?? '50% 50%',
+                              transform: `scale(${h.foto_scale ?? 1})`,
+                              transformOrigin: h.foto_position ?? '50% 50%',
+                            }}
+                            onError={(e) => {
+                              const target = e.currentTarget;
+                              target.style.display = 'none';
+                              const placeholder = target.nextElementSibling as HTMLElement;
+                              if (placeholder) placeholder.style.display = 'flex';
+                            }}
+                          />
+                        ) : null}
+                        {/* Placeholder: visible si no hay foto o si la imagen falla */}
+                        <div
+                          className="absolute inset-0 items-center justify-center bg-black/10"
+                          style={{ display: h.foto_url ? 'none' : 'flex' }}
+                        >
+                          <span className="material-icons-round text-white/60 text-6xl">person</span>
+                        </div>
+                      </div>
                       <div className="absolute bottom-4 left-4 z-10">
-                        <div className="bg-white/30 backdrop-blur-md border border-white/40 text-white hover:bg-white/40 transition-colors cursor-pointer px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 shadow-sm">
-                          {testimonial.occupation} <span className="material-icons-round text-[16px]">arrow_forward</span>
+                        <div className="bg-white/30 backdrop-blur-md border border-white/40 text-white px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 shadow-sm">
+                          {h.programa} <span className="material-icons-round text-[16px]">arrow_forward</span>
                         </div>
                       </div>
                     </div>
                   </div>
-                );
-              })}
+                ))
+              ) : (
+                <p className="text-slate-400 text-center py-8 px-12">No hay historias publicadas aún.</p>
+              )}
             </DraggableMarquee>
           </div>
         </div>
