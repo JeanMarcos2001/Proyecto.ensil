@@ -192,6 +192,8 @@ const InteractiveYouTubeItem: React.FC<{ url: string; index: number }> = ({ url,
 const ResultsContent: React.FC = () => {
   const [demoImages, setDemoImages] = useState<string[]>([]);
   const [isLoadingDemo, setIsLoadingDemo] = useState(true);
+  const [carrusel02Images, setCarrusel02Images] = useState<{ url: string; position: string; scale: number }[]>([]);
+  const [isLoadingCarrusel02, setIsLoadingCarrusel02] = useState(true);
   const [historias, setHistorias] = useState<Historia[]>([]);
   const [isLoadingHistorias, setIsLoadingHistorias] = useState(true);
   const [isStatsVisible, setIsStatsVisible] = useState(false);
@@ -283,17 +285,54 @@ const ResultsContent: React.FC = () => {
       }
     };
 
+    // --- Fetch imágenes del bucket Carrusel 02 (orden controlado desde BD) ---
+    const fetchCarrusel02Images = async () => {
+      try {
+        setIsLoadingCarrusel02(true);
+        const { data, error } = await supabaseDemo
+          .from('carrusel_02_imagenes')
+          .select('file_path, foto_position, foto_scale')
+          .eq('activo', true)
+          .order('orden', { ascending: true });
+
+        if (error) { console.error('Error fetching Carrusel02 images:', error); return; }
+
+        if (data) {
+          const images = data.map(item => {
+            const { data: { publicUrl } } = supabaseDemo.storage
+              .from('carrusel_02')
+              .getPublicUrl(item.file_path);
+            return {
+              url: publicUrl,
+              position: item.foto_position ?? '50% 50%',
+              scale: item.foto_scale ?? 1.0,
+            };
+          });
+          setCarrusel02Images(images);
+        }
+      } catch (err) {
+        console.error('Unexpected error fetching Carrusel02 images:', err);
+      } finally {
+        setIsLoadingCarrusel02(false);
+      }
+    };
+
     fetchDemoImages();
+    fetchCarrusel02Images();
     fetchHistorias();
 
     const timer = setTimeout(() => setIsStatsVisible(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
-  // Duplicar para el loop infinito
+  // Duplicar para los loops infinitos
   const loopingDemoImages = demoImages.length > 0
     ? [...demoImages, ...demoImages, ...demoImages, ...demoImages]
     : [];
+
+  const loopingCarrusel02Images = carrusel02Images.length > 0
+    ? [...carrusel02Images, ...carrusel02Images, ...carrusel02Images, ...carrusel02Images]
+    : [] as typeof carrusel02Images;
 
   const dynamicDuration = loopingDemoImages.length > 0
     ? `${loopingDemoImages.length * 5}s`
@@ -400,18 +439,36 @@ const ResultsContent: React.FC = () => {
             </DraggableMarquee>
           </div>
 
-          {/* Fila 2 (Antihorario / Derecha) */}
+          {/* Fila 2 (Antihorario / Derecha — Supabase Carrusel 02) */}
           <div className="relative w-full group/marquee2 hover:z-20 [clip-path:inset(-40px_0_-40px_0)]">
             <DraggableMarquee speed={0.8} direction="right">
-              {[...Array(10)].map((_, i) => (
-                <div key={`f2-${i}`} className="h-[220px] md:h-[432px] shrink-0 rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02] cursor-pointer">
-                  <img
-                    src={`/img/evidencia/fila2/img_${(i % 10) + 1}.svg`}
-                    alt={`Evidencia ${i}`}
-                    className="h-full w-auto object-cover pointer-events-none"
-                  />
+              {isLoadingCarrusel02 ? (
+                [...Array(8)].map((_, i) => (
+                  <div key={`skel2-${i}`} className="h-[220px] md:h-[432px] w-[320px] md:w-[600px] shrink-0 rounded-2xl bg-slate-100 animate-pulse flex items-center justify-center">
+                    <span className="material-icons-round text-slate-300 text-4xl">image</span>
+                  </div>
+                ))
+              ) : loopingCarrusel02Images.length > 0 ? (
+                loopingCarrusel02Images.slice(0, loopingCarrusel02Images.length / 4).map((item, i) => (
+                  <div key={`f2-sb-${i}`} className="h-[220px] md:h-[432px] shrink-0 rounded-2xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-[1.02] cursor-pointer bg-slate-50">
+                    <img
+                      src={item.url}
+                      alt={`Evidencia Carrusel 02 ${i}`}
+                      className="h-full w-auto max-w-none pointer-events-none"
+                      style={{
+                        objectFit: 'cover',
+                        objectPosition: item.position,
+                        transform: `scale(${item.scale})`,
+                        transformOrigin: item.position,
+                      }}
+                    />
+                  </div>
+                ))
+              ) : (
+                <div className="h-[220px] md:h-[432px] w-full flex items-center justify-center text-slate-400">
+                  No hay imágenes disponibles en esta fila.
                 </div>
-              ))}
+              )}
             </DraggableMarquee>
           </div>
 
