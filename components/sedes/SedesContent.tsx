@@ -37,7 +37,7 @@ const sedesData: Sede[] = [
     referencia: 'Altura del Hotel Tumbas Reales',
     fijo: '074-525632',
     movil: '905464734',
-    image: '/img/filiales/chiclayo.png'
+    image: '/img/filiales/chiclayo.webp'
   },
   {
     id: '3',
@@ -85,7 +85,7 @@ const sedesData: Sede[] = [
     referencia: 'Complejo Salesiano Sta. Rosa',
     fijo: '064-419923',
     movil: '992195898',
-    image: '/img/filiales/huancayo.png'
+    image: '/img/filiales/huancayo.webp'
   },
   {
     id: '7',
@@ -97,7 +97,7 @@ const sedesData: Sede[] = [
     referencia: 'Frente al Restaurant Tamis',
     fijo: '051-352969',
     movil: '961274101',
-    image: '/img/filiales/puno.png'
+    image: '/img/filiales/puno.webp'
   },
   {
     id: '8',
@@ -121,7 +121,7 @@ const sedesData: Sede[] = [
     referencia: 'Av. del Ejército',
     fijo: '054-273553',
     movil: '980756620',
-    image: '/img/filiales/arequipa.png'
+    image: '/img/filiales/arequipa.webp'
   },
   {
     id: '10',
@@ -145,7 +145,7 @@ const sedesData: Sede[] = [
     referencia: 'Paradero Marcavalle',
     fijo: '—',
     movil: '922477489',
-    image: '/img/filiales/cusco-marcavalle.png'
+    image: '/img/filiales/cusco-marcavalle.webp'
   },
   {
     id: '12',
