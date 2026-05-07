@@ -19,6 +19,7 @@ interface Sede {
   file_path: string | null;
   foto_position: string | null;
   foto_scale: number | null;
+  mensajes_wsp?: { contenido: string } | null;
 }
 
 const ITEMS_PER_PAGE = 12;
@@ -35,7 +36,7 @@ const SedesContent: React.FC = () => {
       try {
         const { data, error } = await supabase
           .from('filiales')
-          .select('*')
+          .select('*, mensajes_wsp (contenido)')
           .eq('activo', true)
           .order('id', { ascending: true });
 
@@ -207,7 +208,7 @@ const SedesContent: React.FC = () => {
                       </div>
                       {sede.telefono_movil && (
                         <a
-                          href={`https://wa.me/51${sede.telefono_movil.replace(/\s/g, '').replace(/-/g, '')}?text=Hola, deseo información sobre la sede ${sede.nombre}`}
+                          href={`https://wa.me/51${sede.telefono_movil.replace(/\s/g, '').replace(/-/g, '')}?text=${encodeURIComponent(sede.mensajes_wsp?.contenido || `Hola, deseo información sobre la sede ${sede.nombre}`)}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="w-full bg-ensil-green hover:bg-green-600 text-white font-bold py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-[0_4px_14px_rgba(4,120,87,0.3)] hover:shadow-[0_6px_20px_rgba(4,120,87,0.4)] hover:-translate-y-0.5 transform active:scale-95 group/btn text-sm"
