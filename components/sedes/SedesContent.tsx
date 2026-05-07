@@ -25,7 +25,7 @@ const sedesData: Sede[] = [
     referencia: 'Frente al Museo Vicus',
     fijo: '073-617445',
     movil: '933732053',
-    image: '/img/filiales/piura-sede.png'
+    image: '/img/filiales/piura-sede.webp'
   },
   {
     id: '2',
