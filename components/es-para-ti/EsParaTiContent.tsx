@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 const EsParaTiContent: React.FC = () => {
@@ -123,10 +124,10 @@ const EsParaTiContent: React.FC = () => {
                             <p className="text-slate-600 mb-8 text-lg font-jakarta">
                                 En ENSIL, no agrupamos a los estudiantes por grado escolar, sino por capacidad cognitiva actual. Realizamos una evaluación exhaustiva de velocidad, comprensión y retención para diseñar tu ruta personalizada.
                             </p>
-                            <button className="group relative flex items-center justify-center gap-2 bg-ensil-green text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-green-500/30 hover:shadow-green-500/50 hover:-translate-y-1 transition-all duration-300 w-full md:w-fit font-jakarta">
+                            <Link to="/contacto" className="group relative flex items-center justify-center gap-2 bg-ensil-green text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-green-500/30 hover:shadow-green-500/50 hover:-translate-y-1 transition-all duration-300 w-full md:w-fit font-jakarta">
                                 <span>Agenda tu Evaluación</span>
                                 <span className="material-icons-round group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                            </button>
+                            </Link>
                         </div>
                         <div className="md:w-2/5 relative h-64 md:h-auto min-h-[300px]">
                             <img alt="Estudiante recibiendo orientación personalizada" className="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaoF22GeT_z-TICnxOdyeg-oNKNEDL4PpIInulytdK4yS3sc7fOPkX2LsKZtU1m-ShbSocyREZmFstiMnBWd5V0RUGoMXTqNoiT9ggIELlgvpM474XOFUT9E_rz13XXcrbgHf6rP8yjZao2t-1iLFTksOH2tIXOM09oeBGpi2Iudj-ebpQzfrr1x1BkuXqm3PIaWGd_wON7XOjDSp4SXgHt7P4qcQhsdEG8ENSCOU7N6xgdKcERMwtIMnuR_-eUl0MXqdIE2xZ72w" />

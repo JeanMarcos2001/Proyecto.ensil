@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // ==========================================
 // CONFIGURACIÓN DE IMAGEN PRINCIPAL (HERO)
@@ -100,10 +101,10 @@ const KidsContent: React.FC = () => {
                     <p className="text-red-100 text-sm mb-4 max-w-md mx-auto relative z-10">
                         Regálale a tu hijo la herramienta de aprendizaje más poderosa.
                     </p>
-                    <a href="#contacto" className="inline-flex items-center justify-center gap-2 bg-yellow-400 text-red-900 px-8 py-3.5 rounded-full font-bold text-base hover:bg-yellow-300 transition-colors shadow-lg relative z-10 hover:-translate-y-1 w-full">
+                    <Link to="/contacto" className="inline-flex items-center justify-center gap-2 bg-yellow-400 text-red-900 px-8 py-3.5 rounded-full font-bold text-base hover:bg-yellow-300 transition-colors shadow-lg relative z-10 hover:-translate-y-1 w-full">
                         Iniciar Diagnóstico Kids
                         <span className="material-icons-round text-lg">arrow_forward</span>
-                    </a>
+                    </Link>
                 </div>
             </main>
         </div>

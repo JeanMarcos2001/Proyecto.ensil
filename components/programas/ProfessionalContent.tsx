@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // ==========================================
 // CONFIGURACIÓN DE IMAGEN PRINCIPAL (HERO)
@@ -124,10 +125,10 @@ const ProfessionalContent: React.FC = () => {
 
                 {/* CTA */}
                 <div className="pt-2 text-center">
-                    <a href="#contacto" className="inline-flex items-center justify-center gap-2 bg-slate-900 text-white px-8 py-3.5 rounded-full font-bold text-base hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 hover:-translate-y-1 group w-full">
+                    <Link to="/contacto" className="inline-flex items-center justify-center gap-2 bg-slate-900 text-white px-8 py-3.5 rounded-full font-bold text-base hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 hover:-translate-y-1 group w-full">
                         Agendar Diagnóstico Profesional
                         <span className="material-icons-round text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                    </a>
+                    </Link>
                     <p className="text-center text-xs text-slate-400 mt-3">Evaluación gratuita de velocidad y comprensión</p>
                 </div>
             </main>

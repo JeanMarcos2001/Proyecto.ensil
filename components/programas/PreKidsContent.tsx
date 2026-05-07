@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // ==========================================
 // CONFIGURACIÓN DE IMAGEN PRINCIPAL (HERO)
@@ -89,10 +90,10 @@ const PreKidsContent: React.FC = () => {
 
                 {/* CTA */}
                 <div className="pt-2 text-center">
-                    <a href="#contacto" className="inline-flex items-center justify-center gap-2 bg-orange-600 text-white px-8 py-3.5 rounded-full font-bold text-base hover:bg-orange-700 transition-all shadow-lg hover:-translate-y-1 group w-full">
+                    <Link to="/contacto" className="inline-flex items-center justify-center gap-2 bg-orange-600 text-white px-8 py-3.5 rounded-full font-bold text-base hover:bg-orange-700 transition-all shadow-lg hover:-translate-y-1 group w-full">
                         Comenzar Aventura Pre-Kids
                         <span className="material-icons-round text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                    </a>
+                    </Link>
                     <p className="text-center text-xs text-slate-400 mt-3">Cupos limitados por sede</p>
                 </div>
 
