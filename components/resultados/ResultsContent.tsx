@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
+import { Link } from 'react-router-dom';
 
 // --- Supabase Client (proyecto Dashboard-EnsilWeb) ---
 const SUPABASE_URL = 'https://jtrugvxgztnxbhwjtiou.supabase.co';
@@ -670,13 +671,18 @@ const ResultsContent: React.FC = () => {
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">¿Listo para multiplicar tu capacidad de lectura?</h2>
             <p className="text-slate-300 mb-8 text-lg">Únete a los más de 1000 graduados que han transformado su vida académica y profesional.</p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button className="bg-yellow-400 text-slate-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-yellow-300 transition-colors flex items-center justify-center gap-2">
+              <Link to="/" className="bg-yellow-400 text-slate-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-yellow-300 transition-colors flex items-center justify-center gap-2">
                 Reservar Diagnóstico Gratuito
                 <span className="material-icons-round">arrow_forward</span>
-              </button>
-              <button className="bg-white/10 text-white border border-white/20 px-8 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-colors">
+              </Link>
+              <a 
+                href={`https://wa.me/51960508686?text=${encodeURIComponent("¡Hola! 👋 Quiero llevar mi lectura al siguiente nivel. 🚀 Me gustaría agendar una cita presencial 🏫 para mi diagnóstico gratuito y recibir más información sobre el programa. 📚✨")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white/10 text-white border border-white/20 px-8 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-colors flex items-center justify-center"
+              >
                 Hablar con un asesor
-              </button>
+              </a>
             </div>
           </div>
         </div>

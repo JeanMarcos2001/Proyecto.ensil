@@ -179,20 +179,7 @@ const EsParaTiContent: React.FC = () => {
                     </div>
                 </section>
 
-                {/* Philosophy Quote */}
-                <section className="max-w-4xl mx-auto">
-                    <div className="border-2 border-ensil-gold bg-amber-50 rounded-2xl p-8 md:p-12 text-center relative">
-                        <span className="material-icons-round text-6xl text-ensil-gold/20 absolute top-4 left-4 transform rotate-180">format_quote</span>
-                        <span className="material-icons-round text-6xl text-ensil-gold/20 absolute bottom-4 right-4">format_quote</span>
-                        <h2 className="text-4xl md:text-5xl font-fraunces italic font-medium text-slate-800 mb-6">
-                            "La mejor herencia... la felicidad"
-                        </h2>
-                        <div className="w-16 h-1 bg-ensil-gold mx-auto mb-4"></div>
-                        <p className="text-sm md:text-base text-slate-500 font-bold tracking-widest uppercase font-jakarta">
-                            Filosofía ENSIL
-                        </p>
-                    </div>
-                </section>
+
 
             </main>
         </div>
