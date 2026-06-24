@@ -1,10 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Search, MapPin, Phone, Smartphone, ChevronDown, MessageCircle, ArrowLeft, ArrowRight } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = 'https://jtrugvxgztnxbhwjtiou.supabase.co';
-const supabaseKey = 'sb_publishable_embxlHUxh_7_A1OriNUTTQ_uxid3RZh';
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { supabase } from '../../lib/supabase';
 
 interface Sede {
   id: number;

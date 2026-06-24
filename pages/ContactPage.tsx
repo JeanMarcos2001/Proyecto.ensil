@@ -7,7 +7,7 @@ const ContactPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-white font-jakarta text-slate-800 selection:bg-ensil-gold selection:text-white flex flex-col">
       {/* Custom Minimal Header */}
-      <header className="relative z-50 w-full py-8 mt-4 flex items-center justify-center">
+      <header className="relative z-50 w-full pt-8 pb-7 mt-4 flex items-center justify-center">
         {/* Centered Logo */}
         <Link to="/" className="transition-transform hover:scale-105">
           <img

@@ -2,11 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { ChevronDown, Search, LayoutGrid, HelpCircle, Users, Clock, BookOpen, MapPin, Phone } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = 'https://jtrugvxgztnxbhwjtiou.supabase.co';
-const supabaseKey = 'sb_publishable_embxlHUxh_7_A1OriNUTTQ_uxid3RZh';
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { supabase } from '../lib/supabase';
 
 interface FaqItem {
     idFAQ: number;

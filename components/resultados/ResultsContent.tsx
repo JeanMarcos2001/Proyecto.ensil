@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { createClient } from '@supabase/supabase-js';
 import { Link } from 'react-router-dom';
-
-// --- Supabase Client (proyecto Dashboard-EnsilWeb) ---
-const SUPABASE_URL = 'https://jtrugvxgztnxbhwjtiou.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp0cnVndnhnenRueGJod2p0aW91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxNDQxMTksImV4cCI6MjA4NzcyMDExOX0.Kw-SMk8ABVNfFEeYoN8oDgbpDv7Uk_cDN23IccH7zoM';
-const supabaseDemo = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+import { supabase as supabaseDemo, supabaseUrl as SUPABASE_URL } from '../../lib/supabase';
 
 // --- Tipo para las historias que vienen de Supabase ---
 interface Historia {
