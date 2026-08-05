@@ -36,89 +36,100 @@ const Programs: React.FC = () => {
   ];
 
   return (
-    <section id="programa" className="min-h-screen py-16 md:py-24 px-4 bg-white flex flex-col justify-center relative">
-      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 md:mb-16">
-          <h2 className="font-display text-4xl md:text-5xl text-gray-900 font-bold leading-tight">
-            Eleva tu <span className="text-ensil-green">Intelecto.</span><br />
-            Domina el conocimiento.
-          </h2>
-          <p className="mt-6 text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed font-light">
-            Nuestro programa integral enfatiza la comprensión y reprograma la forma en que tu cerebro procesa la información, transformando la lectura en un hábito de alto rendimiento.
-          </p>
+    <section id="programa" className="w-full py-16 md:py-24 flex flex-col justify-center items-center overflow-x-clip relative z-10 bg-white">
+      <div
+        className="w-[95%] rounded-[36px] relative flex flex-col pt-12 lg:pt-20 pb-12 lg:pb-16"
+        style={{ background: 'linear-gradient(135deg, #016A31 0%, #1a9e4a 40%, #5ec832 75%, #88d62c 100%)' }}
+      >
+        {/* Watermark */}
+        <div className="absolute inset-0 opacity-[0.08] pointer-events-none rounded-[36px] overflow-hidden">
+          <img src="/img/niveles/sonrisas.png" alt="" className="w-full h-full object-cover" />
         </div>
 
-        <div
-          ref={sectionRef as React.RefObject<HTMLDivElement>}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-        >
-          {cards.map((card, index) => (
-            <div
-              key={`anim-${index}`}
-              className="transition-all duration-[1000ms] ease-out transform"
-              style={{
-                transitionDelay: `${index * 200}ms`,
-                opacity: isVisible ? 1 : 0,
-                transform: isVisible ? 'translateY(0)' : 'translateY(30px)'
-              }}
-            >
+        <div className="relative z-10 w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="font-display text-4xl md:text-5xl text-white font-bold leading-tight">
+              Eleva tu <span className="text-yellow-300">Intelecto.</span><br />
+              Domina el conocimiento.
+            </h2>
+            <p className="mt-6 text-white/80 max-w-3xl mx-auto text-lg leading-relaxed font-light">
+              Nuestro programa integral enfatiza la comprensión y reprograma la forma en que tu cerebro procesa la información, transformando la lectura en un hábito de alto rendimiento.
+            </p>
+          </div>
+
+          <div
+            ref={sectionRef as React.RefObject<HTMLDivElement>}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+          >
+            {cards.map((card, index) => (
               <div
-                onMouseEnter={() => setActiveIndex(index)}
-                onMouseLeave={() => setActiveIndex(null)} // Vuelve a deseleccionar al salir
-                className={`
-                  rounded-2xl border transition-all duration-300 cursor-default flex flex-col overflow-hidden h-full group
-                  ${activeIndex === index
-                    ? 'bg-[#285626] border-[#285626] text-white shadow-2xl -translate-y-3'
-                    : 'bg-white border-gray-100 text-gray-900 shadow-sm hover:shadow-lg hover:-translate-y-1'
-                  }
-                `}
+                key={`anim-${index}`}
+                className="transition-all duration-[1000ms] ease-out transform"
+                style={{
+                  transitionDelay: `${index * 200}ms`,
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(30px)'
+                }}
               >
-                <div className="h-48 overflow-hidden relative w-full mb-6 rounded-t-2xl transform-gpu">
-                  <div className={`absolute inset-0 z-10 transition-colors duration-300 ${activeIndex === index ? 'bg-black/20' : 'bg-black/0'}`}></div>
-                  <img
-                    src={card.image}
-                    alt={card.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className={`
-                  absolute bottom-4 left-4 z-20 w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 backdrop-blur-md
-                  ${activeIndex === index
-                      ? 'bg-white/20 text-white border border-white/30'
-                      : 'bg-white/90 text-[#285626] shadow-md'
+                <div
+                  onMouseEnter={() => setActiveIndex(index)}
+                  onMouseLeave={() => setActiveIndex(null)} // Vuelve a deseleccionar al salir
+                  className={`
+                    rounded-2xl border transition-all duration-300 cursor-default flex flex-col overflow-hidden h-full group
+                    ${activeIndex === index
+                      ? 'bg-white border-white text-slate-900 shadow-2xl -translate-y-3'
+                      : 'bg-white/10 backdrop-blur-md border-white/20 text-white shadow-sm hover:shadow-lg hover:-translate-y-1'
                     }
-                `}>
-                    <card.icon size={24} strokeWidth={1.5} />
+                  `}
+                >
+                  <div className="h-48 overflow-hidden relative w-full mb-6 rounded-t-2xl transform-gpu">
+                    <div className={`absolute inset-0 z-10 transition-colors duration-300 ${activeIndex === index ? 'bg-black/20' : 'bg-black/0'}`}></div>
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className={`
+                    absolute bottom-4 left-4 z-20 w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 backdrop-blur-md
+                    ${activeIndex === index
+                        ? 'bg-[#016A31] text-white shadow-md'
+                        : 'bg-white/90 text-[#016A31] shadow-md'
+                      }
+                  `}>
+                      <card.icon size={24} strokeWidth={1.5} />
+                    </div>
+                  </div>
+
+                  <div className="px-6 pb-8 flex-1 flex flex-col">
+                    <h3 className={`font-display text-2xl font-bold mb-3 ${activeIndex === index ? 'text-slate-900' : 'text-white'}`}>
+                      {card.title}
+                    </h3>
+                    <p className={`text-sm leading-relaxed ${activeIndex === index ? 'text-slate-600' : 'text-white/80'}`}>
+                      {card.description}
+                    </p>
                   </div>
                 </div>
-
-                <div className="px-6 pb-8 flex-1 flex flex-col">
-                  <h3 className="font-display text-2xl font-bold mb-3">
-                    {card.title}
-                  </h3>
-                  <p className={`text-sm leading-relaxed ${activeIndex === index ? 'text-white/90' : 'text-gray-600'}`}>
-                    {card.description}
-                  </p>
-                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Scroll Down Button */}
-      <div className="flex justify-center mt-12 md:mt-16">
-        <a
-          href="#promesa"
-          onClick={(e) => {
-            e.preventDefault();
-            smoothScrollTo('promesa', 1200);
-          }}
-          className="group flex flex-col items-center justify-center cursor-pointer"
-        >
-          <div className="w-10 h-10 rounded-full border border-gray-400 text-gray-400 flex items-center justify-center group-hover:bg-gray-400 group-hover:border-gray-400 group-hover:text-white transition-all duration-300 shadow-sm">
-            <ChevronDown size={20} />
+            ))}
           </div>
-        </a>
+
+          {/* Scroll Down Button */}
+          <div className="flex justify-center mt-12 md:mt-16">
+            <a
+              href="#promesa"
+              onClick={(e) => {
+                e.preventDefault();
+                smoothScrollTo('promesa', 1200);
+              }}
+              className="group flex flex-col items-center justify-center cursor-pointer"
+            >
+              <div className="w-10 h-10 rounded-full border border-white/50 text-white/70 flex items-center justify-center group-hover:bg-white group-hover:text-green-800 group-hover:border-white transition-all duration-300 shadow-sm">
+                <ChevronDown size={20} />
+              </div>
+            </a>
+          </div>
+
+        </div>
       </div>
     </section>
   );

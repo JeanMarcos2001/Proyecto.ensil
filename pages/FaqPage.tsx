@@ -129,9 +129,6 @@ const FaqPage: React.FC = () => {
 
                     {/* Header */}
                     <div className="text-center mb-6 md:mb-16">
-                        <span className="inline-block py-1 px-3 rounded-full bg-green-100 text-ensil-green text-xs font-bold uppercase tracking-wider mb-4">
-                            CENTRO DE AYUDA
-                        </span>
                         <h1 className="text-4xl md:text-5xl lg:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">
                             ¿Cómo podemos <span className="text-ensil-green">ayudarte?</span>
                         </h1>

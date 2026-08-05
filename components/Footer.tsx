@@ -69,20 +69,7 @@ const Footer: React.FC<FooterProps> = ({ variant = 'light', showCta = true }) =>
             <div className="flex flex-col space-y-5">
               <h3 className={`font-display text-lg font-bold ${textClass}`}>El Programa</h3>
 
-              {/* Program Badges - Inline Row with bright colors */}
-              <div className="flex flex-wrap gap-2">
-                <Link to="/programas" className="bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors shadow-sm">
-                  Profesional
-                </Link>
-                <Link to="/programas" className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors shadow-sm">
-                  Kids
-                </Link>
-                <Link to="/programas" className="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors shadow-sm">
-                  Pre-Kids
-                </Link>
-              </div>
-
-              <ul className="space-y-3 pt-2 border-t border-gray-200/20">
+              <ul className="space-y-3">
                 <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/programas">Beneficios</Link></li>
                 <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/programas">Metodología</Link></li>
                 <li><Link className={`${linkClass} transition-colors text-sm font-medium`} to="/resultados">Testimonios</Link></li>

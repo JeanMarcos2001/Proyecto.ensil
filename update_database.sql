@@ -47,7 +47,7 @@ BEGIN
     p_id_filial, 
     p_fecha, 
     p_hora, 
-    'PENDING', 
+    'PENDIENTE', 
     NOW(), 
     CASE WHEN p_es_dependiente = TRUE THEN 'matricula_dependiente' ELSE 'matricula_independiente' END
   );
@@ -90,7 +90,7 @@ BEGIN
 
     -- Insertar cita para ese alumno registrando tipo_cita y creado_en
     INSERT INTO public.citas (id_alumno, id_filial, fecha_cita, hora_cita, estado, creado_en, tipo_cita)
-    VALUES (v_id_alumno, p_id_filial, p_fecha, p_hora, 'PENDING', NOW(), 'matricula_dependiente');
+    VALUES (v_id_alumno, p_id_filial, p_fecha, p_hora, 'PENDIENTE', NOW(), 'matricula_dependiente');
   END LOOP;
 
 END;

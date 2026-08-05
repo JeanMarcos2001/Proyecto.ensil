@@ -80,9 +80,6 @@ const SedesContent: React.FC = () => {
 
         {/* Header Section */}
         <div className="text-center mb-10 md:mb-12">
-          <span className="inline-block py-1 px-3 rounded-full bg-green-100 text-ensil-green text-xs font-bold uppercase tracking-wider mb-4">
-            Nuestras Sedes
-          </span>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 leading-tight">
             Encuéntranos en <span className="relative inline-block text-ensil-green">Tu Ciudad
               <svg className="absolute w-full h-3 -bottom-1 left-0 text-yellow-500 opacity-70" preserveAspectRatio="none" viewBox="0 0 100 10">
@@ -148,16 +145,6 @@ const SedesContent: React.FC = () => {
                       />
                     </div>
 
-                    {/* Floating Pills - Top Left */}
-                    <div className="absolute top-3 left-3 flex flex-wrap gap-2">
-                      <div className="px-3 py-1.5 bg-black/40 backdrop-blur-md rounded-full border border-white/10 shadow-sm">
-                        <h3 className="text-white font-display text-xs font-bold uppercase tracking-wider">{sede.nombre}</h3>
-                      </div>
-                      <div className="px-3 py-1.5 bg-white/20 backdrop-blur-md rounded-full border border-white/20 shadow-sm flex items-center gap-1">
-                        <MapPin size={12} className="text-yellow-400" />
-                        <span className="text-white text-[10px] font-bold uppercase tracking-wider">{sede.departamento}</span>
-                      </div>
-                    </div>
                   </div>
 
                   {/* Card Content */}

@@ -22,9 +22,6 @@ const KidsContent: React.FC = () => {
 
                 {/* Text Content Position Uniform */}
                 <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold tracking-widest uppercase mb-3 w-fit">
-                        <span className="material-icons-round text-sm">rocket_launch</span> Programa Kids
-                    </div>
                     <h1 className="font-fraunces text-3xl md:text-4xl font-bold leading-none mb-2 text-white drop-shadow-md">
                         <span className="text-yellow-300">Despegue</span> Lector
                     </h1>

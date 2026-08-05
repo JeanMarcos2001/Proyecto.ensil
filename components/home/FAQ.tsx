@@ -98,9 +98,6 @@ const FAQ: React.FC = () => {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
           <div className="max-w-xl">
-            <div className="inline-flex py-1 px-3 rounded-full bg-green-50 border border-green-200 text-ensil-green text-xs font-bold tracking-wider uppercase mb-4">
-              / FAQS
-            </div>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
               Preguntas Frecuentes
             </h2>

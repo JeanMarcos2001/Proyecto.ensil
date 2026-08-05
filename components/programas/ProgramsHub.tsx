@@ -47,9 +47,6 @@ const ProgramsHub: React.FC = () => {
 
       {/* Header Text - Improved Typography */}
       <div className="text-center max-w-4xl px-4 mb-16 z-10 relative">
-        <span className="inline-block py-1 px-3 rounded-full bg-green-100 text-green-700 text-xs font-bold uppercase tracking-wider mb-4">
-          Nuestros Programas
-        </span>
         <h1 className="font-fraunces text-4xl md:text-5xl lg:text-6xl text-slate-900 font-bold tracking-tight leading-tight">
           Formación para <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">Cada Etapa</span>
         </h1>

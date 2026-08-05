@@ -46,7 +46,7 @@ BEGIN
 
   -- Insertar la cita
   INSERT INTO public.citas (id_alumno, id_filial, fecha_cita, hora_cita, estado)
-  VALUES (v_id_alumno, p_id_filial, p_fecha, p_hora, 'PENDING');
+  VALUES (v_id_alumno, p_id_filial, p_fecha, p_hora, 'PENDIENTE');
 
 END;
 $$;
@@ -91,7 +91,7 @@ BEGIN
 
     -- Insertar cita para ese alumno
     INSERT INTO public.citas (id_alumno, id_filial, fecha_cita, hora_cita, estado)
-    VALUES (v_id_alumno, p_id_filial, p_fecha, p_hora, 'PENDING');
+    VALUES (v_id_alumno, p_id_filial, p_fecha, p_hora, 'PENDIENTE');
   END LOOP;
 
 END;

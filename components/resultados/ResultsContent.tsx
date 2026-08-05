@@ -340,9 +340,6 @@ const ResultsContent: React.FC = () => {
 
         {/* Hero Section */}
         <div className="text-center max-w-3xl mx-auto space-y-6">
-          <span className="inline-block py-1 px-3 rounded-full bg-green-100 text-green-700 text-xs font-bold uppercase tracking-wider mb-4">
-            Nuestros Resultados
-          </span>
           <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 leading-tight">
             La prueba está en <br />
             <span className="relative inline-block">
@@ -366,7 +363,6 @@ const ResultsContent: React.FC = () => {
             </div>
             <h3 className="text-5xl font-bold mb-2 relative z-10">1000<span className="text-yellow-400">+</span></h3>
             <p className="font-medium text-green-100 relative z-10">Graduados Exitosos</p>
-            <div className="mt-4 text-xs bg-white/20 inline-block px-3 py-1 rounded-full backdrop-blur-sm">Líderes en Perú</div>
           </div>
 
           <div className={`bg-white p-8 rounded-3xl shadow-sm border border-slate-100 relative overflow-hidden hover:shadow-lg transition-all duration-700 delay-150 ease-out transform ${isStatsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
@@ -515,15 +511,7 @@ const ResultsContent: React.FC = () => {
                     className={`flex flex-col min-w-[340px] max-w-[360px] whitespace-normal rounded-[2rem] overflow-hidden shadow-sm relative group transition-all duration-300 hover:-translate-y-4 hover:shadow-xl select-none ${h.clase_css}`}
                   >
                     <div className="p-6 pb-6 flex-1 flex flex-col">
-                      <div className="flex items-start justify-between mb-6">
-                        <div className="flex flex-wrap gap-2">
-                          <span className="bg-white text-slate-900 text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
-                            {h.programa}
-                          </span>
-                          <span className="bg-white text-slate-900 text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
-                            {h.palabras_por_min}
-                          </span>
-                        </div>
+                      <div className="flex items-start justify-end mb-6">
                         <div className="w-8 h-8 bg-black/5 rounded-full flex items-center justify-center shrink-0">
                           <span className="text-slate-700 text-2xl font-serif leading-none mt-2">“</span>
                         </div>
@@ -568,11 +556,7 @@ const ResultsContent: React.FC = () => {
                           <span className="material-icons-round text-white/60 text-6xl">person</span>
                         </div>
                       </div>
-                      <div className="absolute bottom-4 left-4 z-10">
-                        <div className="bg-white/30 backdrop-blur-md border border-white/40 text-white px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 shadow-sm">
-                          {h.programa} <span className="material-icons-round text-[16px]">arrow_forward</span>
-                        </div>
-                      </div>
+
                     </div>
                   </div>
                 ))

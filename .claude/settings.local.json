@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(curl *)",
-      "Bash(echo \"DELETE status: $?\")"
+      "Bash(echo \"DELETE status: $?\")",
+      "mcp__visualize__read_me",
+      "Read(//c/Users/ensil/Documents/JM/WEB_ENSIL/Img/**)",
+      "Read(//c/Users/ensil/Documents/JM/WEB_ENSIL/**)"
     ]
   }
 }

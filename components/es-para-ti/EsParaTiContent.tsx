@@ -11,9 +11,6 @@ const EsParaTiContent: React.FC = () => {
                 {/* Header Section */}
                 <div className="text-center mb-10 md:mb-12 relative">
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-12 w-64 h-64 bg-green-400/10 rounded-full blur-3xl -z-10"></div>
-                    <span className="inline-block py-1 px-3 rounded-full bg-green-100 text-green-700 text-xs font-bold uppercase tracking-wider mb-4">
-                        Criterios de Admisión
-                    </span>
                     <h1 className="text-5xl md:text-7xl font-bold text-slate-900 leading-tight font-fraunces">
                         ENSIL <span className="text-slate-400 line-through decoration-ensil-green decoration-4">No</span> Es <br className="hidden md:block" />
                         Para <span className="relative inline-block italic text-ensil-green">

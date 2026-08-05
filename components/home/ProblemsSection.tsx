@@ -37,7 +37,7 @@ const ProblemsSection = () => {
   const animClasses = `transition-all duration-1000 ease-out transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'}`;
 
   return (
-    <section id="problemas" className="pt-8 pb-6 md:pt-10 md:pb-8 bg-white overflow-hidden">
+    <section id="problemas" className="py-16 md:py-24 bg-white overflow-hidden">
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
 
         {/* Header content */}

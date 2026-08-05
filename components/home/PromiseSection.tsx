@@ -6,7 +6,7 @@ import { smoothScrollTo } from '../../utils/scroll';
 const PromiseSection: React.FC = () => {
   const { ref: sectionRef, isVisible } = useScrollReveal(0.2);
   return (
-    <section id="promesa" className="min-h-screen py-16 lg:py-24 px-4 bg-white flex flex-col justify-center relative overflow-hidden">
+    <section id="promesa" className="min-h-screen py-16 md:py-24 px-4 bg-white flex flex-col justify-center relative overflow-hidden">
       <div
         ref={sectionRef as React.RefObject<HTMLDivElement>}
         className={`w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center transition-all duration-1000 ease-out transform
@@ -15,9 +15,6 @@ const PromiseSection: React.FC = () => {
       >
         {/* Text Content */}
         <div className="order-2 lg:order-1">
-          <div className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-6">
-            Nuestra Promesa
-          </div>
           <h2 className="font-display text-4xl md:text-6xl text-gray-900 font-bold mb-8 leading-tight">
             Lectura Profesional <br />
             <span className="text-accent">+</span> Gestión del Tiempo

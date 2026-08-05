@@ -22,9 +22,6 @@ const PreKidsContent: React.FC = () => {
 
                 {/* Text Content Position Uniform */}
                 <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-bold tracking-widest uppercase mb-3 w-fit border border-white/30">
-                        <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span> Pre Kids
-                    </div>
                     <h1 className="font-fraunces text-3xl md:text-4xl font-bold leading-none mb-2 text-white drop-shadow-md">
                         La Semilla
                     </h1>

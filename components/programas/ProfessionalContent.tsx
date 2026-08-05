@@ -22,9 +22,6 @@ const ProfessionalContent: React.FC = () => {
 
                 {/* Text Content Position Uniform */}
                 <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8 text-white">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-blue-200 text-xs font-bold tracking-widest uppercase mb-3 border border-white/20 w-fit">
-                        Nivel Superior
-                    </div>
                     <h1 className="font-fraunces text-3xl md:text-4xl font-bold leading-none mb-3 drop-shadow-lg">
                         Profesional
                     </h1>

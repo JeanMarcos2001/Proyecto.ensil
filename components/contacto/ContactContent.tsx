@@ -1,9 +1,34 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { User, Baby, ArrowRight, CheckCircle, ArrowLeft, MapPin, Loader2, Phone, Sparkles, ChevronLeft, ChevronRight, Clock, Calendar, AlertCircle, Plus, Trash2, RotateCcw, ChevronDown, Briefcase, Users } from 'lucide-react';
-import { supabase } from '../../lib/supabase';
+import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
+import { User, Baby, ArrowRight, CheckCircle, ArrowLeft, MapPin, Loader2, Phone, Sparkles, ChevronLeft, ChevronRight, Clock, Calendar, AlertCircle, Plus, Minus, Trash2, RotateCcw, ChevronDown, Briefcase, Users } from 'lucide-react';
+import { supabase, supabaseUrl } from '../../lib/supabase';
 import { smoothScrollTo } from '../../utils/scroll';
 
 // --- TIPOS ---
+interface Historia {
+  id: number;
+  nombre_alumno: string;
+  programa: string;
+  narracion: string;
+  palabras_por_min: string;
+  foto_path: string | null;
+  foto_url: string | null;
+  foto_position: string | null;  // e.g. "40% 20%" → CSS object-position
+  foto_scale: number | null;     // zoom factor, e.g. 1.3
+  clase_css: string;
+  orden: number;
+}
+
+interface FaqDbItem {
+  idFAQ: number;
+  PREGUNTA: string;
+  RESPUESTA: string;
+  idCategoria?: number;
+  ORDEN: number;
+  categoriaFAQ?: {
+    nombreCategoria: string;
+  };
+}
+
 type Step = 1 | 2 | 3 | 4;
 type Target = 'me' | 'child' | null;
 type Dependency = 'independent' | 'dependent' | null;
@@ -33,8 +58,143 @@ const MONTHS_ES = [
   'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
 ];
 
+// -- Componente para Marquesina Arrastrable e Infinita --
+interface DraggableMarqueeProps {
+  children: React.ReactNode;
+  speed?: number; // Pixels per frame (approx 60fps)
+  direction?: 'left' | 'right';
+}
+
+const DraggableMarquee: React.FC<DraggableMarqueeProps> = ({ children, speed = 1, direction = 'left' }) => {
+  const scrollerRef = React.useRef<HTMLDivElement>(null);
+  const innerRef = React.useRef<HTMLDivElement>(null);
+
+  // State for dragging
+  const [isDragging, setIsDragging] = React.useState(false);
+  const [startX, setStartX] = React.useState(0);
+  const [scrollLeft, setScrollLeft] = React.useState(0);
+  const [isHovered, setIsHovered] = React.useState(false);
+
+  // Animation ref
+  const requestRef = React.useRef<number>();
+
+  const animate = React.useCallback(() => {
+    if (!scrollerRef.current || isDragging || isHovered) {
+      if (!isDragging && !isHovered) {
+        requestRef.current = requestAnimationFrame(animate);
+      }
+      return;
+    }
+
+    const scroller = scrollerRef.current;
+    const inner = innerRef.current;
+
+    // Half of the inner width is one full set of children
+    const halfWidth = inner.scrollWidth / 2;
+
+    if (direction === 'left') {
+      scroller.scrollLeft += speed;
+      // Loop back if we've scrolled past the first half
+      if (scroller.scrollLeft >= halfWidth) {
+        scroller.scrollLeft -= halfWidth;
+      }
+    } else {
+      scroller.scrollLeft -= speed;
+      // Loop forward if we hit the left edge
+      if (scroller.scrollLeft <= 0) {
+        scroller.scrollLeft += halfWidth;
+      }
+    }
+
+    requestRef.current = requestAnimationFrame(animate);
+  }, [isDragging, isHovered, speed, direction]);
+
+  React.useEffect(() => {
+    requestRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (requestRef.current) cancelAnimationFrame(requestRef.current);
+    };
+  }, [animate]);
+
+  // To handle the initial position for right-directed marquees, so they don't start at 0 and immediately jump
+  React.useEffect(() => {
+    const initScroll = () => {
+      if (direction === 'right' && scrollerRef.current && innerRef.current) {
+        scrollerRef.current.scrollLeft = innerRef.current.scrollWidth / 2;
+      }
+    };
+    initScroll();
+    const timeoutId = setTimeout(initScroll, 100);
+    return () => clearTimeout(timeoutId);
+  }, [direction]);
+
+  const onDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+    setIsDragging(true);
+    const pageX = 'touches' in e ? e.touches[0].pageX : (e as React.MouseEvent).pageX;
+    setStartX(pageX - (scrollerRef.current?.offsetLeft || 0));
+    setScrollLeft(scrollerRef.current?.scrollLeft || 0);
+  };
+
+  const onDragEnd = () => {
+    setIsDragging(false);
+  };
+
+  const onDragMove = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!isDragging || !scrollerRef.current) return;
+    e.preventDefault(); // Prevent text selection/scrolling while dragging
+    const pageX = 'touches' in e ? e.touches[0].pageX : (e as React.MouseEvent).pageX;
+    const x = pageX - (scrollerRef.current.offsetLeft || 0);
+    const walk = (x - startX) * 2; // The multiplier changes drag sensitivity
+
+    let newScrollLeft = scrollLeft - walk;
+    const halfWidth = innerRef.current.scrollWidth / 2;
+
+    // Manual infinite wrapping logic during drag
+    if (newScrollLeft >= halfWidth) {
+      newScrollLeft -= halfWidth;
+      setStartX(pageX); // Reset start anchor to avoid jumping next frame
+      setScrollLeft(newScrollLeft);
+    } else if (newScrollLeft <= 0) {
+      newScrollLeft += halfWidth;
+      setStartX(pageX); // Reset start anchor
+      setScrollLeft(newScrollLeft);
+    }
+
+    scrollerRef.current.scrollLeft = newScrollLeft;
+  };
+
+  return (
+    <div
+      ref={scrollerRef}
+      className={`w-full overflow-x-hidden overflow-y-visible cursor-grab active:cursor-grabbing py-12 -my-12 ${isDragging ? 'select-none pointer-events-auto' : ''}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => { setIsHovered(false); onDragEnd(); }}
+      onMouseDown={onDragStart}
+      onMouseUp={onDragEnd}
+      onMouseMove={onDragMove}
+      onTouchStart={onDragStart}
+      onTouchEnd={onDragEnd}
+      onTouchMove={onDragMove}
+      style={{ scrollBehavior: 'auto', msOverflowStyle: 'none', scrollbarWidth: 'none' }}
+    >
+      <div
+        ref={innerRef}
+        className="flex gap-4 w-max items-center"
+      >
+        {/* Render children twice for seamless looping */}
+        {children}
+        {children}
+      </div>
+    </div>
+  );
+};
+
 const ContactContent: React.FC = () => {
-  const [openFaq, setOpenFaq] = useState<string | null>(null);
+  const [faqs, setFaqs] = useState<FaqDbItem[]>([]);
+  const [openFaqIds, setOpenFaqIds] = useState<Set<number>>(new Set());
+  const [isLoadingFaqs, setIsLoadingFaqs] = useState(true);
+  const [historias, setHistorias] = useState<Historia[]>([]);
+  const [isLoadingHistorias, setIsLoadingHistorias] = useState(true);
 
   // --- VIDEO STATE ---
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -88,8 +248,101 @@ const ContactContent: React.FC = () => {
     fetchSedes();
   }, []);
 
-  const toggleFaq = (id: string) => {
-    setOpenFaq(openFaq === id ? null : id);
+  // --- FETCH HISTORIAS ---
+  useEffect(() => {
+    const fetchHistorias = async () => {
+      try {
+        setIsLoadingHistorias(true);
+        const { data, error } = await supabase
+          .from('historias_transformacion')
+          .select(`
+            id, nombre_alumno, programa, narracion,
+            palabras_por_min, foto_path, foto_position, foto_scale, orden,
+            colores_corporativos ( clase_css )
+          `)
+          .eq('activo', true)
+          .order('orden', { ascending: true });
+
+        if (error) {
+          console.error('Error fetching historias:', error);
+          return;
+        }
+
+        if (data) {
+          const mapped: Historia[] = data.map((h: any) => {
+            let foto_url: string | null = null;
+            if (h.foto_path) {
+              if (h.foto_path.startsWith('http')) {
+                foto_url = h.foto_path;
+              } else {
+                const cleanPath = h.foto_path.startsWith('/') ? h.foto_path.slice(1) : h.foto_path;
+                foto_url = `${supabaseUrl}/storage/v1/object/public/Testimonios/${cleanPath}`;
+              }
+            }
+            console.log(`[ENSIL Historias Landing] id=${h.id} | foto_path="${h.foto_path}" | foto_url="${foto_url}"`);
+            return {
+              id: h.id,
+              nombre_alumno: h.nombre_alumno,
+              programa: h.programa,
+              narracion: h.narracion,
+              palabras_por_min: h.palabras_por_min,
+              foto_path: h.foto_path,
+              foto_url,
+              foto_position: h.foto_position ?? '50% 50%',
+              foto_scale: h.foto_scale ?? 1.0,
+              clase_css: h.colores_corporativos?.clase_css || 'bg-[#f5f2eb]',
+              orden: h.orden,
+            };
+          });
+          setHistorias(mapped);
+        }
+      } catch (err) {
+        console.error('Unexpected error fetching historias:', err);
+      } finally {
+        setIsLoadingHistorias(false);
+      }
+    };
+    fetchHistorias();
+  }, []);
+
+  // --- FETCH FAQS ---
+  useEffect(() => {
+    const fetchFaqs = async () => {
+      try {
+        setIsLoadingFaqs(true);
+        const { data, error } = await supabase
+          .from('faq')
+          .select('*, categoriaFAQ(nombreCategoria)')
+          .order('ORDEN', { ascending: true })
+          .limit(5);
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          setFaqs(data as FaqDbItem[]);
+          setOpenFaqIds(new Set([data[0].idFAQ]));
+        } else {
+          console.warn("No FAQs found in Supabase.");
+        }
+      } catch (err) {
+        console.error('Error fetching FAQs:', err);
+      } finally {
+        setIsLoadingFaqs(false);
+      }
+    };
+    fetchFaqs();
+  }, []);
+
+  const toggleFaq = (id: number) => {
+    setOpenFaqIds(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
   };
 
   // --- VIDEO HANDLERS ---
@@ -116,6 +369,25 @@ const ContactContent: React.FC = () => {
     } else {
       return ['09:00', '10:00', '11:00', '12:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
     }
+  }, [selectedDateObj]);
+
+  const isHourDisabled = useCallback((hour: string) => {
+    if (!selectedDateObj) return false;
+
+    const today = new Date();
+    const isToday = selectedDateObj.getDate() === today.getDate() &&
+      selectedDateObj.getMonth() === today.getMonth() &&
+      selectedDateObj.getFullYear() === today.getFullYear();
+
+    if (!isToday) return false;
+
+    const [h, m] = hour.split(':').map(Number);
+    const slotDate = new Date(selectedDateObj);
+    slotDate.setHours(h, m, 0, 0);
+
+    // Mínimo 2 horas de anticipación
+    const cutoff = today.getTime() + 2 * 60 * 60 * 1000;
+    return slotDate.getTime() < cutoff;
   }, [selectedDateObj]);
 
   // --- HANDLERS GENÉRICOS ---
@@ -259,6 +531,11 @@ const ContactContent: React.FC = () => {
     if (!formData.filial) { setError("Por favor selecciona una sede de preferencia."); return; }
     if (!formData.fecha || !formData.hora) { setError("Por favor selecciona fecha y hora para tu cita."); return; }
 
+    if (isHourDisabled(formData.hora)) {
+      setError("La hora seleccionada ya no está disponible. Por favor selecciona otra hora con al menos 2 horas de anticipación.");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -273,40 +550,90 @@ const ContactContent: React.FC = () => {
         throw new Error("Este número de celular ya se encuentra registrado en nuestra base de datos.");
       }
 
-      // --- C. Inserción de Datos (Vía RPC Seguro) ---
+      // --- C. Inserción de Datos Directa en BD ---
       if (dependency === 'independent') {
         // Caso INDEPENDIENTE (Solo 1 alumno, sin apoderado)
-        const { error: rpcError } = await supabase.rpc('registrar_reserva', {
-          p_nombre_alumno: formData.studentName,
-          p_edad_alumno: parseInt(formData.studentAge),
-          p_telefono_alumno: formData.studentPhone,
-          p_nombre_apoderado: null,
-          p_telefono_apoderado: null,
-          p_id_filial: filialId,
-          p_fecha: formData.fecha,
-          p_hora: formData.hora,
-          p_es_dependiente: false,
-          p_email: formData.email
-        });
-        if (rpcError) throw rpcError;
+        // 1. Insertar Alumno
+        const { data: newAlumno, error: alumnoError } = await supabase
+          .from('alumnos')
+          .insert({
+            nombre_completo: formData.studentName,
+            edad: parseInt(formData.studentAge),
+            telefono: formData.studentPhone,
+            email: formData.email
+          })
+          .select('id')
+          .single();
+
+        if (alumnoError) throw alumnoError;
+        if (!newAlumno) throw new Error("Error al registrar los datos del alumno.");
+
+        // 2. Insertar Entrevista
+        const { error: entrevistaError } = await supabase
+          .from('entrevistas')
+          .insert({
+            id_alumno: newAlumno.id,
+            id_filial: filialId,
+            fecha_cita: formData.fecha,
+            hora_cita: formData.hora,
+            estado: 'PENDIENTE',
+            tipo_persona: 'independiente',
+            tipo_cita: 'matricula_independiente',
+            creado_en: new Date().toISOString()
+          });
+
+        if (entrevistaError) throw entrevistaError;
 
       } else {
         // Caso DEPENDIENTE (Familia: 1 Apoderado + N Alumnos)
+        // 1. Insertar Apoderado con su email
+        const { data: newApoderado, error: apoderadoError } = await supabase
+          .from('apoderados')
+          .insert({
+            nombre_completo: formData.guardianName,
+            telefono: formData.guardianPhone,
+            email: formData.email
+          })
+          .select('id')
+          .single();
+
+        if (apoderadoError) throw apoderadoError;
+        if (!newApoderado) throw new Error("Error al registrar los datos del apoderado.");
+
         const nombresAlumnos = [formData.studentName, ...extraStudents.map(s => s.name)];
         const edadesAlumnos = [parseInt(formData.studentAge), ...extraStudents.map(s => parseInt(s.age))];
 
-        const { error: rpcError } = await supabase.rpc('registrar_familia', {
-          p_nombre_apoderado: formData.guardianName,
-          p_telefono_apoderado: formData.guardianPhone,
-          p_nombres_alumnos: nombresAlumnos,
-          p_edades_alumnos: edadesAlumnos,
-          p_id_filial: filialId,
-          p_fecha: formData.fecha,
-          p_hora: formData.hora,
-          p_email: formData.email
-        });
+        // 2. Iterar e insertar alumnos y sus correspondientes entrevistas
+        for (let i = 0; i < nombresAlumnos.length; i++) {
+          const { data: newAlumno, error: alumnoError } = await supabase
+            .from('alumnos')
+            .insert({
+              nombre_completo: nombresAlumnos[i],
+              edad: edadesAlumnos[i],
+              id_apoderado: newApoderado.id,
+              email: null
+            })
+            .select('id')
+            .single();
 
-        if (rpcError) throw rpcError;
+          if (alumnoError) throw alumnoError;
+          if (!newAlumno) throw new Error(`Error al registrar los datos del alumno ${nombresAlumnos[i]}.`);
+
+          const { error: entrevistaError } = await supabase
+            .from('entrevistas')
+            .insert({
+              id_alumno: newAlumno.id,
+              id_filial: filialId,
+              fecha_cita: formData.fecha,
+              hora_cita: formData.hora,
+              estado: 'PENDIENTE',
+              tipo_persona: 'dependiente',
+              tipo_cita: 'matricula_dependiente',
+              creado_en: new Date().toISOString()
+            });
+
+          if (entrevistaError) throw entrevistaError;
+        }
       }
 
       // Éxito: Avanzar
@@ -360,7 +687,7 @@ const ContactContent: React.FC = () => {
           <div className="w-full max-w-screen-2xl mb-4 mx-auto grid grid-cols-1 lg:grid-cols-[1.3fr_0.9fr] lg:grid-rows-1 gap-6 items-stretch min-h-[440px] lg:h-[690px]">
 
             {/* LEFT COLUMN: Single card with title on top + video flush at bottom */}
-            <div className="relative w-full h-full flex flex-col rounded-[1.2rem] bg-white border border-slate-200 shadow-sm overflow-hidden">
+            <div className="relative w-full h-full flex flex-col rounded-[2rem] bg-white border border-slate-200 shadow-sm overflow-hidden">
 
               {/* Title section with padding */}
               <div className="shrink-0 p-4 md:p-6 pb-3">
@@ -368,7 +695,7 @@ const ContactContent: React.FC = () => {
                 {/* Title */}
                 <h1 className="font-fraunces text-3xl md:text-5xl lg:text-[3.25rem] font-bold leading-[0.9] text-slate-900 tracking-tight m-0 mb-2 py-1">
                   <span className="text-ensil-gold">Transforma tu lectura</span> <br className="hidden md:block" />
-                  <span className="text-transparent  lg:text-[4.6rem] bg-clip-text bg-gradient-to-r from-green-900 via-emerald-800 to-green-950 drop-shadow-sm inline-block py-1">
+                  <span className="text-transparent  lg:text-[4.6rem] bg-clip-text bg-gradient-to-r from-green-900 via-emerald-800 to-green-900 drop-shadow-sm inline-block py-1">
                     en tu mayor poder
                   </span>
                 </h1>
@@ -380,13 +707,13 @@ const ContactContent: React.FC = () => {
               </div>
 
               {/* Video — centered with all 4 corners rounded */}
-              <div className="relative flex-1 bg-white p-4 md:p-4 pt-0 flex items-center justify-center overflow-hidden">
-                <div className="relative w-full h-full rounded-[1rem] overflow-hidden bg-black shadow-sm flex items-center justify-center">
+              <div className="relative flex-1 bg-white p-4 md:p-3 pt-0 flex items-center justify-center overflow-hidden">
+                <div className="relative w-full h-full rounded-[1.7rem] overflow-hidden bg-black shadow-sm flex items-center justify-center">
                   <video
                     ref={(el) => {
                       if (el) {
                         videoRef.current = el;
-                        el.volume = 0.5;
+                        el.volume = 0.3;
                       }
                     }}
                     className={`w-full h-full object-cover transition-all duration-700 ${videoEnded ? 'blur-md scale-105 opacity-60' : ''}`}
@@ -424,7 +751,7 @@ const ContactContent: React.FC = () => {
 
 
             {/* RIGHT COLUMN: Form Card */}
-            <div className="relative w-full h-full flex flex-col rounded-[1rem] bg-white border border-slate-200 overflow-hidden shadow-md">
+            <div className="relative w-full h-full flex flex-col rounded-[2rem] bg-white border border-slate-200 overflow-hidden shadow-md">
               <div className="relative h-full w-full bg-white flex flex-col">
                 <div className="p-5 md:p-8 flex flex-col h-full overflow-y-auto">
 
@@ -436,9 +763,9 @@ const ContactContent: React.FC = () => {
                         </h2>
                         <p className="text-xs text-slate-500 mt-1 font-medium">Postula ahora y descubre tu potencial</p>
                       </div>
-                      <div className="bg-ensil-gold/10 text-ensil-gold font-bold text-[10px] px-3 py-1 rounded-full uppercase tracking-wider border border-ensil-gold/20 whitespace-nowrap">
+                      <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider whitespace-nowrap">
                         Paso {step}/3
-                      </div>
+                      </span>
                     </div>
                   )}
 
@@ -731,19 +1058,25 @@ const ContactContent: React.FC = () => {
                                 <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 flex-1 flex flex-col justify-center min-h-[220px]">
                                   {availableHours.length > 0 ? (
                                     <div className={`grid grid-cols-3 gap-2 flex-1 ${availableHours.length <= 6 ? 'grid-rows-2' : 'grid-rows-3'}`}>
-                                      {availableHours.map(hour => (
-                                        <button
-                                          key={hour}
-                                          type="button"
-                                          onClick={() => handleTimeClick(hour)}
-                                          className={`text-xs w-full h-full font-bold border transition-all duration-200 flex items-center justify-center rounded-xl ${formData.hora === hour
-                                            ? 'bg-green-600 border-green-600 text-white shadow-md scale-[1.03]'
-                                            : 'bg-white border-slate-200 text-slate-600 hover:border-green-300 hover:bg-green-50/30'
-                                            }`}
-                                        >
-                                          {hour}
-                                        </button>
-                                      ))}
+                                      {availableHours.map(hour => {
+                                        const disabled = isHourDisabled(hour);
+                                        return (
+                                          <button
+                                            key={hour}
+                                            type="button"
+                                            disabled={disabled}
+                                            onClick={() => !disabled && handleTimeClick(hour)}
+                                            className={`text-xs w-full h-full font-bold border transition-all duration-200 flex items-center justify-center rounded-xl ${disabled
+                                              ? 'bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed'
+                                              : formData.hora === hour
+                                                ? 'bg-green-600 border-green-600 text-white shadow-md scale-[1.03]'
+                                                : 'bg-white border-slate-200 text-slate-600 hover:border-green-300 hover:bg-green-50/30'
+                                              }`}
+                                          >
+                                            {hour}
+                                          </button>
+                                        );
+                                      })}
                                     </div>
                                   ) : (
                                     <p className="text-[10px] text-slate-400 text-center mt-4">Selecciona fecha</p>
@@ -820,7 +1153,6 @@ const ContactContent: React.FC = () => {
       <section className="py-20 md:py-24" id="programa">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-ensil-gold font-bold text-sm tracking-wide uppercase mb-3 block">Beneficios</span>
             <h2 className="font-fraunces text-4xl md:text-5xl text-slate-900 font-bold mb-6">
               Eleva tu Intelecto, <span className="text-ensil-gold italic">Domina</span> tu Tiempo.
             </h2>
@@ -898,57 +1230,84 @@ const ContactContent: React.FC = () => {
       {/* Testimonials Section */}
       < section className="py-24" id="testimonios" >
         <div className="max-w-screen-2xl mx-auto px-6 lg:px-12">
-          <div className="text-center mb-16">
-            <span className="text-ensil-gold font-bold text-sm tracking-wide uppercase mb-3 block">Testimonios</span>
-            <h2 className="font-fraunces text-4xl md:text-5xl text-slate-900 font-bold">Lo que dicen nuestros alumnos</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-transparent via-ensil-gold to-transparent mx-auto mt-6 rounded-full opacity-50"></div>
+          <div className="text-center mb-7">
+            <h2 className="font-fraunces text-4xl md:text-5xl text-slate-700 font-medium">Lo que dicen los padres</h2>
+            <h2 className="font-fraunces text-4xl lg:text-[4rem] m-0 mb-2 py-3 text-slate-900 font-bold">de nuestros alumnos...</h2>
+
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-3xl p-8 relative hover:shadow-xl transition-all duration-300 group border border-slate-100 shadow-sm">
-              <span className="text-6xl text-ensil-gold/20 font-serif absolute top-6 left-6">"</span>
-              <div className="relative z-10 flex flex-col h-full">
-                <p className="text-slate-600 italic mb-8 pt-4 leading-relaxed font-light">
-                  ENSIL cambió mi forma de estudiar. Ahora termino mis lecturas en una fracción del tiempo y recuerdo todo para mis exámenes. ¡Increíble!
-                </p>
-                <div className="mt-auto flex items-center gap-4 border-t border-slate-100 pt-6">
-                  <img alt="Maria González" className="w-12 h-12 rounded-full object-cover ring-2 ring-ensil-gold/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRAhavN8ic6iNWz1xyUyI_e4T4xGD6-SRIpI3suejnXxFQyvPfjUVbNUWqfzVSnf27vGtv5U_SUJ0vrD4WTdv0r2tsDYFNF_F0LrE4v8Bvv2WAxm6dcDbYC9K20Bhcri_0RqF8RN7lIVs3cr1DXCM1QvHferHjlGsUU2VMc5MJHsFwHiZA5FSkTyBeE6YIkJDLXhWeQoOznkW2SoKtG9eFLaNS1SgmCmqZ1LWlPmJhz6z7el8LUT59x-dERjKYyooADe_lkvsYDXQ" />
-                  <div>
-                    <p className="font-bold text-slate-900 text-sm">Maria González</p>
-                    <p className="text-xs text-slate-500">Estudiante de Derecho</p>
+          {/* Marquee Container */}
+          <div className="relative w-full overflow-hidden pt-6 pb-8 -mt-2 group/marquee">
+            {/* Left Fade */}
+            <div className="pointer-events-none absolute left-0 top-0 z-30 h-full w-16 md:w-32 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
+            {/* Right Fade */}
+            <div className="pointer-events-none absolute right-0 top-0 z-30 h-full w-16 md:w-32 bg-gradient-to-l from-white via-white/80 to-transparent"></div>
+
+            <DraggableMarquee speed={1} direction="left">
+              {isLoadingHistorias ? (
+                // Skeleton mientras carga
+                [...Array(4)].map((_, i) => (
+                  <div key={`skel-hist-${i}`} className="flex flex-col min-w-[340px] max-w-[360px] rounded-[2rem] overflow-hidden bg-slate-100 animate-pulse h-[460px] shrink-0" />
+                ))
+              ) : historias.length > 0 ? (
+                historias.map((h, idx) => (
+                  <div
+                    key={`hist-${h.id}-${idx}`}
+                    className={`flex flex-col min-w-[340px] max-w-[360px] whitespace-normal rounded-[2rem] overflow-hidden shadow-sm relative group transition-all duration-300 hover:-translate-y-4 hover:shadow-xl select-none ${h.clase_css}`}
+                  >
+                    <div className="p-6 pb-6 flex-1 flex flex-col">
+                      <div className="flex items-start justify-end mb-6">
+                        <div className="w-8 h-8 bg-black/5 rounded-full flex items-center justify-center shrink-0">
+                          <span className="text-slate-700 text-2xl font-serif leading-none mt-2">“</span>
+                        </div>
+                      </div>
+
+                      <h3 className="text-3xl font-display font-bold tracking-tight mb-1 text-slate-900 leading-tight">
+                        {h.nombre_alumno.split(' ')[0]}<br />{h.nombre_alumno.split(' ').slice(1).join(' ')}
+                      </h3>
+                      <p className="text-xs text-slate-500 font-medium mb-3 uppercase tracking-wider">{h.programa}</p>
+                      <p className="text-slate-800 font-medium text-sm leading-relaxed line-clamp-5 min-h-[100px]">
+                        “{h.narracion}”
+                      </p>
+                    </div>
+
+                    <div className="relative h-[240px] w-full mt-auto overflow-hidden rounded-t-[2rem]">
+                      {/* Wrapper: maneja el zoom al hacer hover sobre la card (group-hover) */}
+                      <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-105">
+                        {h.foto_url ? (
+                          <img
+                            src={h.foto_url}
+                            className="w-full h-full"
+                            draggable={false}
+                            alt=""
+                            style={{
+                              objectFit: 'cover',
+                              objectPosition: h.foto_position ?? '50% 50%',
+                              transform: `scale(${h.foto_scale ?? 1.0})`,
+                              transformOrigin: h.foto_position ?? '50% 50%',
+                            }}
+                            onError={(e) => {
+                              const target = e.currentTarget;
+                              target.style.display = 'none';
+                              const placeholder = target.nextElementSibling as HTMLElement;
+                              if (placeholder) placeholder.style.display = 'flex';
+                            }}
+                          />
+                        ) : null}
+                        {/* Placeholder: visible si no hay foto o si la imagen falla */}
+                        <div
+                          className="absolute inset-0 items-center justify-center bg-black/10"
+                          style={{ display: h.foto_url ? 'none' : 'flex' }}
+                        >
+                          <span className="material-icons-round text-white/60 text-6xl">person</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div className="bg-white rounded-3xl p-8 relative hover:shadow-xl transition-all duration-300 group border border-slate-100 shadow-sm">
-              <span className="text-6xl text-ensil-gold/20 font-serif absolute top-6 left-6">"</span>
-              <div className="relative z-10 flex flex-col h-full">
-                <p className="text-slate-600 italic mb-8 pt-4 leading-relaxed font-light">
-                  Como profesional, el tiempo es oro. Gracias a este programa, me mantengo actualizado en mi campo sin sacrificar horas de mi día.
-                </p>
-                <div className="mt-auto flex items-center gap-4 border-t border-slate-100 pt-6">
-                  <img alt="Carlos Rodriguez" className="w-12 h-12 rounded-full object-cover ring-2 ring-ensil-gold/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjdO_2g_DzSGg34Yxw3B46sUtVJ3hR6zn8kNrgIW95wQnc-sMsYJM5-7VYMnpMFjr3WvmOwEQlH3lqZISPj0AqNbPO1r6izjvRiMP2CTiZn4LvgUdkZXlGoPRyunVnpy7yaLqcHFwFE5NFBcKJ-zQIzGrxvSqVTpLckZgY1R6lnQVIQsI4nfcaKbx2V2Hi6EAXaSl0la8EJ4mfNij0hFOvF4c6ONgVHhL3tzMY9y4W4w4rVBEtOaDUke8wQKZRLqZWgAuyFFkbu7U" />
-                  <div>
-                    <p className="font-bold text-slate-900 text-sm">Carlos Rodriguez</p>
-                    <p className="text-xs text-slate-500">Ingeniero de Software</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="bg-white rounded-3xl p-8 relative hover:shadow-xl transition-all duration-300 group border border-slate-100 shadow-sm">
-              <span className="text-6xl text-ensil-gold/20 font-serif absolute top-6 left-6">"</span>
-              <div className="relative z-10 flex flex-col h-full">
-                <p className="text-slate-600 italic mb-8 pt-4 leading-relaxed font-light">
-                  Inscribí a mi hijo y su rendimiento escolar mejoró notablemente. Ahora disfruta de la lectura y tiene más confianza en sí mismo.
-                </p>
-                <div className="mt-auto flex items-center gap-4 border-t border-slate-100 pt-6">
-                  <img alt="Ana Torres" className="w-12 h-12 rounded-full object-cover ring-2 ring-ensil-gold/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFKfGH8fTAlAON297D-JFcwqhxwykctGgKUhmClCZ-dTPKfyThjym2Eu54MoWBf2YPCjMpyWJu_mS6M_gLD68FUPJV2STxtql6QbU-_OHDChsVnuIYdFfVk1L-z7SWQuijKBj3cH7jeJcXcJoNB51bSddAbwFBRBLKXgV8uxLlBh9nU0KWGfekwd0p_efgCQEd9GSP0ZZ1NIbvCyYUOOoJ964UFKtUVSY8h2wL5Kj8JP-bDUgA4Mr0F8ERvxzwt7kUF_et2wU969g" />
-                  <div>
-                    <p className="font-bold text-slate-900 text-sm">Ana Torres</p>
-                    <p className="text-xs text-slate-500">Madre de Familia</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+                ))
+              ) : (
+                <p className="text-slate-400 text-center py-8 px-12">No hay historias publicadas aún.</p>
+              )}
+            </DraggableMarquee>
           </div>
         </div>
       </section >
@@ -956,38 +1315,60 @@ const ContactContent: React.FC = () => {
       {/* FAQ Section */}
       < section className="py-20 md:py-28" id="faq" >
         <div className="max-w-4xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center justify-between mb-12">
-            <h2 className="font-fraunces text-4xl text-slate-900 font-bold">
+          {/* Header Section */}
+          <div className="text-center mb-12 max-w-2xl mx-auto">
+            <h2 className="font-fraunces text-4xl md:text-5xl font-bold text-slate-900 mb-4 tracking-tight">
               Preguntas <span className="text-ensil-gold italic">Frecuentes</span>
             </h2>
-            <p className="text-slate-600 text-sm mt-2 md:mt-0">Respuestas a tus dudas más comunes</p>
+            <p className="text-slate-500 text-lg">
+              Respuestas a tus dudas más comunes para comenzar tu entrenamiento.
+            </p>
           </div>
-          <div className="space-y-4">
-            {[
-              { id: '1', q: '¿Para qué edades es el programa?', a: 'Nuestro programa está diseñado para niños desde los 9 años, adolescentes, universitarios y profesionales de todas las edades que deseen potenciar sus habilidades. Adaptamos la metodología según el grupo etario.' },
-              { id: '2', q: '¿Cuánto tiempo dura el programa?', a: 'La duración estándar del programa es de 6 meses, con clases semanales. Ofrecemos horarios flexibles para adaptarnos a tu rutina y asegurar que puedas completar el entrenamiento satisfactoriamente.' },
-              { id: '3', q: '¿Los resultados están garantizados?', a: 'Sí. Confiamos tanto en nuestro método que garantizamos por escrito que multiplicarás tu velocidad de lectura por 10 y mejorarás tu comprensión, o te devolvemos tu inversión. Tu éxito es nuestro compromiso.' }
-            ].map((item) => (
-              <div key={item.id} className="group border-b border-slate-200 pb-4">
-                <button
-                  onClick={() => toggleFaq(item.id)}
-                  className="flex justify-between items-center w-full text-left py-4 focus:outline-none"
-                >
-                  <span className="font-fraunces text-xl text-slate-800 font-medium group-hover:text-ensil-gold transition-colors">
-                    /0{item.id} {item.q}
-                  </span>
-                  <div className={`rounded-full p-2 transition-all ${openFaq === item.id ? 'bg-ensil-gold text-white' : 'bg-slate-100 text-slate-600 group-hover:bg-ensil-gold group-hover:text-white'}`}>
-                    <span className={`material-icons-round text-sm transition-transform duration-300 ${openFaq === item.id ? 'rotate-180' : ''}`}>arrow_downward</span>
+
+          {/* Loading State */}
+          {isLoadingFaqs ? (
+            <div className="flex justify-center items-center py-12">
+              <div className="w-10 h-10 border-4 border-ensil-green/30 border-t-ensil-green rounded-full animate-spin"></div>
+            </div>
+          ) : (
+            /* Single Centered Column Accordion */
+            <div className="max-w-3xl mx-auto flex flex-col gap-4">
+              {faqs.map((item) => {
+                const isOpen = openFaqIds.has(item.idFAQ);
+                return (
+                  <div
+                    key={item.idFAQ}
+                    onClick={() => toggleFaq(item.idFAQ)}
+                    className="bg-gray-50 rounded-2xl p-6 cursor-pointer transition-all duration-300 hover:bg-gray-100 flex flex-col items-center border border-slate-100 shadow-sm"
+                  >
+                    <div className="flex items-center justify-center gap-4 w-full relative pr-8 pl-8">
+                      <h3 className="text-gray-900 font-bold text-base md:text-lg leading-snug text-center flex-1">
+                        {item.PREGUNTA}
+                      </h3>
+                      <button className="text-gray-500 shrink-0 absolute right-0 focus:outline-none">
+                        {isOpen ? (
+                          <Minus size={20} className="text-ensil-green border border-ensil-green rounded-full p-0.5" />
+                        ) : (
+                          <Plus size={20} className="text-gray-500 hover:text-gray-800" />
+                        )}
+                      </button>
+                    </div>
+                    <div
+                      className={`grid transition-all duration-300 ease-in-out w-full ${
+                        isOpen ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0'
+                      }`}
+                    >
+                      <div className="overflow-hidden">
+                        <p className="text-gray-600 text-sm md:text-base leading-relaxed mt-2 text-center">
+                          {item.RESPUESTA}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </button>
-                <div
-                  className={`text-slate-600 pl-0 md:pl-8 leading-relaxed overflow-hidden transition-all duration-300 ${openFaq === item.id ? 'max-h-40 opacity-100 py-2' : 'max-h-0 opacity-0'}`}
-                >
-                  {item.a}
-                </div>
-              </div>
-            ))}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section >
 
