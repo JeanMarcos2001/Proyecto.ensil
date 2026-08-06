@@ -50,7 +50,7 @@ const LevelsSection: React.FC = () => {
             Un programa diseñado<br className="hidden sm:block" /> a tu medida
           </h2>
           <p className="text-slate-600 text-base md:text-lg leading-relaxed font-light">
-            Tres programas especializados según la edad and el desarrollo cognitivo.
+            Tres programas especializados según la edad y el desarrollo cognitivo.
           </p>
           <p className="text-slate-600 text-base md:text-lg leading-relaxed font-light">
             Desde los 4 años hasta la etapa profesional.
@@ -82,16 +82,14 @@ const LevelsSection: React.FC = () => {
               {/* Tarjeta — solo imagen */}
               <Link to="/programas" className="block group relative">
                 {/* Tarjeta de fondo (Escala y traslación menores para efecto de profundidad) */}
-                <div className={`absolute inset-0 rounded-[27px] border shadow-inner transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-2 group-hover:scale-[1.01] ${
-                  i === 0 ? 'bg-red-50/80 border-red-200/60' :
-                  i === 1 ? 'bg-blue-50/80 border-blue-200/60' :
-                  'bg-orange-50/80 border-orange-200/60'
-                }`} />
+                <div className={`absolute inset-0 rounded-[27px] border shadow-inner transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-2 group-hover:scale-[1.01] ${i === 0 ? 'bg-red-50/80 border-red-200/60' :
+                    i === 1 ? 'bg-blue-50/80 border-blue-200/60' :
+                      'bg-orange-50/80 border-orange-200/60'
+                  }`} />
 
                 {/* Tarjeta del frente (Se eleva y escala más, con rotación para separar las capas) */}
-                <div className={`relative rounded-[27px] overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-6 group-hover:scale-[1.03] group-hover:shadow-2xl ${
-                  i === 1 ? 'group-hover:rotate-[4deg]' : 'group-hover:-rotate-[4deg]'
-                }`}>
+                <div className={`relative rounded-[27px] overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-6 group-hover:scale-[1.03] group-hover:shadow-2xl ${i === 1 ? 'group-hover:rotate-[4deg]' : 'group-hover:-rotate-[4deg]'
+                  }`}>
                   <img
                     src={level.image}
                     alt={`Programa ${level.title} ENSIL`}

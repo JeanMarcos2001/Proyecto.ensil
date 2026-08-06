@@ -1,9 +1,12 @@
 /**
- * Easing function: easeOutCubic
- * This provides a smooth deceleration towards the end of the scroll.
+ * Easing function: easeInOutCubic
+ * Smooth acceleration at the start and deceleration at the end
+ * for a uniform, polished scroll transition.
  */
-function easeOutCubic(t: number): number {
-    return 1 - Math.pow(1 - t, 3);
+function easeInOutCubic(t: number): number {
+    return t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
 /**
@@ -27,7 +30,7 @@ export function smoothScrollTo(targetId: string, duration: number = 1000) {
         const progress = Math.min(timeElapsed / duration, 1);
 
         // Apply easing function
-        const easeProgress = easeOutCubic(progress);
+        const easeProgress = easeInOutCubic(progress);
 
         window.scrollTo(0, startPosition + distance * easeProgress);
 

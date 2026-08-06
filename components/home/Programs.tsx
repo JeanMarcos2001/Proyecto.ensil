@@ -13,25 +13,25 @@ const Programs: React.FC = () => {
       icon: Zap,
       title: "Lectura Integral",
       description: "Elimina la subvocalización y expande tu campo visual, logrando que no solo entiendas, sino que disfrutes cada lectura.",
-      image: "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&q=80&w=800"
+      image: "/img/sec1.4/Lectura Integral.webp"
     },
     {
       icon: Brain,
       title: "Comprensión Total",
       description: "Entiende conceptos complejos al primer vistazo. Profundidad analítica sin sacrificar velocidad.",
-      image: "https://images.unsplash.com/photo-1555445054-d166d1295a55?auto=format&fit=crop&q=80&w=800"
+      image: "/img/sec1.4/Comprensión Total.webp"
     },
     {
       icon: InfinityIcon,
       title: "Memoria Eterna",
       description: "Desarrolla una retención profunda que te permite interiorizar información clave a largo plazo sin trucos mecánicos.",
-      image: "https://images.unsplash.com/photo-1564325724739-bae0bd08762c?auto=format&fit=crop&q=80&w=800"
+      image: "/img/sec1.4/Memoria Eterna.webp"
     },
     {
       icon: Focus,
       title: "Foco Absoluto",
       description: "Entrena tu mente para bloquear distracciones y entrar en estados de flujo profundo instantáneamente.",
-      image: "https://images.unsplash.com/photo-1517960413843-0aee8e2b3285?auto=format&fit=crop&q=80&w=800"
+      image: "/img/sec1.4/Foco Absoluto.webp"
     }
   ];
 
@@ -82,7 +82,7 @@ const Programs: React.FC = () => {
                     }
                   `}
                 >
-                  <div className="h-48 overflow-hidden relative w-full mb-6 rounded-t-2xl transform-gpu">
+                  <div className="h-[432px] overflow-hidden relative w-full mb-6 rounded-t-2xl transform-gpu">
                     <div className={`absolute inset-0 z-10 transition-colors duration-300 ${activeIndex === index ? 'bg-black/20' : 'bg-black/0'}`}></div>
                     <img
                       src={card.image}
@@ -101,7 +101,7 @@ const Programs: React.FC = () => {
                   </div>
 
                   <div className="px-6 pb-8 flex-1 flex flex-col">
-                    <h3 className={`font-display text-2xl font-bold mb-3 ${activeIndex === index ? 'text-slate-900' : 'text-white'}`}>
+                    <h3 className={`font-display text-3xl font-semibold mb-3 ${activeIndex === index ? 'text-slate-900' : 'text-white'}`}>
                       {card.title}
                     </h3>
                     <p className={`text-sm leading-relaxed ${activeIndex === index ? 'text-slate-600' : 'text-white/80'}`}>

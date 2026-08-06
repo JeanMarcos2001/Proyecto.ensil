@@ -702,7 +702,7 @@ const ContactContent: React.FC = () => {
 
                 {/* Subtitle */}
                 <p className="text-slate-700 text-xs lg:text-[1.2rem] font-light leading-relaxed">
-                  Domina la lectura veloz y la comprensión total en tiempo récord.
+                  Domina la lectura y la comprensión total en tiempo récord.
                 </p>
               </div>
 
@@ -1354,9 +1354,8 @@ const ContactContent: React.FC = () => {
                       </button>
                     </div>
                     <div
-                      className={`grid transition-all duration-300 ease-in-out w-full ${
-                        isOpen ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0'
-                      }`}
+                      className={`grid transition-all duration-300 ease-in-out w-full ${isOpen ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0'
+                        }`}
                     >
                       <div className="overflow-hidden">
                         <p className="text-gray-600 text-sm md:text-base leading-relaxed mt-2 text-center">
