@@ -127,7 +127,7 @@ const EsParaTiContent: React.FC = () => {
                             </Link>
                         </div>
                         <div className="md:w-2/5 relative h-64 md:h-auto min-h-[300px]">
-                            <img alt="Estudiante recibiendo orientación personalizada" className="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaoF22GeT_z-TICnxOdyeg-oNKNEDL4PpIInulytdK4yS3sc7fOPkX2LsKZtU1m-ShbSocyREZmFstiMnBWd5V0RUGoMXTqNoiT9ggIELlgvpM474XOFUT9E_rz13XXcrbgHf6rP8yjZao2t-1iLFTksOH2tIXOM09oeBGpi2Iudj-ebpQzfrr1x1BkuXqm3PIaWGd_wON7XOjDSp4SXgHt7P4qcQhsdEG8ENSCOU7N6xgdKcERMwtIMnuR_-eUl0MXqdIE2xZ72w" />
+                            <img alt="Estudiante recibiendo orientación personalizada" className="absolute inset-0 w-full h-full object-cover" src="/img/sec5.2/diagnostico01.png" />
                             <div className="absolute inset-0 bg-ensil-green/20 mix-blend-multiply"></div>
                         </div>
                     </div>

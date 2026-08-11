@@ -1,10 +1,12 @@
 import React from 'react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
 import { smoothScrollTo } from '../../utils/scroll';
 
 const PromiseSection: React.FC = () => {
   const { ref: sectionRef, isVisible } = useScrollReveal(0.2);
+  const navigate = useNavigate();
   return (
     <section id="promesa" className="min-h-screen pt-8 pb-16 md:pt-12 md:pb-24 px-4 bg-white flex flex-col justify-center relative overflow-hidden">
       <div
@@ -26,10 +28,16 @@ const PromiseSection: React.FC = () => {
             Al finalizar el programa, serás capaz de procesar información académica, técnica y literaria con una fluidez que te otorgará una ventaja competitiva de por vida.
           </p>
           <div className="flex items-center gap-4">
-            <button className="bg-gray-900 text-white px-8 py-4 rounded-full font-bold hover:bg-gray-800 transition-colors shadow-lg">
+            <button
+              onClick={() => navigate('/contacto')}
+              className="bg-gray-900 text-white px-8 py-4 rounded-full font-bold hover:bg-gray-800 transition-colors shadow-lg"
+            >
               Agendar Diagnóstico
             </button>
-            <button className="w-14 h-14 border border-gray-300 rounded-full flex items-center justify-center hover:border-primary hover:text-primary transition-colors text-gray-400">
+            <button
+              onClick={() => navigate('/contacto')}
+              className="w-14 h-14 border border-gray-300 rounded-full flex items-center justify-center hover:border-primary hover:text-primary transition-colors text-gray-400"
+            >
               <ArrowRight size={24} />
             </button>
           </div>

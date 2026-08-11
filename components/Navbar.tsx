@@ -140,10 +140,24 @@ const Navbar: React.FC = () => {
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       }
                     }}
-                    className={`text-[15px] font-medium transition-colors duration-300 hover:text-ensil-green-800 ${isActive(item.href)
+                    className={`text-[15px] transition-all duration-300 hover:text-ensil-green-800 ${isActive(item.href)
                       ? 'text-ensil-green-900 font-bold'
-                      : 'text-slate-800'
+                      : 'text-slate-800 font-medium'
                       }`}
+                    style={{
+                      fontWeight: isActive(item.href) ? 700 : undefined,
+                      transition: 'color 0.3s, font-weight 0.3s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive(item.href)) {
+                        (e.currentTarget as HTMLElement).style.fontWeight = '700';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive(item.href)) {
+                        (e.currentTarget as HTMLElement).style.fontWeight = '';
+                      }
+                    }}
                   >
                     {item.label}
                   </Link>
