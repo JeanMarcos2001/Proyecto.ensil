@@ -14,6 +14,7 @@ const ContactPage: React.FC = () => {
             src="/img/LOGO_ENSIL.webp"
             alt="ENSIL PERÚ"
             className="h-12 md:h-16 w-auto object-contain"
+            loading="lazy"
           />
         </Link>
       </header>

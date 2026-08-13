@@ -23,16 +23,16 @@ const useIntersectionObserver = (options: IntersectionObserverInit) => {
 const levels = [
   {
     title: 'Pre-Kids',
-    image: '/img/Home_Section03/Web_Programas_01_Aquiles copia 3.png',
+    image: '/img/Home_Section03/Web_Programas_01_Aquiles copia 3.webp',
   },
   {
     title: 'Kids',
-    image: '/img/Home_Section03/Web_Programas_01_Aquiles copia 4.png',
+    image: '/img/Home_Section03/Web_Programas_01_Aquiles copia 4.webp',
     isFeatured: true,
   },
   {
     title: 'Profesional',
-    image: '/img/Home_Section03/Web_Programas_01_Aquiles copia 5.png',
+    image: '/img/Home_Section03/Web_Programas_01_Aquiles copia 5.webp',
   },
 ];
 
@@ -94,6 +94,7 @@ const LevelsSection: React.FC = () => {
                     src={level.image}
                     alt={`Programa ${level.title} ENSIL`}
                     className="w-full h-auto block transition-transform duration-700 group-hover:scale-[1.02]"
+                    loading="lazy"
                   />
                 </div>
               </Link>

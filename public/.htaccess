@@ -1,0 +1,24 @@
+# Ensure correct MIME types for JS, CSS, WebP, and fonts
+<IfModule mod_mime.c>
+  AddType application/javascript .js .mjs
+  AddType text/css .css
+  AddType image/webp .webp
+  AddType font/ttf .ttf
+</IfModule>
+
+# Force UTF-8 encoding
+AddDefaultCharset UTF-8
+
+# SPA routing fallback & static asset handling
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  
+  # If requested file or directory exists, serve it directly
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Fallback to index.html for SPA routes
+  RewriteRule ^ index.html [L]
+</IfModule>

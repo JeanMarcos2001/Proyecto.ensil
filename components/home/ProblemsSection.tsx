@@ -54,7 +54,7 @@ const ProblemsSection = () => {
           {/* Column 1 - Image Top */}
           <div className={`flex flex-col gap-5 ${animClasses}`} style={{ transitionDelay: '0ms' }}>
             <div className={imageContainerClasses}>
-              <img src="/img/sec1.2/img1.png" alt="Inseguridad al leer" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <img src="/img/sec1.2/img1.webp" alt="Inseguridad al leer" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
             </div>
             <div className={textCardClasses}>
               <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
@@ -85,14 +85,14 @@ const ProblemsSection = () => {
               </p>
             </div>
             <div className={imageContainerClasses}>
-              <img src="/img/sec1.2/img5.png" alt="Lectura lenta" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <img src="/img/sec1.2/img5.webp" alt="Lectura lenta" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
             </div>
           </div>
 
           {/* Column 3 - Image Top */}
           <div className={`flex flex-col gap-5 ${animClasses}`} style={{ transitionDelay: '300ms' }}>
             <div className={imageContainerClasses}>
-              <img src="/img/sec1.2/img4.png" alt="Baja comprensión" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <img src="/img/sec1.2/img4.webp" alt="Baja comprensión" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
             </div>
             <div className={textCardClasses}>
               <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
@@ -123,14 +123,14 @@ const ProblemsSection = () => {
               </p>
             </div>
             <div className={imageContainerClasses}>
-              <img src="/img/sec1.2/img3.png" alt="Baja retención" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <img src="/img/sec1.2/img3.webp" alt="Baja retención" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
             </div>
           </div>
 
           {/* Column 5 - Image Top + Call To Action */}
           <div className={`flex flex-col gap-5 ${animClasses}`} style={{ transitionDelay: '600ms' }}>
             <div className={imageContainerClasses} style={{ flex: '1 1 auto' }}>
-              <img src="/img/sec1.2/img2.png" alt="Solución integral" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <img src="/img/sec1.2/img2.webp" alt="Solución integral" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
             </div>
             {/* CTA Card gets specific sizing below the overall 260px block height size so the button fits compactly within the column */}
             <div className="bg-gradient-to-br from-[#d4f870] to-[#bde24c] border border-[#c4eb4e] rounded-3xl p-4 shadow-sm flex flex-col justify-start relative overflow-hidden group hover:-translate-y-3 hover:shadow-xl hover:shadow-[#c4eb4e]/30 transition-all duration-300 min-h-[188px] h-auto shrink-0">
@@ -169,7 +169,7 @@ const ProblemsSection = () => {
 
           {/* Card 1 */}
           <div className={`relative h-[300px] md:h-[350px] rounded-3xl overflow-hidden shadow-md flex flex-col justify-end p-6 group ${animClasses}`}>
-            <img src="/img/sec1.2/img1.png" alt="Inseguridad al leer" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <img src="/img/sec1.2/img1.webp" alt="Inseguridad al leer" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-transparent"></div>
 
             <div className="relative z-10 flex flex-col justify-end">
@@ -185,7 +185,7 @@ const ProblemsSection = () => {
 
           {/* Card 2 */}
           <div className={`relative h-[300px] md:h-[350px] rounded-3xl overflow-hidden shadow-md flex flex-col justify-end p-6 group ${animClasses}`} style={{ transitionDelay: '100ms' }}>
-            <img src="/img/sec1.2/img5.png" alt="Lectura lenta" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <img src="/img/sec1.2/img5.webp" alt="Lectura lenta" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-transparent"></div>
 
             <div className="relative z-10 flex flex-col justify-end">
@@ -201,7 +201,7 @@ const ProblemsSection = () => {
 
           {/* Card 3 */}
           <div className={`relative h-[300px] md:h-[350px] rounded-3xl overflow-hidden shadow-md flex flex-col justify-end p-6 group ${animClasses}`} style={{ transitionDelay: '200ms' }}>
-            <img src="/img/sec1.2/img4.png" alt="Baja comprensión" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <img src="/img/sec1.2/img4.webp" alt="Baja comprensión" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-transparent"></div>
 
             <div className="relative z-10 flex flex-col justify-end">
@@ -217,7 +217,7 @@ const ProblemsSection = () => {
 
           {/* Card 4 */}
           <div className={`relative h-[300px] md:h-[350px] rounded-3xl overflow-hidden shadow-md flex flex-col justify-end p-6 group ${animClasses}`} style={{ transitionDelay: '300ms' }}>
-            <img src="/img/sec1.2/img3.png" alt="Baja retención" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <img src="/img/sec1.2/img3.webp" alt="Baja retención" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-transparent"></div>
 
             <div className="relative z-10 flex flex-col justify-end">
@@ -233,7 +233,7 @@ const ProblemsSection = () => {
 
           {/* Card 5 - Span full width on md */}
           <div className={`relative h-[380px] md:h-[350px] rounded-3xl overflow-hidden shadow-md flex flex-col justify-end p-6 group ${animClasses}`} style={{ transitionDelay: '400ms' }}>
-            <img src="/img/sec1.2/img2.png" alt="Solución integral" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <img src="/img/sec1.2/img2.webp" alt="Solución integral" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#c4eb4e]/95 via-[#c4eb4e]/80 to-[#d4f870]/30 mix-blend-multiply"></div>
             <div className="absolute inset-0 bg-gradient-to-t from-[#c4eb4e] via-[#d4f870]/80 to-transparent"></div>
 

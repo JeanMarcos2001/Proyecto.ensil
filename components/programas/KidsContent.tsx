@@ -16,6 +16,7 @@ const KidsContent: React.FC = () => {
                     alt="Niños Leyendo"
                     className="block w-full h-auto object-cover object-center transition-transform duration-700 group-hover:scale-105"
                     src={MAIN_IMAGE_URL}
+                    loading="lazy"
                 />
                 {/* Gradient Overlay Uniform */}
                 <div className="absolute inset-0 bg-gradient-to-t from-red-900/90 via-red-800/20 to-transparent"></div>

@@ -43,7 +43,7 @@ const Programs: React.FC = () => {
       >
         {/* Watermark */}
         <div className="absolute inset-0 opacity-[0.08] pointer-events-none rounded-[36px] overflow-hidden">
-          <img src="/img/niveles/sonrisas.png" alt="" className="w-full h-full object-cover" />
+          <img src="/img/niveles/sonrisas.webp" alt="" className="w-full h-full object-cover" loading="lazy" />
         </div>
 
         <div className="relative z-10 w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -88,6 +88,7 @@ const Programs: React.FC = () => {
                       src={card.image}
                       alt={card.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      loading="lazy"
                     />
                     <div className={`
                     absolute bottom-4 left-4 z-20 w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 backdrop-blur-md

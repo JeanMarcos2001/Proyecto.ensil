@@ -19,7 +19,7 @@ const Footer: React.FC<FooterProps> = ({ variant = 'light', showCta = true }) =>
 
   // LOGO URLs
   const logoColor = "/img/LOGO_ENSIL.webp";
-  const logoWhite = "/img/LOGO_ENSIL-19.png";
+  const logoWhite = "/img/LOGO_ENSIL-19.webp";
 
   // Styles based on variant
   const bgClass = isDark
@@ -53,6 +53,7 @@ const Footer: React.FC<FooterProps> = ({ variant = 'light', showCta = true }) =>
                 src={isDark ? logoWhite : logoColor}
                 alt="ENSIL PERÚ"
                 className="h-12 w-auto object-contain"
+                loading="lazy"
               />
             </div>
             <div className="text-left md:text-right">

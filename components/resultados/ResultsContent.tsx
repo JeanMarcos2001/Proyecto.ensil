@@ -171,6 +171,7 @@ const InteractiveYouTubeItem: React.FC<{ url: string; index: number }> = ({ url,
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
+        loading="lazy"
       ></iframe>
 
       {/* Capa visual para indicar reproducir cuando no está activo */}
@@ -419,6 +420,7 @@ const ResultsContent: React.FC = () => {
                       src={url}
                       alt={`Evidencia Demostración ${i}`}
                       className="h-full w-auto object-cover max-w-none pointer-events-none"
+                      loading="lazy"
                     />
                   </div>
                 ))
@@ -447,6 +449,7 @@ const ResultsContent: React.FC = () => {
                       src={item.url}
                       alt={`Evidencia Carrusel 02 ${i}`}
                       className="h-full w-auto max-w-none pointer-events-none"
+                      loading="lazy"
                       style={{
                         objectFit: 'cover',
                         objectPosition: item.position,
@@ -534,6 +537,7 @@ const ResultsContent: React.FC = () => {
                             className="w-full h-full"
                             draggable={false}
                             alt=""
+                            loading="lazy"
                             style={{
                               objectFit: 'cover',
                               objectPosition: h.foto_position ?? '50% 50%',

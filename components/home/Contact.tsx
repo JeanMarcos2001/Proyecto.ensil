@@ -30,11 +30,13 @@ const Contact: React.FC = () => {
               alt="Joven con laptop"
               className="w-1/2 h-full object-cover rounded-3xl transform translate-y-6 shadow-xl"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6w3TSMgwDjLGIAlOueJIiABwddFDyCov-QHEPrOO_T2bEpfx2juIWkOFlwL9rAFWFso2tYwO6VPNfXFMUCQW-A2iHxgOdrCO4n2ap-HuhMy1D9frnpeASEJerQ8jgiRx5jG0wM7sJ4h_q-ub27fMN3MQ1XQJQinFnrtjo_-56HEY4malffz01KQLvVRDcOf11r6PcjXpzMsZVR48WAZI-XRYsPxXY5gr-7MG4yRQZHuUSXnW7k-zdIxiYzGBOFH70KLEdSFM_nss"
+              loading="lazy"
             />
             <img
               alt="Mujer con libro"
               className="w-1/2 h-full object-cover rounded-3xl transform -translate-y-6 shadow-xl"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGC9hkta6rWLs3z1mB1YP_XVdZF0sj_wB6kO8Re3pgTwrOknwfjQncQuubiBfymc2OqHuw4KTkfQUuyyhkKwKR0_h_OgjGtBhZjY1bt-yo7wyBm77cTjaymcymETKxNRFgPf5lID__0hU0xVmgFuou5Xhq7YpJf0N4q7R1TAJKholmO9e8QON_Fep0QahDnt6Md9MndyHF7pf-4YJaak5OVtUXHkR2mE-VKqRK-FbF0HzVulkyBOttH3VVEmRdfQUbrBH60WjYgQ0"
+              loading="lazy"
             />
           </div>
         </div>

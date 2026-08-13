@@ -16,6 +16,7 @@ const PreKidsContent: React.FC = () => {
                     alt="Pre Kids Jugando"
                     className="block w-full h-auto object-cover object-center transition-transform duration-700 group-hover:scale-105"
                     src={MAIN_IMAGE_URL}
+                    loading="lazy"
                 />
                 {/* Gradient Overlay Uniform */}
                 <div className="absolute inset-0 bg-gradient-to-t from-orange-900/90 via-orange-800/20 to-transparent"></div>

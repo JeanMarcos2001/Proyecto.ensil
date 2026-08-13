@@ -33,7 +33,7 @@ const EsParaTiContent: React.FC = () => {
                     {/* YES Column */}
                     <div className="bg-white rounded-3xl shadow-xl border border-slate-100 relative overflow-hidden group hover:border-ensil-green/50 transition-all duration-300 flex flex-col">
                         <div className="h-80 md:h-[400px] relative w-full overflow-hidden">
-                            <img alt="Estudiante enfocada y exitosa" className="w-full h-full object-cover object-[center_90%] group-hover:scale-105 transition-transform duration-700" src="/img/esparati/Alumno-_1_.webp" />
+                            <img alt="Estudiante enfocada y exitosa" className="w-full h-full object-cover object-[center_90%] group-hover:scale-105 transition-transform duration-700" src="/img/esparati/Alumno-_1_.webp" loading="lazy" />
                             <div className="absolute bottom-0 left-0 w-full h-[30%] bg-gradient-to-t from-white via-white/60 to-transparent z-10"></div>
                         </div>
                         <div className="p-8 md:p-10 pt-2 flex-1 relative z-20">
@@ -71,7 +71,7 @@ const EsParaTiContent: React.FC = () => {
                     {/* NO Column */}
                     <div className="bg-white rounded-3xl shadow-xl border border-slate-100 relative overflow-hidden group hover:border-red-500/50 transition-all duration-300 flex flex-col">
                         <div className="h-80 md:h-[400px] relative w-full overflow-hidden">
-                            <img alt="Persona enfrentando un reto o dificultad" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale-[20%]" src="/img/esparati/Alumno-_2_.webp" />
+                            <img alt="Persona enfrentando un reto o dificultad" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale-[20%]" src="/img/esparati/Alumno-_2_.webp" loading="lazy" />
                             <div className="absolute bottom-0 left-0 w-full h-[30%] bg-gradient-to-t from-white via-white/60 to-transparent z-10"></div>
                         </div>
                         <div className="p-8 md:p-10 pt-2 flex-1 relative z-20">
@@ -127,7 +127,7 @@ const EsParaTiContent: React.FC = () => {
                             </Link>
                         </div>
                         <div className="md:w-2/5 relative h-64 md:h-auto min-h-[300px]">
-                            <img alt="Estudiante recibiendo orientación personalizada" className="absolute inset-0 w-full h-full object-cover" src="/img/sec5.2/diagnostico01.png" />
+                            <img alt="Estudiante recibiendo orientación personalizada" className="absolute inset-0 w-full h-full object-cover" src="/img/sec5.2/diagnostico01.webp" loading="lazy" />
                             <div className="absolute inset-0 bg-ensil-green/20 mix-blend-multiply"></div>
                         </div>
                     </div>

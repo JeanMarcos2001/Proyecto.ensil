@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
-import { User, Baby, ArrowRight, CheckCircle, ArrowLeft, MapPin, Loader2, Phone, Sparkles, ChevronLeft, ChevronRight, Clock, Calendar, AlertCircle, Plus, Minus, Trash2, RotateCcw, ChevronDown, Briefcase, Users } from 'lucide-react';
+import { User, Baby, ArrowRight, CheckCircle, ArrowLeft, MapPin, Loader2, Phone, Sparkles, ChevronLeft, ChevronRight, Clock, Calendar, AlertCircle, Plus, Minus, Trash2, ChevronDown, Briefcase, Users, Play, Pause, Volume2, Volume1, VolumeX } from 'lucide-react';
 import { supabase, supabaseUrl } from '../../lib/supabase';
 import { smoothScrollTo } from '../../utils/scroll';
 
@@ -196,9 +196,211 @@ const ContactContent: React.FC = () => {
   const [historias, setHistorias] = useState<Historia[]>([]);
   const [isLoadingHistorias, setIsLoadingHistorias] = useState(true);
 
-  // --- VIDEO STATE ---
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoEnded, setVideoEnded] = useState(false);
+  // --- YOUTUBE VIDEO PLAYER STATE & LOGIC ---
+  const videoContainerRef = useRef<HTMLDivElement>(null);
+  const ytPlayerElementRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<any>(null);
+
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [volume, setVolume] = useState(40);
+  const [isMuted, setIsMuted] = useState(false);
+  const [showControls, setShowControls] = useState(true);
+  const hideControlsTimerRef = useRef<any>(null);
+  const [iframeDimensions, setIframeDimensions] = useState({ width: '100%', height: '100%' });
+
+  // 1. Dynamic Cover Calculation: Prevents any black bars on any screen size/container shape
+  useEffect(() => {
+    const updateSize = () => {
+      if (!videoContainerRef.current) return;
+      const { clientWidth: w, clientHeight: h } = videoContainerRef.current;
+      if (!w || !h) return;
+
+      const containerAspect = w / h;
+      const targetAspect = 16 / 9;
+
+      let finalW: number, finalH: number;
+      if (containerAspect > targetAspect) {
+        // Container is wider than 16:9 -> match width + 6% buffer for cropping top/bottom UI
+        finalW = w * 1.06;
+        finalH = (w / targetAspect) * 1.06;
+      } else {
+        // Container is taller than 16:9 -> match height + 6% buffer for cropping left/right UI
+        finalH = h * 1.06;
+        finalW = (h * targetAspect) * 1.06;
+      }
+
+      setIframeDimensions({
+        width: `${Math.ceil(finalW)}px`,
+        height: `${Math.ceil(finalH)}px`
+      });
+    };
+
+    updateSize();
+    const observer = new ResizeObserver(updateSize);
+    if (videoContainerRef.current) observer.observe(videoContainerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  // 2. Initialize YouTube Player & Autoplay at 40% volume
+  useEffect(() => {
+    let isMounted = true;
+
+    const initYT = () => {
+      if (!ytPlayerElementRef.current || playerRef.current) return;
+
+      if (window.YT && window.YT.Player) {
+        playerRef.current = new window.YT.Player(ytPlayerElementRef.current, {
+          videoId: 'E2GhF3c-v4E',
+          playerVars: {
+            autoplay: 1,
+            controls: 0,        // Hides all YouTube default controls
+            modestbranding: 1,  // Hides YouTube logo
+            rel: 0,             // No related videos from other channels
+            showinfo: 0,        // Hides video title
+            iv_load_policy: 3,  // Hides video annotations
+            disablekb: 1,       // Disables keyboard shortcuts
+            fs: 0,              // Disables fullscreen button
+            playsinline: 1,     // Plays inline on mobile
+            mute: 1,            // Start muted for browser autoplay policy
+          },
+          events: {
+            onReady: (event: any) => {
+              if (!isMounted) return;
+              const p = event.target;
+              p.setVolume(40);
+              p.unMute();
+              p.playVideo();
+              setDuration(p.getDuration() || 0);
+
+              // Set 40% volume and unMute after video starts
+              setTimeout(() => {
+                if (!isMounted) return;
+                try {
+                  p.setVolume(40);
+                  p.unMute();
+                  setVolume(40);
+                  setIsMuted(false);
+                } catch (e) {
+                  console.log('Autoplay audio policy:', e);
+                }
+              }, 500);
+            },
+            onStateChange: (event: any) => {
+              if (!isMounted) return;
+              if (event.data === 1) { // PLAYING
+                setIsPlaying(true);
+              } else if (event.data === 2 || event.data === 0) { // PAUSED / ENDED
+                setIsPlaying(false);
+              }
+            }
+          }
+        });
+      }
+    };
+
+    if (!window.YT) {
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag?.parentNode?.insertBefore(tag, firstScriptTag);
+      window.onYouTubeIframeAPIReady = () => {
+        initYT();
+      };
+    } else {
+      initYT();
+    }
+
+    return () => {
+      isMounted = false;
+      if (playerRef.current && playerRef.current.destroy) {
+        try {
+          playerRef.current.destroy();
+        } catch (e) {}
+        playerRef.current = null;
+      }
+    };
+  }, []);
+
+  // 3. Time Tracker Interval
+  useEffect(() => {
+    let interval: any;
+    if (isPlaying) {
+      interval = setInterval(() => {
+        if (playerRef.current && playerRef.current.getCurrentTime) {
+          const t = playerRef.current.getCurrentTime() || 0;
+          setCurrentTime(t);
+          const d = playerRef.current.getDuration() || 0;
+          if (d && d !== duration) setDuration(d);
+        }
+      }, 250);
+    }
+    return () => clearInterval(interval);
+  }, [isPlaying, duration]);
+
+  // 4. Video Player Control Handlers
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const targetTime = parseFloat(e.target.value);
+    setCurrentTime(targetTime);
+    if (playerRef.current && playerRef.current.seekTo) {
+      playerRef.current.seekTo(targetTime, true);
+    }
+  };
+
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = parseInt(e.target.value, 10);
+    setVolume(val);
+    if (playerRef.current) {
+      playerRef.current.setVolume(val);
+      if (val === 0) {
+        playerRef.current.mute();
+        setIsMuted(true);
+      } else {
+        playerRef.current.unMute();
+        setIsMuted(false);
+      }
+    }
+  };
+
+  const togglePlay = () => {
+    if (!playerRef.current) return;
+    if (isPlaying) {
+      playerRef.current.pauseVideo();
+    } else {
+      playerRef.current.playVideo();
+    }
+  };
+
+  const toggleMute = () => {
+    if (!playerRef.current) return;
+    if (isMuted) {
+      playerRef.current.unMute();
+      playerRef.current.setVolume(volume || 40);
+      setIsMuted(false);
+    } else {
+      playerRef.current.mute();
+      setIsMuted(true);
+    }
+  };
+
+  const formatTime = (secs: number) => {
+    if (isNaN(secs) || secs < 0) return '0:00';
+    const m = Math.floor(secs / 60);
+    const s = Math.floor(secs % 60);
+    return `${m}:${s < 10 ? '0' : ''}${s}`;
+  };
+
+  const handleMouseMove = () => {
+    setShowControls(true);
+    if (hideControlsTimerRef.current) clearTimeout(hideControlsTimerRef.current);
+    hideControlsTimerRef.current = setTimeout(() => {
+      if (isPlaying) {
+        setShowControls(false);
+      }
+    }, 3000);
+  };
+
 
   // --- FORM STATE ---
   const [step, setStep] = useState<Step>(1);
@@ -345,18 +547,7 @@ const ContactContent: React.FC = () => {
     });
   };
 
-  // --- VIDEO HANDLERS ---
-  const handleVideoEnd = () => {
-    setVideoEnded(true);
-  };
 
-  const handleReplay = () => {
-    if (videoRef.current) {
-      setVideoEnded(false);
-      videoRef.current.currentTime = 0;
-      videoRef.current.play();
-    }
-  };
 
   // --- LOGIC HORARIOS ---
   const availableHours = useMemo(() => {
@@ -636,7 +827,19 @@ const ContactContent: React.FC = () => {
         }
       }
 
-      // Éxito: Avanzar
+      // Éxito: Enviar evento a Google Tag Manager
+      if (typeof window !== 'undefined' && window.dataLayer) {
+        window.dataLayer.push({
+          event: 'form_submit',
+          form_name: 'agendar_cita',
+          form_type: dependency === 'independent' ? 'independiente' : 'dependiente',
+          form_filial: formData.filial,
+          form_fecha: formData.fecha,
+          form_hora: formData.hora,
+        });
+      }
+
+      // Avanzar al paso de confirmación
       setStep(4);
 
     } catch (err: any) {
@@ -706,44 +909,113 @@ const ContactContent: React.FC = () => {
                 </p>
               </div>
 
-              {/* Video — centered with all 4 corners rounded */}
+              {/* Video Container — Dynamic cover calculation without black bars */}
               <div className="relative flex-1 bg-white p-4 md:p-3 pt-0 flex items-center justify-center overflow-hidden">
-                <div className="relative w-full h-full rounded-[1.7rem] overflow-hidden bg-black shadow-sm flex items-center justify-center">
-                  <video
-                    ref={(el) => {
-                      if (el) {
-                        videoRef.current = el;
-                        el.volume = 0.3;
-                      }
+                <div
+                  ref={videoContainerRef}
+                  onMouseMove={handleMouseMove}
+                  onMouseLeave={() => isPlaying && setShowControls(false)}
+                  className="relative w-full h-full rounded-[1.7rem] overflow-hidden bg-black shadow-sm flex items-center justify-center select-none group"
+                >
+                  {/* Oversized centered wrapper for YouTube iframe -> eliminates black bars 100% */}
+                  <div
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                    style={{
+                      width: iframeDimensions.width,
+                      height: iframeDimensions.height,
                     }}
-                    className={`w-full h-full object-cover transition-all duration-700 ${videoEnded ? 'blur-md scale-105 opacity-60' : ''}`}
-                    autoPlay
-                    muted={false}
-                    controls
-                    playsInline
-                    onEnded={handleVideoEnd}
                   >
-                    <source src="https://jtrugvxgztnxbhwjtiou.supabase.co/storage/v1/object/public/Videos/LandingVideo.webm" type="video/webm" />
-                  </video>
+                    <div ref={ytPlayerElementRef} className="w-full h-full" />
+                  </div>
 
-                  {/* Replay Overlay */}
-                  {videoEnded && (
-                    <div className="absolute inset-0 flex items-center justify-center z-20 animate-fade-in">
-                      <button
-                        onClick={handleReplay}
-                        className="group/btn flex flex-col items-center gap-3"
-                      >
-                        <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-md transition-all duration-300 group-hover/btn:scale-110 group-hover/btn:bg-white/20">
-                          <RotateCcw size={28} className="group-hover/btn:-rotate-90 transition-transform duration-500" />
+                  {/* Click Overlay to Play/Pause */}
+                  <div
+                    onClick={togglePlay}
+                    className="absolute inset-0 z-10 cursor-pointer flex items-center justify-center"
+                  >
+                    {(!isPlaying || showControls) && (
+                      <div className={`w-16 h-16 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-xl transition-all duration-300 transform ${isPlaying ? 'opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100' : 'opacity-100 scale-100 bg-ensil-gold/90 text-slate-900 border-ensil-gold'}`}>
+                        {isPlaying ? <Pause size={28} /> : <Play size={28} className="ml-1 fill-current" />}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* CUSTOM CONTROLS OVERLAY: ONLY Timeline & Volume (40% default) */}
+                  <div
+                    className={`absolute bottom-0 left-0 right-0 z-20 p-4 md:p-5 bg-gradient-to-t from-black/90 via-black/60 to-transparent transition-opacity duration-300 ${
+                      showControls || !isPlaying ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+                    }`}
+                  >
+                    <div className="flex flex-col gap-2.5 max-w-full">
+                      {/* Timeline Slider (Avanzar y retroceder en la línea de tiempo) */}
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs font-mono text-white/90 min-w-[35px] text-right">
+                          {formatTime(currentTime)}
+                        </span>
+                        <div className="relative flex-1 flex items-center">
+                          <input
+                            type="range"
+                            min={0}
+                            max={duration || 100}
+                            step={0.1}
+                            value={currentTime}
+                            onChange={handleSeek}
+                            className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-ensil-gold focus:outline-none transition-all duration-150"
+                            style={{
+                              background: `linear-gradient(to right, #C5A059 ${(currentTime / (duration || 1)) * 100}%, rgba(255, 255, 255, 0.25) ${(currentTime / (duration || 1)) * 100}%)`
+                            }}
+                          />
                         </div>
-                        <span className="text-white font-fraunces font-bold text-sm tracking-wide drop-shadow-md">Repetir Video</span>
-                      </button>
-                    </div>
-                  )}
+                        <span className="text-xs font-mono text-white/70 min-w-[35px]">
+                          {formatTime(duration)}
+                        </span>
+                      </div>
 
-                  {!videoEnded && (
-                    <div className="absolute inset-0 bg-black/10 pointer-events-none"></div>
-                  )}
+                      {/* Bottom Controls Bar: Play/Pause & Volume (Initial 40%) */}
+                      <div className="flex items-center justify-between pt-1">
+                        {/* Play/Pause Toggle */}
+                        <button
+                          onClick={togglePlay}
+                          className="text-white/90 hover:text-white transition-colors p-1 rounded-full hover:bg-white/10"
+                          title={isPlaying ? 'Pausar' : 'Reproducir'}
+                        >
+                          {isPlaying ? <Pause size={18} /> : <Play size={18} className="fill-current" />}
+                        </button>
+
+                        {/* Volume Control (Initial 40%) */}
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={toggleMute}
+                            className="text-white/90 hover:text-white transition-colors p-1 rounded-full hover:bg-white/10"
+                            title={isMuted ? 'Activar sonido' : 'Silenciar'}
+                          >
+                            {isMuted || volume === 0 ? (
+                              <VolumeX size={18} className="text-red-400" />
+                            ) : volume < 50 ? (
+                              <Volume1 size={18} />
+                            ) : (
+                              <Volume2 size={18} />
+                            )}
+                          </button>
+
+                          <input
+                            type="range"
+                            min={0}
+                            max={100}
+                            value={isMuted ? 0 : volume}
+                            onChange={handleVolumeChange}
+                            className="w-16 md:w-20 h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer accent-ensil-gold focus:outline-none transition-all"
+                            style={{
+                              background: `linear-gradient(to right, #C5A059 ${(isMuted ? 0 : volume)}%, rgba(255, 255, 255, 0.25) ${(isMuted ? 0 : volume)}%)`
+                            }}
+                          />
+                          <span className="text-[11px] font-mono text-white/70 w-7 text-right">
+                            {isMuted ? '0%' : `${volume}%`}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -1279,6 +1551,7 @@ const ContactContent: React.FC = () => {
                             className="w-full h-full"
                             draggable={false}
                             alt=""
+                            loading="lazy"
                             style={{
                               objectFit: 'cover',
                               objectPosition: h.foto_position ?? '50% 50%',

@@ -138,6 +138,7 @@ const SedesContent: React.FC = () => {
                         alt={`Sede ${sede.nombre}`}
                         className="w-full h-full object-cover"
                         src={sede.file_path || '/img/filiales/placeholder.jpg'}
+                        loading="lazy"
                         style={{
                           objectPosition: sede.foto_position || '50% 50%',
                           transform: `scale(${sede.foto_scale || 1})`,

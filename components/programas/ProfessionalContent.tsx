@@ -16,6 +16,7 @@ const ProfessionalContent: React.FC = () => {
                     alt="Profesional Lectura"
                     className="block w-full h-auto object-cover object-center transition-transform duration-700 group-hover:scale-105"
                     src={MAIN_IMAGE_URL}
+                    loading="lazy"
                 />
                 {/* Gradient Overlay Uniform */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-800/40 to-transparent"></div>
