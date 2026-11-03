@@ -165,12 +165,12 @@ const Navbar: React.FC = () => {
               </div>
             </div>
 
-            {/* CTA Button (Right) */}
-            <div className="hidden lg:block z-20">
+            {/* Right Side: CTA Button & Mobile Menu Toggle */}
+            <div className="flex items-center gap-2 sm:gap-4 z-20">
               {ctaButton && (
                 <Link
                   to={ctaButton.href}
-                  className="admission-button"
+                  className="admission-button scale-[0.82] sm:scale-90 lg:scale-100 origin-right"
                 >
                   <span className="admission-fold"></span>
 
@@ -206,15 +206,16 @@ const Navbar: React.FC = () => {
                   </span>
                 </Link>
               )}
-            </div>
 
-            {/* Mobile Menu Toggle */}
-            <button
-              className="lg:hidden text-gray-700 z-20 bg-white/80 backdrop-blur-md border border-gray-200 rounded-full p-2 shadow-sm"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
+              {/* Mobile Menu Toggle */}
+              <button
+                className="lg:hidden text-gray-700 bg-white/80 backdrop-blur-md border border-gray-200 rounded-full p-2 shadow-sm hover:bg-gray-100 transition-colors"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                aria-label="Abrir menú"
+              >
+                {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
           </div>
         </div>
       </header>

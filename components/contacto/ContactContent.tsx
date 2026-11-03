@@ -368,6 +368,15 @@ const ContactContent: React.FC = () => {
     if (isPlaying) {
       playerRef.current.pauseVideo();
     } else {
+      if (isMuted) {
+        try {
+          playerRef.current.unMute();
+          playerRef.current.setVolume(volume || 40);
+          setIsMuted(false);
+        } catch (e) {
+          console.log(e);
+        }
+      }
       playerRef.current.playVideo();
     }
   };
@@ -910,12 +919,13 @@ const ContactContent: React.FC = () => {
               </div>
 
               {/* Video Container — Dynamic cover calculation without black bars */}
-              <div className="relative flex-1 bg-white p-4 md:p-3 pt-0 flex items-center justify-center overflow-hidden">
+              <div className="relative w-full flex-1 bg-white p-3 sm:p-4 md:p-3 pt-0 flex items-center justify-center overflow-hidden">
                 <div
                   ref={videoContainerRef}
                   onMouseMove={handleMouseMove}
+                  onTouchStart={handleMouseMove}
                   onMouseLeave={() => isPlaying && setShowControls(false)}
-                  className="relative w-full h-full rounded-[1.7rem] overflow-hidden bg-black shadow-sm flex items-center justify-center select-none group"
+                  className="relative w-full aspect-video min-h-[210px] sm:min-h-[280px] lg:min-h-0 lg:aspect-auto lg:h-full rounded-2xl md:rounded-[1.7rem] overflow-hidden bg-black shadow-sm flex items-center justify-center select-none group"
                 >
                   {/* Oversized centered wrapper for YouTube iframe -> eliminates black bars 100% */}
                   <div

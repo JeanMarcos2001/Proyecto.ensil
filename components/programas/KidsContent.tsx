@@ -9,30 +9,42 @@ const MAIN_IMAGE_URL = "/img/programas/kids.webp";
 
 const KidsContent: React.FC = () => {
     return (
-        <div className="w-full font-jakarta text-slate-800 min-h-full pb-12 bg-white">
+        <div className="w-full font-jakarta text-slate-800 min-h-full pb-0 bg-white">
             {/* UNIFORM HERO SECTION: Height scales with image */}
-            <div className="relative w-full overflow-hidden rounded-3xl shadow-sm group bg-slate-100 mx-auto mt-2 max-w-[98%] text-left">
-                <img
-                    alt="Niños Leyendo"
-                    className="block w-full h-auto object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                    src={MAIN_IMAGE_URL}
-                    loading="lazy"
-                />
-                {/* Gradient Overlay Uniform */}
-                <div className="absolute inset-0 bg-gradient-to-t from-red-900/90 via-red-800/20 to-transparent"></div>
+            <div className="relative w-full overflow-hidden rounded-3xl shadow-sm group bg-slate-100 mx-auto mt-0 max-w-[98%] text-left">
+                <div className="relative w-full overflow-hidden">
+                    <img
+                        alt="Niños Leyendo"
+                        className="block w-full h-auto object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                        src={MAIN_IMAGE_URL}
+                        loading="lazy"
+                    />
+                    {/* Gradient Overlay Desktop Only */}
+                    <div className="hidden md:block absolute inset-0 bg-gradient-to-t from-red-900/90 via-red-800/20 to-transparent"></div>
 
-                {/* Text Content Position Uniform */}
-                <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
-                    <h1 className="font-fraunces text-3xl md:text-4xl font-bold leading-none mb-2 text-white drop-shadow-md">
+                    {/* Text Content Desktop (Overlay) */}
+                    <div className="hidden md:flex absolute inset-0 flex-col justify-end p-6 md:p-8">
+                        <h1 className="font-fraunces text-3xl md:text-4xl font-bold leading-none mb-2 text-white drop-shadow-md">
+                            <span className="text-yellow-300">Despegue</span> Lector
+                        </h1>
+                        <p className="text-sm md:text-base text-red-50 font-medium max-w-lg leading-snug">
+                            Convertimos la lectura en su superpoder escolar y personal. Energía y enfoque.
+                        </p>
+                    </div>
+                </div>
+
+                {/* Mobile Text Block Under Image: Kids (Rojo) */}
+                <div className="block md:hidden bg-[#b91c1c] text-white p-5 text-left">
+                    <h1 className="font-fraunces text-3xl font-bold leading-none mb-2 text-white drop-shadow-sm">
                         <span className="text-yellow-300">Despegue</span> Lector
                     </h1>
-                    <p className="text-sm md:text-base text-red-50 font-medium max-w-lg leading-snug">
+                    <p className="text-sm text-red-100 font-medium max-w-lg leading-snug border-l-2 border-red-300 pl-3">
                         Convertimos la lectura en su superpoder escolar y personal. Energía y enfoque.
                     </p>
                 </div>
             </div>
 
-            <main className="px-5 md:px-8 py-8 space-y-8">
+            <main className="px-5 md:px-8 pt-5 pb-2 md:pt-7 md:pb-3 space-y-6 md:space-y-8">
 
                 {/* Intro Grid */}
                 <div className="grid md:grid-cols-2 gap-6 items-center">

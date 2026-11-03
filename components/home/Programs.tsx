@@ -64,7 +64,7 @@ const Programs: React.FC = () => {
             {cards.map((card, index) => (
               <div
                 key={`anim-${index}`}
-                className="transition-all duration-[1000ms] ease-out transform"
+                className="w-[95%] sm:w-full mx-auto transition-all duration-[1000ms] ease-out transform"
                 style={{
                   transitionDelay: `${index * 200}ms`,
                   opacity: isVisible ? 1 : 0,
@@ -72,17 +72,18 @@ const Programs: React.FC = () => {
                 }}
               >
                 <div
+                  onClick={() => setActiveIndex(activeIndex === index ? null : index)}
                   onMouseEnter={() => setActiveIndex(index)}
-                  onMouseLeave={() => setActiveIndex(null)} // Vuelve a deseleccionar al salir
+                  onMouseLeave={() => setActiveIndex(null)}
                   className={`
-                    rounded-2xl border transition-all duration-300 cursor-default flex flex-col overflow-hidden h-full group
+                    rounded-[28px] sm:rounded-[32px] border transition-all duration-300 cursor-pointer md:cursor-default flex flex-col overflow-hidden h-full group
                     ${activeIndex === index
                       ? 'bg-white border-white text-slate-900 shadow-2xl -translate-y-3'
                       : 'bg-white/10 backdrop-blur-md border-white/20 text-white shadow-sm hover:shadow-lg hover:-translate-y-1'
                     }
                   `}
                 >
-                  <div className="h-[432px] overflow-hidden relative w-full mb-6 rounded-t-2xl transform-gpu">
+                  <div className="h-[390px] sm:h-[432px] overflow-hidden relative w-full mb-6 rounded-t-[26px] sm:rounded-t-[30px] transform-gpu">
                     <div className={`absolute inset-0 z-10 transition-colors duration-300 ${activeIndex === index ? 'bg-black/20' : 'bg-black/0'}`}></div>
                     <img
                       src={card.image}

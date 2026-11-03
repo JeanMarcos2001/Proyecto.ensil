@@ -9,30 +9,42 @@ const MAIN_IMAGE_URL = "/img/programas/pro.webp";
 
 const ProfessionalContent: React.FC = () => {
     return (
-        <div className="w-full bg-white text-slate-800 font-jakarta min-h-full pb-12">
+        <div className="w-full bg-white text-slate-800 font-jakarta min-h-full pb-0">
             {/* UNIFORM HERO SECTION: Height scales with image */}
             <header className="relative w-full overflow-hidden rounded-3xl shadow-sm group bg-slate-900 mx-auto mt-2 max-w-[98%] text-left">
-                <img
-                    alt="Profesional Lectura"
-                    className="block w-full h-auto object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                    src={MAIN_IMAGE_URL}
-                    loading="lazy"
-                />
-                {/* Gradient Overlay Uniform */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-800/40 to-transparent"></div>
+                <div className="relative w-full overflow-hidden">
+                    <img
+                        alt="Profesional Lectura"
+                        className="block w-full h-auto object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                        src={MAIN_IMAGE_URL}
+                        loading="lazy"
+                    />
+                    {/* Gradient Overlay Desktop Only */}
+                    <div className="hidden md:block absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-800/40 to-transparent"></div>
 
-                {/* Text Content Position Uniform */}
-                <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8 text-white">
-                    <h1 className="font-fraunces text-3xl md:text-4xl font-bold leading-none mb-3 drop-shadow-lg">
+                    {/* Text Content Desktop (Overlay) */}
+                    <div className="hidden md:flex absolute inset-0 flex-col justify-end p-6 md:p-8 text-white">
+                        <h1 className="font-fraunces text-3xl md:text-4xl font-bold leading-none mb-3 drop-shadow-lg">
+                            Profesional
+                        </h1>
+                        <p className="font-body text-sm md:text-base text-slate-200 font-light leading-snug max-w-2xl border-l-2 border-blue-500 pl-3">
+                            Maestría en lectura y gestión del conocimiento para la alta exigencia académica y laboral.
+                        </p>
+                    </div>
+                </div>
+
+                {/* Mobile Text Block Under Image: Profesional (Azul) */}
+                <div className="block md:hidden bg-[#1e3a8a] text-white p-5 text-left">
+                    <h1 className="font-fraunces text-3xl font-bold leading-none mb-3 drop-shadow-sm">
                         Profesional
                     </h1>
-                    <p className="font-body text-sm md:text-base text-slate-200 font-light leading-snug max-w-2xl border-l-2 border-blue-500 pl-3">
+                    <p className="font-body text-sm text-blue-100 font-light leading-snug max-w-2xl border-l-2 border-blue-400 pl-3">
                         Maestría en lectura y gestión del conocimiento para la alta exigencia académica y laboral.
                     </p>
                 </div>
             </header>
 
-            <main className="px-5 md:px-8 py-8 space-y-8">
+            <main className="px-5 md:px-8 pt-5 pb-2 md:pt-7 md:pb-3 space-y-6 md:space-y-8">
 
                 {/* Key Stats Row - Spacious */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

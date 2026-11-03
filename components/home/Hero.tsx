@@ -6,7 +6,26 @@ const Hero: React.FC = () => {
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
+  const [selectedCard, setSelectedCard] = useState<number | null>(null);
   const textRef = useRef<HTMLSpanElement>(null);
+
+  const stats = [
+    {
+      icon: BookOpen,
+      value: '200',
+      label: 'Páginas en 5 min',
+    },
+    {
+      icon: Brain,
+      value: '100%',
+      label: 'de Comprensión',
+    },
+    {
+      icon: MapPin,
+      value: '16',
+      label: 'Sedes en todo Perú',
+    },
+  ];
 
   const handleMouseMove = (e: React.MouseEvent<HTMLSpanElement>) => {
     if (textRef.current) {
@@ -19,7 +38,7 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <section id="inicio" className="relative h-auto min-h-screen flex flex-col justify-start md:justify-center overflow-x-hidden pt-28 md:pt-0">
+    <section id="inicio" className="relative h-auto min-h-0 md:min-h-screen flex flex-col justify-start md:justify-center overflow-x-hidden pt-28 md:pt-0 pb-6 md:pb-0">
       {/* Multi-layered Background */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
 
@@ -34,7 +53,9 @@ const Hero: React.FC = () => {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat z-10 hidden md:block"
           style={{ backgroundImage: "url('/img/heroSF.webp')" }}
-        ></div>        {/* Layer 5: Ticker Tape at the bottom (Absolute on Desktop, In Flow on Mobile) */}
+        ></div>
+
+        {/* Layer 5: Ticker Tape at the bottom (Absolute on Desktop, In Flow on Mobile) */}
         <div className="absolute inset-x-0 bottom-0 z-30 bg-gradient-to-r from-ensil-green-900 to-lime-500 overflow-hidden flex items-center shadow-lg border-t border-white/20 group cursor-default hidden md:flex">
           <style>{`
             @keyframes marquee {
@@ -112,7 +133,7 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Mobile Inline Ticker Tape (Inserted dynamically into flex order) */}
-        <div className="order-4 md:hidden w-[100vw] relative -ml-4 -mr-4 z-30 bg-gradient-to-r from-ensil-green-900 to-lime-500 overflow-hidden flex items-center shadow-lg group cursor-default mb-10">
+        <div className="order-4 md:hidden w-[100vw] relative -ml-4 -mr-4 z-30 bg-gradient-to-r from-ensil-green-900 to-lime-500 overflow-hidden flex items-center shadow-lg group cursor-default mb-8 sm:mb-10">
           <div className="animate-marquee py-3 text-white font-normal text-[11px] tracking-widest whitespace-nowrap">
             {[1, 2, 3, 4].map((group) => (
               <div key={`mob-${group}`} className="flex px-4 items-center shrink-0 whitespace-nowrap">
@@ -129,22 +150,54 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Stats Grid */}
-        <div className="order-5 grid grid-cols-1 sm:grid-cols-3 gap-4 xl:gap-6 max-w-[90%] lg:max-w-3xl mb-12 lg:mb-16">
-          <div className="bg-white/60 backdrop-blur-md rounded-2xl p-4 lg:p-6 text-slate-900 shadow-lg border border-white transform hover:-translate-y-1 transition-transform duration-300 group">
-            <BookOpen className="w-8 h-8 lg:w-10 lg:h-10 text-ensil-green mb-3 lg:mb-4" />
-            <div className="font-display text-3xl lg:text-4xl font-bold">200</div>
-            <div className="text-[10px] lg:text-xs font-bold tracking-widest uppercase text-slate-600 mt-1">Páginas en 5 min</div>
-          </div>
-          <div className="bg-white/60 backdrop-blur-md rounded-2xl p-4 lg:p-6 text-slate-900 shadow-lg border border-white transform hover:-translate-y-1 transition-transform duration-300 group">
-            <Brain className="w-8 h-8 lg:w-10 lg:h-10 text-ensil-green mb-3 lg:mb-4" />
-            <div className="font-display text-3xl lg:text-4xl font-bold">100%</div>
-            <div className="text-[10px] lg:text-xs font-bold tracking-widest uppercase text-slate-600 mt-1">de Comprensión</div>
-          </div>
-          <div className="bg-white/60 backdrop-blur-md rounded-2xl p-4 lg:p-6 text-slate-900 shadow-lg border border-white transform hover:-translate-y-1 transition-transform duration-300 group">
-            <MapPin className="w-8 h-8 lg:w-10 lg:h-10 text-ensil-green mb-3 lg:mb-4" />
-            <div className="font-display text-3xl lg:text-4xl font-bold">16</div>
-            <div className="text-[10px] lg:text-xs font-bold tracking-widest uppercase text-slate-600 mt-1">Sedes en todo Perú</div>
-          </div>
+        <div className="order-5 grid grid-cols-3 gap-2.5 sm:gap-4 xl:gap-6 w-full max-w-full sm:max-w-xl lg:max-w-3xl mb-8 sm:mb-12 lg:mb-16 items-stretch">
+          {stats.map((stat, idx) => {
+            const Icon = stat.icon;
+            const isSelected = selectedCard === idx;
+            return (
+              <div
+                key={idx}
+                onClick={() => setSelectedCard(isSelected ? null : idx)}
+                className={`group relative rounded-2xl p-2.5 sm:p-5 lg:p-6 text-slate-900 transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden select-none ${
+                  isSelected
+                    ? 'bg-white border-2 border-ensil-green shadow-xl shadow-ensil-green/15 -translate-y-1 ring-2 ring-ensil-green/20'
+                    : 'bg-white/80 backdrop-blur-md border border-white/90 shadow-sm hover:shadow-xl hover:shadow-ensil-green/10 hover:border-ensil-green/50 hover:bg-white hover:-translate-y-1.5 active:scale-[0.97]'
+                }`}
+              >
+                {/* Indicador superior animado con degradado */}
+                <div
+                  className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-ensil-green to-lime-400 transition-opacity duration-300 ${
+                    isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                  }`}
+                />
+
+                <div>
+                  <div className="mb-1.5 sm:mb-3 lg:mb-4">
+                    <Icon
+                      className={`w-5 h-5 sm:w-7 sm:h-7 lg:w-9 lg:h-9 text-ensil-green transition-transform duration-300 group-hover:scale-110 ${
+                        isSelected ? 'scale-110' : ''
+                      }`}
+                    />
+                  </div>
+                  <div
+                    className={`font-display text-xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 transition-colors ${
+                      isSelected ? 'text-ensil-green-900' : 'group-hover:text-ensil-green-800'
+                    }`}
+                  >
+                    {stat.value}
+                  </div>
+                </div>
+
+                <div
+                  className={`text-[11px] sm:text-xs lg:text-sm font-bold tracking-normal sm:tracking-wider uppercase text-slate-600 mt-1 sm:mt-2 leading-tight transition-colors ${
+                    isSelected ? 'text-ensil-green-800' : 'group-hover:text-slate-900'
+                  }`}
+                >
+                  {stat.label}
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         <a
@@ -153,10 +206,10 @@ const Hero: React.FC = () => {
             e.preventDefault();
             smoothScrollTo('problemas', 1200);
           }}
-          className="order-6 inline-flex flex-col items-start text-slate-600 hover:text-slate-900 transition-colors group cursor-pointer w-fit mb-10 md:mb-0"
+          className="order-6 inline-flex flex-col items-start text-slate-600 hover:text-slate-900 transition-colors group cursor-pointer w-fit mb-4 md:mb-0"
         >
-          <span className="text-xs font-bold tracking-[0.02em] uppercase mb-2">DESCUBRE</span>
-          <ChevronDown className="w-8 h-8 animate-bounce text-ensil-green group-hover:text-green-600" />
+          <span className="text-xs font-bold tracking-[0.02em] uppercase mb-1.5 sm:mb-2">DESCUBRE</span>
+          <ChevronDown className="w-7 h-7 sm:w-8 sm:h-8 animate-bounce text-ensil-green group-hover:text-green-600" />
         </a>
       </div>
     </section>
